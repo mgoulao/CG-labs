@@ -1,6 +1,6 @@
-import * as THREE from "three/build/three.module";
-import Robot from "./robot.js.js";
-import Target from "./target.js.js";
+import * as THREE from "../node_modules/three/build/three.module.js";
+import Robot from "./robot.js";
+import Target from "./target.js";
 
 export default class Scene extends THREE.Scene {
 	constructor() {

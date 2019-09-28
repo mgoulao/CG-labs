@@ -1,4 +1,4 @@
-import Scene from "./scene.js.js";
+import Scene from "./scene.js";
 
 const animate = (scene) => {
 	scene.update();
