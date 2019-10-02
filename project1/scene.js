@@ -103,12 +103,23 @@ export default class Scene extends THREE.Scene {
 		this.robot.update();
 	}
 
+	updateCameraAspect(camera) {
+		const widthFrustum = window.innerWidth / 15;
+		const heightFrustum = window.innerHeight / 15;
+		camera.left = -widthFrustum;
+		camera.right = widthFrustum;
+		camera.top = heightFrustum;
+		camera.bottom = -heightFrustum;
+		camera.updateProjectionMatrix();
+	}
+
 	resize() {
 		this.renderer.setSize(window.innerWidth, window.innerHeight);
-
+		this.updateCameraAspect(this.cameraFront);
+		this.updateCameraAspect(this.cameraTop);
+		this.updateCameraAspect(this.cameraSide);
 		if (window.innerHeight > 0 && window.innerWidth > 0) {
-			this.currentCamera.aspect = window.innerWidth / window.innerHeight;
-			this.currentCamera.updateProjectionMatrix();
+			// Width frustum
 		}
 		this.render();
 	}
