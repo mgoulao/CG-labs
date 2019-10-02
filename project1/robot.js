@@ -122,6 +122,10 @@ export default class Robot extends THREE.Group {
 			color: 0xb5f44a,
 			wireframe: true,
 		});
+		this.armMaterial = new THREE.MeshBasicMaterial({
+			color: 0xff0000,
+			wireframe: true,
+		});
 		this.wheelsMaterial = new THREE.MeshBasicMaterial({
 			color: 0x70ee9c,
 			wireframe: true,
@@ -185,7 +189,7 @@ export default class Robot extends THREE.Group {
 
 	createLowArm() {
 		const geometry = new THREE.CubeGeometry(...this.lowArmSize);
-		this.lowArm = new THREE.Mesh(geometry, this.material);
+		this.lowArm = new THREE.Mesh(geometry, this.armMaterial);
 		this.lowArm.position.set(...this.lowArmPos);
 		this.armGroup.add(this.lowArm);
 	}
@@ -200,7 +204,7 @@ export default class Robot extends THREE.Group {
 	createTopArm() {
 		this.topArmGroup.position.set(...this.topArmGroupPos);
 		const geometry = new THREE.CubeGeometry(...this.topArmSize);
-		this.topArm = new THREE.Mesh(geometry, this.material);
+		this.topArm = new THREE.Mesh(geometry, this.armMaterial);
 		this.topArm.position.set(...this.topArmPos);
 		this.topArmGroup.add(this.topArm);
 
@@ -308,6 +312,7 @@ export default class Robot extends THREE.Group {
 		// Update Wireframe
 		if (this.scene.UPDATE_WIREFRAME) {
 			this.material.wireframe = !this.material.wireframe;
+			this.armMaterial.wireframe = !this.armMaterial.wireframe;
 			this.wheelsMaterial.wireframe = !this.wheelsMaterial.wireframe;
 			this.articulationsMaterial.wireframe = !this.articulationsMaterial
 				.wireframe;
