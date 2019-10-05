@@ -288,15 +288,19 @@ export default class Robot extends THREE.Group {
 
 	rotateTheta3(angle) {}
 
-	translateRobot(x, y, z) {
-		this.translateOnAxis(new THREE.Vector3(x, y, z), this.speed);
+	translateRobot(x, z) {
+		// this.translateOnAxis(new THREE.Vector3(x, y, z), this.speed);
+		if (x === 0 && z === 0) return;
+		const norm = Math.sqrt(x ** 2 + z ** 2);
+		this.position.x = this.position.x + (x * this.speed) / norm;
+		this.position.z = this.position.z + (z * this.speed) / norm;
 	}
 
 	update() {
 		// Robot Translations
-		const moveVector = [0, 0, 0];
-		if (this.scene.UP_DOWN) moveVector[2]--;
-		if (this.scene.DOWN_DOWN) moveVector[2]++;
+		const moveVector = [0, 0];
+		if (this.scene.UP_DOWN) moveVector[1]--;
+		if (this.scene.DOWN_DOWN) moveVector[1]++;
 		if (this.scene.LEFT_DOWN) moveVector[0]--;
 		if (this.scene.RIGHT_DOWN) moveVector[0]++;
 		this.translateRobot(...moveVector);
