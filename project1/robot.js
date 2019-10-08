@@ -10,14 +10,23 @@ export default class Robot extends THREE.Group {
 		this.armGroup = new THREE.Group();
 		this.topArmGroup = new THREE.Group();
 
-		this.speed = 0.2;
-		this.angularStep = 0.01;
+		this.speed = 0.3;
+		this.angularStep = 0.02;
 
 		this.theta1 = 0;
 		this.theta2 = 0;
 		this.theta3 = 0;
 		this.theta2Max = Math.PI / 4;
 		this.theta2Min = -Math.PI / 4;
+
+		// Movement
+		this.startUpdateTimeX = 0;
+		this.startUpdateTimeZ = 0;
+
+		this.startPositionX = undefined;
+		this.startPositionZ = undefined;
+
+		this.lastMovement = [0, 0];
 
 		// Base
 
@@ -158,7 +167,7 @@ export default class Robot extends THREE.Group {
 		this.createArmArticulation();
 		this.createTopArm();
 		this.completeArmGroup.add(this.armGroup);
-		this.showHelpers();
+		// this.showHelpers();
 		this.add(this.completeArmGroup);
 	}
 
@@ -288,12 +297,48 @@ export default class Robot extends THREE.Group {
 
 	rotateTheta3(angle) {}
 
+	// Duplicated code
+	translateRobotOnX(vec) {
+		const timeNow = Date.now();
+		let deltaTime = 0;
+		if (this.startUpdateTimeX === 0) {
+			this.startUpdateTimeX = timeNow;
+			deltaTime = 1;
+		} else deltaTime = timeNow - this.startUpdateTimeX;
+
+		if (this.startPositionX === undefined) {
+			this.startPositionX = this.position.x;
+		}
+
+		this.position.x = this.startPositionX + vec * this.speed * deltaTime;
+	}
+
+	// Duplicated code
+	translateRobotOnZ(vec) {
+		const timeNow = Date.now();
+		let deltaTime = 0;
+		if (this.startUpdateTimeZ === 0) {
+			this.startUpdateTimeZ = timeNow;
+			deltaTime = 1;
+		} else deltaTime = timeNow - this.startUpdateTimeZ;
+
+		if (this.startPositionZ === undefined) {
+			this.startPositionZ = this.position.z;
+		}
+
+		this.position.z = this.startPositionZ + vec * this.speed * deltaTime;
+	}
+
 	translateRobot(x, z) {
-		// this.translateOnAxis(new THREE.Vector3(x, y, z), this.speed);
-		if (x === 0 && z === 0) return;
-		const norm = Math.sqrt(x ** 2 + z ** 2);
-		this.position.x = this.position.x + (x * this.speed) / norm;
-		this.position.z = this.position.z + (z * this.speed) / norm;
+		const norm = Math.sqrt(x ** 2 + z ** 2) || 1;
+		if (this.lastMovement[0] !== x || this.lastMovement[1] !== z) {
+			this.startUpdateTimeX = 0;
+			this.startPositionX = undefined;
+			this.startUpdateTimeZ = 0;
+			this.startPositionZ = undefined;
+		}
+		this.translateRobotOnX(x / norm);
+		this.translateRobotOnZ(z / norm);
 	}
 
 	update() {

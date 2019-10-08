@@ -98,6 +98,20 @@ export default class Scene extends THREE.Scene {
 		this.add(this.target);
 	}
 
+	// resetFlags() {
+	// 	this.UP_DOWN = false;
+	// 	this.DOWN_DOWN = false;
+	// 	this.LEFT_DOWN = false;
+	// 	this.RIGHT_DOWN = false;
+
+	// 	this.THETA1_DIRECT = false;
+	// 	this.THETA1_INDIRECT = false;
+	// 	this.THETA2_DIRECT = false;
+	// 	this.THETA2_INDIRECT = false;
+	// 	this.THETA3_DIRECT = false;
+	// 	this.THETA3_INDIRECT = false;
+	// }
+
 	update() {
 		this.target.update();
 		this.robot.update();

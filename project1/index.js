@@ -11,7 +11,7 @@ const animate = (scene) => {
 };
 
 const onKeyDown = (e, scene) => {
-	// console.log(e.keyCode);
+	console.log(e.code);
 	switch (e.keyCode) {
 		case 49: // 1
 			scene.changeToCameraTop();
