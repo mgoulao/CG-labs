@@ -96,30 +96,30 @@ export default class Robot extends THREE.Group {
 		// Hand
 
 		this.handSphere = null;
-		this.handCylinder = null;
+		this.handRectangle = null;
 
 		this.handSphereSize = this.armArticulationSize;
-		this.handCylinderSize = [3.5, 3.5, 1, 20, 1];
+		this.handRectangleSize = [1, 7, 7];
 		this.fingerSize = [3, 1, 1];
 
 		this.handSpherePos = [this.topArmPos[0] + this.topArmSize[0] / 2, 0, 0];
-		this.handCylinderPos = [
+		this.handRectanglePos = [
 			this.handSpherePos[0] +
 				this.handSphereSize[0] +
-				this.handCylinderSize[2] / 2,
+				this.handRectangleSize[0] / 2,
 			0,
 			0,
 		];
 		this.topFingerPos = [
-			this.handCylinderPos[0] +
-				this.handCylinderSize[2] / 2 +
+			this.handRectanglePos[0] +
+				this.handRectangleSize[0] / 2 +
 				this.fingerSize[0] / 2,
 			-2,
 			0,
 		];
 		this.botFingerPos = [
-			this.handCylinderPos[0] +
-				this.handCylinderSize[2] / 2 +
+			this.handRectanglePos[0] +
+				this.handRectangleSize[0] / 2 +
 				this.fingerSize[0] / 2,
 			2,
 			0,
@@ -233,16 +233,15 @@ export default class Robot extends THREE.Group {
 		this.handSphere.position.set(...this.handSpherePos);
 		this.topArmGroup.add(this.handSphere);
 
-		const handCylinderGeommetry = new THREE.CylinderGeometry(
-			...this.handCylinderSize
+		const handRectangleGeommetry = new THREE.CubeGeometry(
+			...this.handRectangleSize
 		);
-		this.handCylinder = new THREE.Mesh(
-			handCylinderGeommetry,
+		this.handRectangle = new THREE.Mesh(
+			handRectangleGeommetry,
 			this.handBaseMaterial
 		);
-		this.handCylinder.position.set(...this.handCylinderPos);
-		this.handCylinder.rotateZ(Math.PI / 2);
-		this.topArmGroup.add(this.handCylinder);
+		this.handRectangle.position.set(...this.handRectanglePos);
+		this.topArmGroup.add(this.handRectangle);
 
 		this.createHandFinger(this.topFingerPos);
 		this.createHandFinger(this.botFingerPos);
