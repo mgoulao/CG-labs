@@ -38,7 +38,6 @@ export default class Scene extends THREE.Scene {
 		this.createCameras();
 		this.createElements();
 		this.add(new THREE.AxesHelper(10));
-		this.render();
 	}
 
 	createCameras() {

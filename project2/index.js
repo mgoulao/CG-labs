@@ -3,7 +3,6 @@ import Scene from "./scene.js";
 const animate = (scene) => {
 	scene.update();
 	scene.render();
-	if (scene.UPDATE_WIREFRAME) scene.UPDATE_WIREFRAME = false;
 
 	requestAnimationFrame((tms) => {
 		animate(scene);
@@ -17,10 +16,10 @@ const onKeyDown = (e, scene) => {
 			scene.changeToCameraTop();
 			break;
 		case 50: // 2
-			scene.changeToCameraFront();
+			scene.changeToCameraBall();
 			break;
 		case 51: // 3
-			scene.changeToCameraSide();
+			scene.changeToCameraAll();
 			break;
 		case 52: // 4
 			scene.UPDATE_WIREFRAME = true;
