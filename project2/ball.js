@@ -7,9 +7,9 @@ export default class Ball extends THREE.Object3D {
 
 		this.acceleration = -1.5;
 
-		this.startVelocity = 10;
-		this.startVelocityX = this.startVelocity * eX;
-		this.startVelocityZ = this.startVelocity * eZ;
+		this.launchVelocity = 10;
+		this.startVelocityX = this.launchVelocity * eX;
+		this.startVelocityZ = this.launchVelocity * eZ;
 
 		this.startTime = 0;
 		this.rotationTime = 0;
@@ -32,14 +32,33 @@ export default class Ball extends THREE.Object3D {
 		this.add(new THREE.AxesHelper(5));
 	}
 
-	collision() {}
+	getRadius() {
+		return this.ballSize[0];
+	}
+
+	collision(vel) {
+		this.startTime = 0;
+		this.startPosition = [this.position.x, this.position.y, this.position.z];
+		this.startVelocityX = vel[0];
+		this.startVelocityZ = vel[2];
+	}
 
 	getFriction(vel, delta) {
 		if (vel === 0) return 0;
 		return (1 / 2) * this.acceleration * delta ** 2;
 	}
 
-	getCurrentVelocity(vel, delta) {
+	getCurrentVelocity() {
+		const delta = (Date.now() - this.startTime)/1000;
+		return [
+			this.getCurrentVelocityOnAxis("x", delta),
+			0,
+			this.getCurrentVelocityOnAxis("z", delta),
+		];
+	}
+
+	getCurrentVelocityOnAxis(axis, delta) {
+		const vel = axis === "x" ? this.startVelocityX : this.startVelocityZ;
 		const newVel = vel + Math.sign(vel) * this.acceleration * delta;
 		return vel * newVel < 0 ? 0 : newVel;
 	}
@@ -57,11 +76,11 @@ export default class Ball extends THREE.Object3D {
 			this.startVelocityZ * delta +
 			Math.sign(this.startVelocityZ) * frictionZ;
 
-		if (this.getCurrentVelocity(this.startVelocityX, delta) === 0) {
+		if (this.getCurrentVelocityOnAxis("x", delta) === 0) {
 			this.startVelocityX = 0;
 			this.startPosition[0] = newX;
 		}
-		if (this.getCurrentVelocity(this.startVelocityZ, delta) === 0) {
+		if (this.getCurrentVelocityOnAxis("z", delta) === 0) {
 			this.startVelocityZ = 0;
 			this.startPosition[2] = newZ;
 		}
@@ -73,9 +92,9 @@ export default class Ball extends THREE.Object3D {
 		if (this.rotationTime === 0) this.rotationTime = Date.now();
 		const deltaRotation = (Date.now() - this.rotationTime) / 1000;
 		const angularSpeedX =
-			this.getCurrentVelocity(this.startVelocityX, delta) / this.ballSize[0];
+			this.getCurrentVelocityOnAxis("x", delta) / this.ballSize[0];
 		const angularSpeedZ =
-			this.getCurrentVelocity(this.startVelocityZ, delta) / this.ballSize[0];
+			this.getCurrentVelocityOnAxis("z", delta) / this.ballSize[0];
 
 		this.rotateX(angularSpeedZ * deltaRotation);
 		this.rotateZ(-angularSpeedX * deltaRotation);

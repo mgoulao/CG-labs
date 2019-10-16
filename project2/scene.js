@@ -1,5 +1,6 @@
 import * as THREE from "../node_modules/three/build/three.module.js";
 import Ball from "./ball.js";
+import Collisions from "./collisions.js";
 
 export default class Scene extends THREE.Scene {
 	constructor() {
@@ -21,8 +22,8 @@ export default class Scene extends THREE.Scene {
 		// CAMERAS
 
 		this.TOP_VIEW = [0, 61, 0];
-		this.ALL_VIEW = [70, 70, 70];
-		this.BALL_VIEW = [110, 0, 0];
+		this.ALL_VIEW = [110, 110, 110];
+		this.BALL_VIEW = [190, 0, 0];
 
 		this.currentCamera = null;
 		this.cameraTop = null;
@@ -47,10 +48,10 @@ export default class Scene extends THREE.Scene {
 
 	createCameras() {
 		this.cameraTop = new THREE.OrthographicCamera(
-			window.innerWidth / -15,
-			window.innerWidth / 15,
-			window.innerHeight / 15,
-			window.innerHeight / -15,
+			window.innerWidth / -9,
+			window.innerWidth / 9,
+			window.innerHeight / 9,
+			window.innerHeight / -9,
 			-1000,
 			1000
 		);
@@ -108,6 +109,20 @@ export default class Scene extends THREE.Scene {
 		this.add(ball);
 	}
 
+	detectCollisions() {
+		// Ball -> Ball
+		for (let i = 0; i < this.balls.length; i++) {
+			const firstBall = this.balls[i];
+			for (let j = i + 1; j < this.balls.length; j++) {
+				const secondBall = this.balls[j];
+				if (Collisions.hasCollisionBallToBall(firstBall, secondBall)) {
+					console.log("Balls collision");
+					Collisions.findIntersectionBallToBall(firstBall, secondBall);
+				}
+			}
+		}
+	}
+
 	update() {
 		this.UPDATE_WIREFRAME = false;
 
@@ -115,14 +130,16 @@ export default class Scene extends THREE.Scene {
 			ball.update();
 		});
 
+		this.detectCollisions();
+
 		// TEMP
 		if (this.FIRE_CANNON) this.createBall();
 		this.FIRE_CANNON = false;
 	}
 
 	updateOrtographicCameraAspect(camera) {
-		const widthFrustum = window.innerWidth / 15;
-		const heightFrustum = window.innerHeight / 15;
+		const widthFrustum = window.innerWidth / 30;
+		const heightFrustum = window.innerHeight / 30;
 		camera.left = -widthFrustum;
 		camera.right = widthFrustum;
 		camera.top = heightFrustum;
