@@ -24,34 +24,30 @@ const onKeyDown = (e, scene) => {
 		case 52: // 4
 			scene.UPDATE_WIREFRAME = true;
 			break;
-		case 65: // A
-		case 97: // a
-			scene.THETA1_DIRECT = true;
+		case 81: // Q
+		case 113: // q
+			scene.CANNON_ONE = true;
+			console.log("SELCTED cannon 1");
 			break;
-		case 83: // S
-		case 115: // s
-			scene.THETA1_INDIRECT = true;
-			break;
-		case 81: // q
-			scene.THETA2_DIRECT = true;
-			break;
-		case 87: // w
-			scene.THETA2_INDIRECT = true;
+		case 87: // W
+		case 119: // w
+			scene.CANNON_TWO = true;
+			console.log("SELCTED cannon 2");
 			break;
 		case 69: // E
 		case 101: // e
+		  scene.CANNON_THREE = true;
+			console.log("SELCTED cannon 3");
 			break;
-		case 38: // up
-			scene.UP_DOWN = true;
+		case 32: // space
+			scene.FIRE_CANNON = true;
+			console.log("FIRED cannon!");
 			break;
-		case 40: // down
-			scene.DOWN_DOWN = true;
+		case 39: // down
+			scene.FIRE_ANGLE_DIRECT = true;
 			break;
 		case 37: // left
-			scene.LEFT_DOWN = true;
-			break;
-		case 39: // right
-			scene.RIGHT_DOWN = true;
+			scene.FIRE_ANGLE_INDIRECT = true;
 			break;
 	}
 };
@@ -59,31 +55,26 @@ const onKeyDown = (e, scene) => {
 const onKeyUp = (e, scene) => {
 	// console.log(e.keyCode);
 	switch (e.keyCode) {
-		case 65: // A
-		case 97: // a
-			scene.THETA1_DIRECT = false;
+		case 81: // Q
+		case 113: // q
+			scene.CANNON_ONE = false;
 			break;
-		case 83: // S
-		case 115: // s
-			scene.THETA1_INDIRECT = false;
+		case 87: // W
+		case 119: // w
+			scene.CANNON_TWO = false;
 			break;
-		case 81: // q
-			scene.THETA2_DIRECT = false;
+		case 69: // E
+		case 101: // e
+		  scene.CANNON_THREE = false;
 			break;
-		case 87: // w
-			scene.THETA2_INDIRECT = false;
+		case 32: // space
+			scene.FIRE_CANNON = false;
 			break;
-		case 38: // up
-			scene.UP_DOWN = false;
-			break;
-		case 40: // down
-			scene.DOWN_DOWN = false;
+		case 39: // down
+			scene.FIRE_ANGLE_DIRECT = false;
 			break;
 		case 37: // left
-			scene.LEFT_DOWN = false;
-			break;
-		case 39: // right
-			scene.RIGHT_DOWN = false;
+			scene.FIRE_ANGLE_INDIRECT = false;
 			break;
 	}
 };

@@ -6,17 +6,13 @@ export default class Scene extends THREE.Scene {
 
 		// FLAGS
 
-		this.UP_DOWN = false;
-		this.DOWN_DOWN = false;
-		this.LEFT_DOWN = false;
-		this.RIGHT_DOWN = false;
+		this.CANNON_ONE = false;
+		this.CANNON_TWO = false;
+		this.CANNON_THREE = false;
 
-		this.THETA1_DIRECT = false;
-		this.THETA1_INDIRECT = false;
-		this.THETA2_DIRECT = false;
-		this.THETA2_INDIRECT = false;
-		this.THETA3_DIRECT = false;
-		this.THETA3_INDIRECT = false;
+		this.FIRE_CANNON = false;
+		this.FIRE_ANGLE_DIRECT = false;
+		this.FIRE_ANGLE_INDIRECT = false;
 
 		this.UPDATE_WIREFRAME = false;
 
