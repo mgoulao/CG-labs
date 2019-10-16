@@ -1,4 +1,6 @@
 import * as THREE from "../node_modules/three/build/three.module.js";
+import Wall from "./wall.js";
+import Cannon from "./cannon.js";
 import Ball from "./ball.js";
 import Collisions from "./collisions.js";
 
@@ -40,7 +42,7 @@ export default class Scene extends THREE.Scene {
 
 		// END CAMERAS
 		// ELEMENTS
-		this.canons = [];
+		this.cannons = [];
 		this.balls = [];
 
 		this.createElements();
@@ -93,14 +95,13 @@ export default class Scene extends THREE.Scene {
 
 	createElements() {
 		// Placeholder
-		const ball = new THREE.SphereGeometry(4, 10, 10);
-		const mesh = new THREE.Mesh(
-			ball,
-			new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true })
-		);
-		this.add(mesh);
 
 		this.add(new THREE.AxesHelper(10));
+
+		this.wall = new Wall(this);
+		this.cannons[0] = new Cannon(this);
+		this.add(this.wall);
+		this.add(this.cannons[0]);
 	}
 
 	createBall() {
@@ -135,6 +136,9 @@ export default class Scene extends THREE.Scene {
 		// TEMP
 		if (this.FIRE_CANNON) this.createBall();
 		this.FIRE_CANNON = false;
+
+		this.wall.update();
+		this.cannons[0].update();
 	}
 
 	updateOrtographicCameraAspect(camera) {
