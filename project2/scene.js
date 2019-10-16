@@ -23,8 +23,8 @@ export default class Scene extends THREE.Scene {
 		// CAMERAS
 
 		this.TOP_VIEW = [0, 61, 0];
-		this.ALL_VIEW = [70, 70, 70];
-		this.BALL_VIEW = [110, 0, 0];
+		this.ALL_VIEW = [100, 100, 100];
+		this.BALL_VIEW = [150, 0, 0];
 
 		this.currentCamera = null;
 		this.cameraTop = null;
