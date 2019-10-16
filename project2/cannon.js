@@ -11,20 +11,21 @@ export default class Cannon extends THREE.Group {
 		this.cannonFINAL = new THREE.Group();
 
     const wallOffset = 50;
+		const groundOffset = this.cannonMainSize[1] / 2;
 
     this.cannon1Mainposition = [
       wallOffset,
-      0,
+      groundOffset,
       0,
     ];
     this.cannon2Mainposition = [
       wallOffset,
-      0,
+      groundOffset,
       -30,
     ];
     this.cannon3Mainposition = [
       wallOffset,
-      0,
+      groundOffset,
       30,
     ];
 
