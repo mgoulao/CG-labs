@@ -36,7 +36,7 @@ const onKeyDown = (e, scene) => {
 			break;
 		case 69: // E
 		case 101: // e
-		  scene.CANNON_THREE = true;
+			scene.CANNON_THREE = true;
 			console.log("SELCTED cannon 3");
 			break;
 		case 32: // space
@@ -65,7 +65,7 @@ const onKeyUp = (e, scene) => {
 			break;
 		case 69: // E
 		case 101: // e
-		  scene.CANNON_THREE = false;
+			scene.CANNON_THREE = false;
 			break;
 		case 32: // space
 			scene.FIRE_CANNON = false;

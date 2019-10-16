@@ -1,4 +1,5 @@
 import * as THREE from "../node_modules/three/build/three.module.js";
+import Ball from "./ball.js";
 
 export default class Scene extends THREE.Scene {
 	constructor() {
@@ -101,8 +102,22 @@ export default class Scene extends THREE.Scene {
 		this.add(new THREE.AxesHelper(10));
 	}
 
+	createBall() {
+		const ball = new Ball(this, -1, 0, 10, 0); // Temp values
+		this.balls.push(ball);
+		this.add(ball);
+	}
+
 	update() {
 		this.UPDATE_WIREFRAME = false;
+
+		this.balls.forEach((ball) => {
+			ball.update();
+		});
+
+		// TEMP
+		if (this.FIRE_CANNON) this.createBall();
+		this.FIRE_CANNON = false;
 	}
 
 	updateOrtographicCameraAspect(camera) {
