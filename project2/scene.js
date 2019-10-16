@@ -94,8 +94,6 @@ export default class Scene extends THREE.Scene {
 	}
 
 	createElements() {
-		// Placeholder
-
 		this.add(new THREE.AxesHelper(10));
 
 		this.wall = new Wall(this);
@@ -105,7 +103,7 @@ export default class Scene extends THREE.Scene {
 	}
 
 	createBall() {
-		const ball = new Ball(this, -1, 0, 10, 0); // Temp values
+		const ball = new Ball(this, -1, -1, 10, 0); // Temp values
 		this.balls.push(ball);
 		this.add(ball);
 	}
@@ -118,10 +116,12 @@ export default class Scene extends THREE.Scene {
 				const secondBall = this.balls[j];
 				if (Collisions.hasCollisionBallToBall(firstBall, secondBall)) {
 					console.log("Balls collision");
-					Collisions.findIntersectionBallToBall(firstBall, secondBall);
+					Collisions.processBallToBallCollision(firstBall, secondBall);
 				}
 			}
 		}
+
+		// Ball -> Wall
 	}
 
 	update() {
