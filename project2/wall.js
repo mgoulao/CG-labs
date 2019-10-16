@@ -8,6 +8,7 @@ export default class Wall extends THREE.Group {
 		this.wallSize = [3, 40, 100]; //width, height, deapth
     const wallOffset = this.wallSize[2] / 2;
     const groundOffset = this.wallSize[1] / 2;
+		const widthOffset = this.wallSize[0] / 2;
 
     this.wall1Position = [
       -wallOffset,
@@ -15,14 +16,14 @@ export default class Wall extends THREE.Group {
       0,
     ];
     this.wall2Position = [
-      0,
+      -widthOffset,
       groundOffset,
-      -wallOffset,
+      -wallOffset-widthOffset,
     ];
     this.wall3Position = [
-      0,
+      -widthOffset,
       groundOffset,
-      wallOffset,
+      wallOffset+widthOffset,
     ];
 
 		this.wallMaterial = new THREE.MeshBasicMaterial({
