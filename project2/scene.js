@@ -117,7 +117,6 @@ export default class Scene extends THREE.Scene {
 
 	update() {
 		this.UPDATE_WIREFRAME = false;
-<<<<<<< HEAD
 
 		this.balls.forEach((ball) => {
 			ball.update();
@@ -126,10 +125,9 @@ export default class Scene extends THREE.Scene {
 		// TEMP
 		if (this.FIRE_CANNON) this.createBall();
 		this.FIRE_CANNON = false;
-=======
+
 		this.wall.update();
 		this.cannons[0].update();
->>>>>>> createStructures
 	}
 
 	updateOrtographicCameraAspect(camera) {
