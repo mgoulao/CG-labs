@@ -103,7 +103,7 @@ export default class Scene extends THREE.Scene {
 	}
 
 	createBall(ex, ez, posX, posY) {
-		const randomVelocity = Math.floor(Math.random() * 20) + 15;
+		const randomVelocity = Math.floor(Math.random() * 100) + 15;
 		const ball = new Ball(this, ex, ez, posX, posY, randomVelocity);
 		this.add(ball);
 	}
@@ -146,15 +146,21 @@ export default class Scene extends THREE.Scene {
 	}
 
 	ballOutOfBounds(ball) {
-
+		const canonPosX = this.cannons[0].cannon1Mainposition[0];
+		const ballPosX = ball.position.x;
+		return ballPosX > canonPosX;
 	}
 
 	update() {
 		this.UPDATE_WIREFRAME = false;
-		this.children.forEach((obj) => {
-			if (obj.constructor.name !== "Ball") return;
-			obj.update();
-		});
+
+		for (let i = 0; i < this.children.length; i++) {
+			const obj = this.children[i];
+			if (obj.constructor.name !== "Ball") continue;
+
+			if (this.ballOutOfBounds(obj)) this.remove(obj);
+			else obj.update();
+		}
 
 		this.detectCollisions();
 

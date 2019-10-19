@@ -38,7 +38,7 @@ export default class Ball extends THREE.Object3D {
 	}
 
 	updateValuesAfterCollision(pos, vel) {
-		this.startTime = 0;
+		this.startTime = Date.now();
 		this.rotationTime = 0;
 		this.position.x = pos[0];
 		this.position.z = pos[2];
