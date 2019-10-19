@@ -113,7 +113,8 @@ export default class Ball extends THREE.Object3D {
 
 		this.rotateAroundWorldAxis("x", angularSpeedZ * deltaRotation);
 		this.rotateAroundWorldAxis("z", -angularSpeedX * deltaRotation);
-		// console.log(angularSpeedZ * deltaRotation, -angularSpeedX * deltaRotation);
+		// console.log(angularSpeedZ * deltaRotation,
+		//	-angularSpeedX * deltaRotation);
 		this.rotationTime = Date.now();
 	}
 

@@ -37,10 +37,5 @@ export default class Wall extends THREE.Group {
 		this.add(wallBox);
 	}
 
-	update() {
-		// alterar a cor em vez do wireframe para os cannons
-		if (this.scene.UPDATE_WIREFRAME) {
-			this.wallMaterial.wireframe = !this.wallMaterial.wireframe;
-		}
-	}
+	update() {}
 }

@@ -8,15 +8,28 @@ export default class Cannon extends THREE.Group {
 		this.cannonMainSize = [5, 5, 20, 32];
 		this.cannonTireSize = [3, 2, 10, 16]; // Inner Radius [0]-[1]
 
+		this.UNSELECTED_COLOR = 0xffec7d;
+		this.SELECTED_COLOR = 0xffffff;
+
 		const wallOffset = 50;
 		const groundOffset = this.cannonMainSize[1] / 2;
 
-		this.cannon1Mainposition = [wallOffset, groundOffset, 0];
-		this.cannon2Mainposition = [wallOffset, groundOffset, -30];
+		this.cannon1Mainposition = [wallOffset, groundOffset, -30];
+		this.cannon2Mainposition = [wallOffset, groundOffset, 0];
 		this.cannon3Mainposition = [wallOffset, groundOffset, 30];
 
-		this.material = new THREE.MeshBasicMaterial({
-			color: 0xffec7d,
+		this.cannon1Material = new THREE.MeshBasicMaterial({
+			color: this.UNSELECTED_COLOR,
+			wireframe: false,
+		});
+
+		this.cannon2Material = new THREE.MeshBasicMaterial({
+			color: this.UNSELECTED_COLOR,
+			wireframe: false,
+		});
+
+		this.cannon3Material = new THREE.MeshBasicMaterial({
+			color: this.UNSELECTED_COLOR,
 			wireframe: false,
 		});
 
@@ -24,19 +37,16 @@ export default class Cannon extends THREE.Group {
 			color: 0x434371,
 			wireframe: false,
 		});
-		this.createCannon(...this.cannon1Mainposition);
-		this.createCannon(...this.cannon2Mainposition);
-		this.createCannon(...this.cannon3Mainposition);
+		this.createCannon(this.cannon1Material, ...this.cannon1Mainposition);
+		this.createCannon(this.cannon2Material, ...this.cannon2Mainposition);
+		this.createCannon(this.cannon3Material, ...this.cannon3Mainposition);
 	}
 
-	createCannon(x, y, z) {
+	createCannon(material, x, y, z) {
 		const cannonCylinderGeometry = new THREE.CylinderGeometry(
 			...this.cannonMainSize
 		);
-		const cannonCylinder = new THREE.Mesh(
-			cannonCylinderGeometry,
-			this.material
-		);
+		const cannonCylinder = new THREE.Mesh(cannonCylinderGeometry, material);
 		cannonCylinder.position.set(x, y, z);
 		cannonCylinder.rotateZ(Math.PI / 2);
 		cannonCylinder.add(new THREE.AxesHelper(15));
@@ -55,11 +65,23 @@ export default class Cannon extends THREE.Group {
 		this.add(cannonTire2);
 	}
 
+	fireCannon() {}
+
 	update() {
-		//alterar a cor em vez do wireframe para os cannons
-		if (this.scene.UPDATE_WIREFRAME) {
-			this.material.wireframe = !this.material.wireframe;
-			this.torusMaterial.wireframe = !this.torusMaterial.wireframe;
+		if (this.scene.CANNON_ONE) {
+			this.cannon1Material.color.setHex(this.SELECTED_COLOR);
+			this.cannon2Material.color.setHex(this.UNSELECTED_COLOR);
+			this.cannon3Material.color.setHex(this.UNSELECTED_COLOR);
+		}
+		if (this.scene.CANNON_TWO) {
+			this.cannon1Material.color.setHex(this.UNSELECTED_COLOR);
+			this.cannon2Material.color.setHex(this.SELECTED_COLOR);
+			this.cannon3Material.color.setHex(this.UNSELECTED_COLOR);
+		}
+		if (this.scene.CANNON_THREE) {
+			this.cannon1Material.color.setHex(this.UNSELECTED_COLOR);
+			this.cannon2Material.color.setHex(this.UNSELECTED_COLOR);
+			this.cannon3Material.color.setHex(this.SELECTED_COLOR);
 		}
 	}
 }

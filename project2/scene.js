@@ -42,7 +42,7 @@ export default class Scene extends THREE.Scene {
 
 		// END CAMERAS
 		// ELEMENTS
-		this.cannons = [];
+		this.cannons = null;
 
 		this.createElements();
 	}
@@ -96,10 +96,9 @@ export default class Scene extends THREE.Scene {
 		this.add(new THREE.AxesHelper(10));
 
 		this.wall = new Wall(this);
-		console.log(this.wall.children);
-		this.cannons[0] = new Cannon(this);
+		this.cannons = new Cannon(this);
 		this.add(this.wall);
-		this.add(this.cannons[0]);
+		this.add(this.cannons);
 	}
 
 	createBall(ex, ez, posX, posY) {
@@ -146,7 +145,7 @@ export default class Scene extends THREE.Scene {
 	}
 
 	ballOutOfBounds(ball) {
-		const canonPosX = this.cannons[0].cannon1Mainposition[0];
+		const canonPosX = this.cannons.cannon1Mainposition[0];
 		const ballPosX = ball.position.x;
 		return ballPosX > canonPosX;
 	}
@@ -164,12 +163,12 @@ export default class Scene extends THREE.Scene {
 
 		this.detectCollisions();
 
-		// TEMP
+		// TO CHANGE
 		if (this.FIRE_CANNON) this.createBall(-1, -1, 15, 0);
 		this.FIRE_CANNON = false;
 
 		this.wall.update();
-		this.cannons[0].update();
+		this.cannons.update();
 	}
 
 	updateOrtographicCameraAspect(camera) {

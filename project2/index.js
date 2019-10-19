@@ -27,15 +27,22 @@ const onKeyDown = (e, scene) => {
 		case 81: // Q
 		case 113: // q
 			scene.CANNON_ONE = true;
+			scene.CANNON_TWO = false;
+			scene.CANNON_THREE = false;
 			console.log("SELCTED cannon 1");
 			break;
 		case 87: // W
 		case 119: // w
+			scene.CANNON_ONE = false;
 			scene.CANNON_TWO = true;
+			scene.CANNON_THREE = false;
+
 			console.log("SELCTED cannon 2");
 			break;
 		case 69: // E
 		case 101: // e
+			scene.CANNON_ONE = false;
+			scene.CANNON_TWO = false;
 			scene.CANNON_THREE = true;
 			console.log("SELCTED cannon 3");
 			break;
@@ -55,18 +62,6 @@ const onKeyDown = (e, scene) => {
 const onKeyUp = (e, scene) => {
 	// console.log(e.keyCode);
 	switch (e.keyCode) {
-		case 81: // Q
-		case 113: // q
-			scene.CANNON_ONE = false;
-			break;
-		case 87: // W
-		case 119: // w
-			scene.CANNON_TWO = false;
-			break;
-		case 69: // E
-		case 101: // e
-			scene.CANNON_THREE = false;
-			break;
 		case 32: // space
 			scene.FIRE_CANNON = false;
 			break;
