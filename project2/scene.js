@@ -43,7 +43,6 @@ export default class Scene extends THREE.Scene {
 		// END CAMERAS
 		// ELEMENTS
 		this.cannons = [];
-		this.balls = [];
 
 		this.createElements();
 	}
@@ -97,44 +96,70 @@ export default class Scene extends THREE.Scene {
 		this.add(new THREE.AxesHelper(10));
 
 		this.wall = new Wall(this);
+		console.log(this.wall.children);
 		this.cannons[0] = new Cannon(this);
 		this.add(this.wall);
 		this.add(this.cannons[0]);
 	}
 
-	createBall() {
-		const ball = new Ball(this, -1, -1, 10, 0); // Temp values
-		this.balls.push(ball);
+	createBall(ex, ez, posX, posY) {
+		const randomVelocity = Math.floor(Math.random() * 20) + 15;
+		const ball = new Ball(this, ex, ez, posX, posY, randomVelocity);
 		this.add(ball);
 	}
 
 	detectCollisions() {
 		// Ball -> Ball
-		for (let i = 0; i < this.balls.length; i++) {
-			const firstBall = this.balls[i];
-			for (let j = i + 1; j < this.balls.length; j++) {
-				const secondBall = this.balls[j];
+		for (let i = 0; i < this.children.length; i++) {
+			if (this.children[i].constructor.name !== "Ball") continue;
+			const firstBall = this.children[i];
+			for (let j = i + 1; j < this.children.length; j++) {
+				if (this.children[j].constructor.name !== "Ball") continue;
+				const secondBall = this.children[j];
 				if (Collisions.hasCollisionBallToBall(firstBall, secondBall)) {
-					console.log("Balls collision");
-					Collisions.processBallToBallCollision(firstBall, secondBall);
+					const newPositions = Collisions.findIntersectionBallToBall(
+						firstBall,
+						secondBall
+					);
+					Collisions.processBallToBallCollision(
+						firstBall,
+						secondBall,
+						newPositions
+					);
 				}
 			}
 		}
 
 		// Ball -> Wall
+		for (let i = 0; i < this.children.length; i++) {
+			if (this.children[i].constructor.name !== "Ball") continue;
+			const ball = this.children[i];
+			for (let j = 0; j < this.wall.children.length; j++) {
+				const wall = this.wall.children[j];
+				if (Collisions.hasCollisionBallToWall(ball, wall)) {
+					console.log("Wall collision");
+					const coll = Collisions.findIntersectionBallToWall(ball, wall);
+					Collisions.processBallToWallCollision(ball, wall, coll);
+				}
+			}
+		}
+	}
+
+	ballOutOfBounds(ball) {
+
 	}
 
 	update() {
 		this.UPDATE_WIREFRAME = false;
-
-		this.balls.forEach((ball) => {
-			ball.update();
+		this.children.forEach((obj) => {
+			if (obj.constructor.name !== "Ball") return;
+			obj.update();
 		});
 
 		this.detectCollisions();
 
 		// TEMP
-		if (this.FIRE_CANNON) this.createBall();
+		if (this.FIRE_CANNON) this.createBall(-1, -1, 15, 0);
 		this.FIRE_CANNON = false;
 
 		this.wall.update();
@@ -142,8 +167,8 @@ export default class Scene extends THREE.Scene {
 	}
 
 	updateOrtographicCameraAspect(camera) {
-		const widthFrustum = window.innerWidth / 30;
-		const heightFrustum = window.innerHeight / 30;
+		const widthFrustum = window.innerWidth / 9;
+		const heightFrustum = window.innerHeight / 9;
 		camera.left = -widthFrustum;
 		camera.right = widthFrustum;
 		camera.top = heightFrustum;

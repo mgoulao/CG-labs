@@ -20,5 +20,6 @@ module.exports = {
 		'no-tabs': 0,
 		'quotes': ["error", "double"],
 		'object-curly-spacing': 0,
+		'operator-linebreak': ["error", "after", { "overrides": { "?": "ignore", ":": "ignore" } }]
 	},
 };

@@ -1,18 +1,19 @@
 import * as THREE from "../node_modules/three/build/three.module.js";
 
 export default class Ball extends THREE.Object3D {
-	constructor(scene, eX, eZ, posX, posZ) {
+	constructor(scene, eX, eZ, posX, posZ, velocity) {
 		super();
 		this.scene = scene;
 
 		this.acceleration = -1.5;
+		this.launchVelocity = velocity;
 
-		this.launchVelocity = 10;
 		this.startVelocityX = this.launchVelocity * eX;
 		this.startVelocityZ = this.launchVelocity * eZ;
-
 		this.startTime = 0;
 		this.rotationTime = 0;
+		this.add(new THREE.AxesHelper(5));
+		this.ball = new THREE.Object3D();
 
 		this.ballSize = [3, 20, 20];
 
@@ -36,8 +37,11 @@ export default class Ball extends THREE.Object3D {
 		return this.ballSize[0];
 	}
 
-	collision(vel) {
+	updateValuesAfterCollision(pos, vel) {
 		this.startTime = 0;
+		this.rotationTime = 0;
+		this.position.x = pos[0];
+		this.position.z = pos[2];
 		this.startPosition = [this.position.x, this.position.y, this.position.z];
 		this.startVelocityX = vel[0];
 		this.startVelocityZ = vel[2];
@@ -49,7 +53,7 @@ export default class Ball extends THREE.Object3D {
 	}
 
 	getCurrentVelocity() {
-		const delta = (Date.now() - this.startTime)/1000;
+		const delta = (Date.now() - this.startTime) / 1000;
 		return [
 			this.getCurrentVelocityOnAxis("x", delta),
 			0,
@@ -59,8 +63,19 @@ export default class Ball extends THREE.Object3D {
 
 	getCurrentVelocityOnAxis(axis, delta) {
 		const vel = axis === "x" ? this.startVelocityX : this.startVelocityZ;
-		const newVel = vel + Math.sign(vel) * this.acceleration * delta;
-		return vel * newVel < 0 ? 0 : newVel;
+		const currVel = vel + Math.sign(vel) * this.acceleration * delta;
+		return vel * currVel < 0 ? 0 : currVel;
+	}
+
+	rotateAroundWorldAxis(axis, radians) {
+		let vecAxis = null;
+		if (axis === "x") vecAxis = new THREE.Vector3(1, 0, 0);
+		else if (axis === "z") vecAxis = new THREE.Vector3(0, 0, 1);
+		const rotWorldMatrix = new THREE.Matrix4();
+		rotWorldMatrix.makeRotationAxis(vecAxis.normalize(), radians);
+		rotWorldMatrix.multiply(this.matrix);
+		this.matrix = rotWorldMatrix;
+		this.rotation.setFromRotationMatrix(this.matrix);
 	}
 
 	updatePosition(delta) {
@@ -96,9 +111,9 @@ export default class Ball extends THREE.Object3D {
 		const angularSpeedZ =
 			this.getCurrentVelocityOnAxis("z", delta) / this.ballSize[0];
 
-		this.rotateX(angularSpeedZ * deltaRotation);
-		this.rotateZ(-angularSpeedX * deltaRotation);
-
+		this.rotateAroundWorldAxis("x", angularSpeedZ * deltaRotation);
+		this.rotateAroundWorldAxis("z", -angularSpeedX * deltaRotation);
+		// console.log(angularSpeedZ * deltaRotation, -angularSpeedX * deltaRotation);
 		this.rotationTime = Date.now();
 	}
 

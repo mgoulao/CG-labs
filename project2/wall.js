@@ -5,53 +5,40 @@ export default class Wall extends THREE.Group {
 		super();
 		this.scene = scene;
 
-		this.wallSize = [3, 40, 100]; //width, height, deapth
-    const wallOffset = this.wallSize[2] / 2;
-    const groundOffset = this.wallSize[1] / 2;
-		const widthOffset = this.wallSize[0] / 2;
-
-    this.wall1Position = [
-      -wallOffset,
-      groundOffset,
-      0,
-    ];
-    this.wall2Position = [
-      -widthOffset,
-      groundOffset,
-      -wallOffset-widthOffset,
-    ];
-    this.wall3Position = [
-      -widthOffset,
-      groundOffset,
-      wallOffset+widthOffset,
-    ];
+		this.wallFrontSize = [3, 20, 100]; // width, height, deapth
+		this.wallSideSize = [100, 20, 3]; // width, height, deapth
+		const wallOffset = this.wallFrontSize[2] / 2;
+		const groundOffset = this.wallFrontSize[1] / 2;
+		const widthOffset = this.wallFrontSize[0] / 2;
+		this.wall1Position = [-wallOffset, groundOffset, 0];
+		this.wall2Position = [
+			-widthOffset,
+			groundOffset,
+			-wallOffset - widthOffset,
+		];
+		this.wall3Position = [-widthOffset, groundOffset, wallOffset + widthOffset];
 
 		this.wallMaterial = new THREE.MeshBasicMaterial({
 			color: 0xff8b8b,
 			wireframe: false,
 		});
 
-		this.createWallFront(...this.wall1Position);
-    this.createWallSide(...this.wall2Position);
-    this.createWallSide(...this.wall3Position);
+		this.createWall(this.wall1Position, this.wallFrontSize);
+		this.createWall(this.wall2Position, this.wallSideSize);
+		this.createWall(this.wall3Position, this.wallSideSize);
 	}
 
-	createWallFront(x, y, z) {
-		const wallGeometry = new THREE.BoxGeometry(...this.wallSize);
-		const wallBoxFront = new THREE.Mesh(wallGeometry, this.wallMaterial);
-		wallBoxFront.position.set(x, y, z);
-		this.add(wallBoxFront);
+	createWall(pos, size) {
+		const wallGeometry = new THREE.BoxGeometry(...size);
+		const wallBox = new THREE.Mesh(wallGeometry, this.wallMaterial);
+		console.log(pos);
+		wallBox.position.set(...pos);
+		wallBox.geometry.computeBoundingBox();
+		this.add(wallBox);
 	}
 
-  createWallSide(x, y, z) {
-		const wallGeometry = new THREE.BoxGeometry(...this.wallSize);
-		const wallBoxSide = new THREE.Mesh(wallGeometry, this.wallMaterial);
-		wallBoxSide.position.set(x, y, z);
-    wallBoxSide.rotateY(Math.PI / 2);
-		this.add(wallBoxSide);
-	}
-
-	update() {//alterar a cor em vez do wireframe para os cannons
+	update() {
+		// alterar a cor em vez do wireframe para os cannons
 		if (this.scene.UPDATE_WIREFRAME) {
 			this.wallMaterial.wireframe = !this.wallMaterial.wireframe;
 		}
