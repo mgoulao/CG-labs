@@ -12,6 +12,14 @@ const animate = (scene) => {
 const onKeyDown = (e, scene) => {
 	console.log(e.code);
 	switch (e.keyCode) {
+		case 37:
+			scene.FIRE_ANGLE_DIRECT = false;
+			scene.FIRE_ANGLE_INDIRECT = true;
+			break;
+		case 39:
+			scene.FIRE_ANGLE_DIRECT = true;
+			scene.FIRE_ANGLE_INDIRECT = false;
+			break;
 		case 49: // 1
 			scene.changeToCameraTop();
 			break;
