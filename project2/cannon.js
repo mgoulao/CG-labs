@@ -12,7 +12,9 @@ export default class Cannon extends THREE.Group {
 		this.UNSELECTED_COLOR = 0xffec7d;
 		this.SELECTED_COLOR = 0xffffff;
 
-		this.rotationStep = Math.PI / 15;
+		this.rotationStep = Math.PI / 30;
+		this.MAX_ROTATION = Math.PI / 4;
+		this.MIN_ROTATION = -Math.PI / 4;
 		this.wallOffset = 50;
 		const groundOffset = this.cannonMainSize[1] / 2;
 
@@ -159,28 +161,28 @@ export default class Cannon extends THREE.Group {
 		}
 		if (this.scene.FIRE_ANGLE_DIRECT) {
 			// rmatrix.set(cos, 0, sen, 0, 0, 1, 0, 0, -sen, 0, cos, 0, 0, 0, 0, 1);
-			if (this.scene.CANNON_ONE) {
+			if (this.scene.CANNON_ONE && (this.cannon1.rotation.y > this.MIN_ROTATION)) {
 				this.rotateAroundWorldAxis(this.cannon1, "y", -this.rotationStep);
 			}
-			if (this.scene.CANNON_TWO) {
+			if (this.scene.CANNON_TWO && (this.cannon2.rotation.y > this.MIN_ROTATION)) {
 				this.rotateAroundWorldAxis(this.cannon2, "y", -this.rotationStep);
 			}
-			if (this.scene.CANNON_THREE) {
+			if (this.scene.CANNON_THREE && (this.cannon3.rotation.y > this.MIN_ROTATION)) {
 				this.rotateAroundWorldAxis(this.cannon3, "y", -this.rotationStep);
 			}
 			this.scene.FIRE_ANGLE_DIRECT = false;
 		}
 		if (this.scene.FIRE_ANGLE_INDIRECT) {
 			const angle = Math.PI / 10;
-			const rmatrix = new THREE.Matrix4().makeRotationY(angle);
 			// rmatrix.set(cos, 0, sen, 0, 0, 1, 0, 0, -sen, 0, cos, 0, 0, 0, 0, 1);
-			if (this.scene.CANNON_ONE) {
+			if (this.scene.CANNON_ONE && (this.cannon1.rotation.y < this.MAX_ROTATION)) {
+				console.log(this.cannon1.rotation.y);
 				this.rotateAroundWorldAxis(this.cannon1, "y", this.rotationStep);
 			}
-			if (this.scene.CANNON_TWO) {
+			if (this.scene.CANNON_TWO && (this.cannon2.rotation.y < this.MAX_ROTATION)) {
 				this.rotateAroundWorldAxis(this.cannon2, "y", this.rotationStep);
 			}
-			if (this.scene.CANNON_THREE) {
+			if (this.scene.CANNON_THREE && (this.cannon3.rotation.y < this.MAX_ROTATION)) {
 				this.rotateAroundWorldAxis(this.cannon3, "y", this.rotationStep);
 			}
 			this.scene.FIRE_ANGLE_INDIRECT = false;
