@@ -31,7 +31,6 @@ export default class Wall extends THREE.Group {
 	createWall(pos, size) {
 		const wallGeometry = new THREE.BoxGeometry(...size);
 		const wallBox = new THREE.Mesh(wallGeometry, this.wallMaterial);
-		console.log(pos);
 		wallBox.position.set(...pos);
 		wallBox.geometry.computeBoundingBox();
 		this.add(wallBox);
