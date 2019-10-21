@@ -24,10 +24,10 @@ const onKeyDown = (e, scene) => {
 			scene.changeToCameraTop();
 			break;
 		case 50: // 2
-			scene.changeToCameraBall();
+			scene.changeToCameraAll();
 			break;
 		case 51: // 3
-			scene.changeToCameraAll();
+			scene.changeToCameraBall();
 			break;
 		case 52: // 4
 			scene.UPDATE_WIREFRAME = true;
