@@ -145,7 +145,7 @@ export default class Scene extends THREE.Scene {
 	}
 
 	ballOutOfBounds(ball) {
-		const canonPosX = this.cannons.cannon1Mainposition[0];
+		const canonPosX = this.cannons.wallOffset;
 		const ballPosX = ball.position.x;
 		return ballPosX > canonPosX;
 	}
@@ -164,7 +164,11 @@ export default class Scene extends THREE.Scene {
 		this.detectCollisions();
 
 		// TO CHANGE
-		if (this.FIRE_CANNON) this.createBall(-1, -1, 15, 0);
+		if (this.FIRE_CANNON){
+			if(this.CANNON_ONE) this.createBall(-1, -1, this.cannons.wallOffset-10, -30);
+			if(this.CANNON_TWO) this.createBall(-1, -1, this.cannons.wallOffset-10, 0);
+			if(this.CANNON_THREE) this.createBall(-1, -1, this.cannons.wallOffset-10, 30);
+		}
 		this.FIRE_CANNON = false;
 
 		this.wall.update();

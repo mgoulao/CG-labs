@@ -1,4 +1,5 @@
 import * as THREE from "../node_modules/three/build/three.module.js";
+import Ball from "./ball.js";
 
 export default class Cannon extends THREE.Group {
 	constructor(scene) {
@@ -11,7 +12,7 @@ export default class Cannon extends THREE.Group {
 		this.UNSELECTED_COLOR = 0xffec7d;
 		this.SELECTED_COLOR = 0xffffff;
 
-		const wallOffset = 50;
+		this.wallOffset = 50;
 		const groundOffset = this.cannonMainSize[1] / 2;
 
 		this.cannon1 = new THREE.Group();
@@ -37,9 +38,9 @@ export default class Cannon extends THREE.Group {
 			color: 0x434371,
 			wireframe: false,
 		});
-		this.createCannon1(this.cannon1Material, wallOffset, groundOffset, -30);
-		this.createCannon2(this.cannon2Material, wallOffset, groundOffset, 0);
-		this.createCannon3(this.cannon3Material, wallOffset, groundOffset, 30);
+		this.createCannon1(this.cannon1Material, this.wallOffset, groundOffset, -30);
+		this.createCannon2(this.cannon2Material, this.wallOffset, groundOffset, 0);
+		this.createCannon3(this.cannon3Material, this.wallOffset, groundOffset, 30);
 	}
 
 	createCannon1(material, x, y, z, q1, q2, q3) {
@@ -111,8 +112,6 @@ export default class Cannon extends THREE.Group {
 		this.cannon3.add(cannonTire2);
 		this.add(this.cannon3);
 	}
-
-	fireCannon() {}
 
 	update() {
 		if (this.scene.CANNON_ONE) {
