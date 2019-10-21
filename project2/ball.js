@@ -4,8 +4,7 @@ export default class Ball extends THREE.Object3D {
 	constructor(scene, eX, eZ, posX, posZ, velocity) {
 		super();
 		this.scene = scene;
-
-		this.acceleration = -1.5;
+		this.acceleration = -5;
 		this.launchVelocity = velocity;
 
 		this.startVelocityX = this.launchVelocity * eX;

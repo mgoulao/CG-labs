@@ -42,6 +42,7 @@ export default class Scene extends THREE.Scene {
 
 		// END CAMERAS
 		// ELEMENTS
+		this.N_BALLS = 10;
 		this.cannons = null;
 
 		this.createElements();
@@ -99,11 +100,31 @@ export default class Scene extends THREE.Scene {
 		this.cannons = new Cannon(this);
 		this.add(this.wall);
 		this.add(this.cannons);
+		this.createNBalls();
 	}
 
-	createBall(ex, ez, posX, posY) {
+	createNBalls() {
+		let i = 0;
+		const arenaOffset = 10;
+		const arenaStart = -(this.wall.DEPTH / 2 - arenaOffset);
+		const arenaDepth = this.wall.DEPTH - arenaOffset * 3;
+		while (i < this.N_BALLS) {
+			const randomX = Math.floor(Math.random() * arenaDepth) + arenaStart;
+			const randomZ = Math.floor(Math.random() * arenaDepth) + arenaStart;
+			const newBall = this.createBall(0, 0, randomX, randomZ);
+			this.add(newBall);
+			i++;
+		}
+	}
+
+	createBall(ex, ez, posX, posZ) {
 		const randomVelocity = Math.floor(Math.random() * 100) + 40;
-		const ball = new Ball(this, ex, ez, posX, posY, randomVelocity);
+		const ball = new Ball(this, ex, ez, posX, posZ, randomVelocity);
+		return ball;
+	}
+
+	fireCannon(ex, ez, posX, posZ) {
+		const ball = this.createBall(ex, ez, posX, posZ);
 		this.add(ball);
 	}
 
@@ -145,7 +166,7 @@ export default class Scene extends THREE.Scene {
 	}
 
 	ballOutOfBounds(ball) {
-		const canonPosX = this.cannons.wallOffset+10;
+		const canonPosX = this.cannons.wallOffset + 10;
 		const ballPosX = ball.position.x;
 		return ballPosX > canonPosX;
 	}

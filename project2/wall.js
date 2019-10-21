@@ -5,8 +5,14 @@ export default class Wall extends THREE.Group {
 		super();
 		this.scene = scene;
 
-		this.wallFrontSize = [3, 10, 100]; // width, height, deapth
-		this.wallSideSize = [100, 10, 3]; // width, height, deapth
+		this.HEIGHT = 10;
+		this.WIDTH = 3;
+		this.DEPTH = 100;
+
+		this.wallFrontSize = [this.WIDTH, this.HEIGHT, this.DEPTH];
+		// width, height, deapth
+		this.wallSideSize = [this.DEPTH, this.HEIGHT, this.WIDTH];
+		// width, height, deapth
 		const wallOffset = this.wallFrontSize[2] / 2;
 		const groundOffset = this.wallFrontSize[1] / 2;
 		const widthOffset = this.wallFrontSize[0] / 2;

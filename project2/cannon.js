@@ -124,9 +124,8 @@ export default class Cannon extends THREE.Group {
 		this.add(this.cannon3);
 	}
 
-	createBall(ex, ez, posX, posY) {
-		console.log("createball");
-		this.scene.createBall(ex, ez, posX, posY);
+	createBall(ex, ez, posX, posZ) {
+		this.scene.fireCannon(ex, ez, posX, posZ);
 	}
 
 	rotateAroundWorldAxis(object, axis, radians) {
@@ -203,7 +202,7 @@ export default class Cannon extends THREE.Group {
 					this.cannon2.position.z
 				);
 			}
-			if (this.CANNON_THREE) {
+			if (this.scene.CANNON_THREE) {
 				this.createBall(
 					Math.cos(Math.PI - this.cannon3.rotation.y),
 					Math.sin(Math.PI - this.cannon3.rotation.y),
