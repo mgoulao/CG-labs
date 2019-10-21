@@ -12,7 +12,7 @@ export default class Cannon extends THREE.Group {
 		this.UNSELECTED_COLOR = 0xffec7d;
 		this.SELECTED_COLOR = 0xffffff;
 
-		this.rotationStep = Math.PI/15;
+		this.rotationStep = Math.PI / 15;
 		this.wallOffset = 50;
 		const groundOffset = this.cannonMainSize[1] / 2;
 
@@ -73,6 +73,7 @@ export default class Cannon extends THREE.Group {
 
 		this.add(this.cannon1);
 	}
+
 	createCannon2(material, x, y, z, q1, q2, q3) {
 		const cannonCylinderGeometry = new THREE.CylinderGeometry(
 			...this.cannonMainSize
@@ -97,6 +98,7 @@ export default class Cannon extends THREE.Group {
 
 		this.add(this.cannon2);
 	}
+
 	createCannon3(material, x, y, z, q1, q2, q3) {
 		const cannonCylinderGeometry = new THREE.CylinderGeometry(
 			...this.cannonMainSize
@@ -120,6 +122,11 @@ export default class Cannon extends THREE.Group {
 		this.cannon3.position.set(x, y, z);
 
 		this.add(this.cannon3);
+	}
+
+	createBall(ex, ez, posX, posY) {
+		console.log("createball");
+		this.scene.createBall(ex, ez, posX, posY);
 	}
 
 	rotateAroundWorldAxis(object, axis, radians) {
@@ -178,5 +185,33 @@ export default class Cannon extends THREE.Group {
 			}
 			this.scene.FIRE_ANGLE_INDIRECT = false;
 		}
+
+		if (this.scene.FIRE_CANNON) {
+			if (this.scene.CANNON_ONE) {
+				this.createBall(
+					Math.cos(Math.PI - this.cannon1.rotation.y),
+					Math.sin(Math.PI - this.cannon1.rotation.y),
+					this.cannon1.position.x,
+					this.cannon1.position.z
+				);
+			}
+			if (this.scene.CANNON_TWO) {
+				this.createBall(
+					Math.cos(Math.PI - this.cannon2.rotation.y),
+					Math.sin(Math.PI - this.cannon2.rotation.y),
+					this.cannon2.position.x,
+					this.cannon2.position.z
+				);
+			}
+			if (this.CANNON_THREE) {
+				this.createBall(
+					Math.cos(Math.PI - this.cannon3.rotation.y),
+					Math.sin(Math.PI - this.cannon3.rotation.y),
+					this.cannon3.position.x,
+					this.cannon3.position.z
+				);
+			}
+		}
+		this.scene.FIRE_CANNON = false;
 	}
 }

@@ -24,7 +24,7 @@ export default class Scene extends THREE.Scene {
 		// CAMERAS
 
 		this.TOP_VIEW = [0, 61, 0];
-		this.ALL_VIEW = [110, 110, 110];
+		this.ALL_VIEW = [-110, 110, 110];
 		this.BALL_VIEW = [190, 0, 0];
 
 		this.currentCamera = null;
@@ -102,7 +102,7 @@ export default class Scene extends THREE.Scene {
 	}
 
 	createBall(ex, ez, posX, posY) {
-		const randomVelocity = Math.floor(Math.random() * 100) + 15;
+		const randomVelocity = Math.floor(Math.random() * 100) + 40;
 		const ball = new Ball(this, ex, ez, posX, posY, randomVelocity);
 		this.add(ball);
 	}
@@ -145,7 +145,7 @@ export default class Scene extends THREE.Scene {
 	}
 
 	ballOutOfBounds(ball) {
-		const canonPosX = this.cannons.wallOffset;
+		const canonPosX = this.cannons.wallOffset+10;
 		const ballPosX = ball.position.x;
 		return ballPosX > canonPosX;
 	}
@@ -162,14 +162,6 @@ export default class Scene extends THREE.Scene {
 		}
 
 		this.detectCollisions();
-
-		// TO CHANGE
-		if (this.FIRE_CANNON){
-			if(this.CANNON_ONE) this.createBall(-1, -1, this.cannons.wallOffset-10, -30);
-			if(this.CANNON_TWO) this.createBall(-1, -1, this.cannons.wallOffset-10, 0);
-			if(this.CANNON_THREE) this.createBall(-1, -1, this.cannons.wallOffset-10, 30);
-		}
-		this.FIRE_CANNON = false;
 
 		this.wall.update();
 		this.cannons.update();

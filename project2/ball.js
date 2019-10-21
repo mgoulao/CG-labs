@@ -100,7 +100,7 @@ export default class Ball extends THREE.Object3D {
 			this.startPosition[2] = newZ;
 		}
 
-		this.position.set(newX, 0, newZ);
+		this.position.set(newX, this.position.y, newZ);
 	}
 
 	updateRotation(delta) {
@@ -113,8 +113,6 @@ export default class Ball extends THREE.Object3D {
 
 		this.rotateAroundWorldAxis("x", angularSpeedZ * deltaRotation);
 		this.rotateAroundWorldAxis("z", -angularSpeedX * deltaRotation);
-		// console.log(angularSpeedZ * deltaRotation,
-		//	-angularSpeedX * deltaRotation);
 		this.rotationTime = Date.now();
 	}
 
