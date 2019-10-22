@@ -127,11 +127,10 @@ export default class Collisions {
 	 * @return {boolean}
 	 */
 	static hasCollisionBallToBall(ballOne, ballTwo) {
-		const distance = Math.sqrt(
+		const distance =
 			(ballOne.position.x - ballTwo.position.x) ** 2 +
-				(ballOne.position.z - ballTwo.position.z) ** 2
-		);
-		return distance <= ballOne.getRadius() + ballTwo.getRadius();
+			(ballOne.position.z - ballTwo.position.z) ** 2;
+		return distance <= (ballOne.getRadius() + ballTwo.getRadius()) ** 2;
 	}
 
 	/**
