@@ -152,8 +152,7 @@ export default class Cannon extends THREE.Group {
 				this.scene.cameraBall.lookAt(this.cannon1.position);
 				this.scene.OLD_CANNON = 1;
 				console.log("Olha para o canhao 1");
-				
-			}			
+			}
 		}
 		if (this.scene.CANNON_TWO) {
 			this.cannon1Material.color.setHex(this.UNSELECTED_COLOR);
@@ -172,7 +171,7 @@ export default class Cannon extends THREE.Group {
 			this.cannon2Material.color.setHex(this.UNSELECTED_COLOR);
 			this.cannon3Material.color.setHex(this.SELECTED_COLOR);
 			console.log(this.scene.activeBall);
-			
+
 			if (this.scene.activeBall == null || this.scene.OLD_CANNON != 3) {
 				this.scene.cameraBall.position.set(-20, 50, 30);
 				this.scene.cameraBall.lookAt(this.cannon3.position);
@@ -182,13 +181,22 @@ export default class Cannon extends THREE.Group {
 		}
 		if (this.scene.FIRE_ANGLE_DIRECT) {
 			// rmatrix.set(cos, 0, sen, 0, 0, 1, 0, 0, -sen, 0, cos, 0, 0, 0, 0, 1);
-			if (this.scene.CANNON_ONE && (this.cannon1.rotation.y > this.MIN_ROTATION)) {
+			if (
+				this.scene.CANNON_ONE &&
+				this.cannon1.rotation.y > this.MIN_ROTATION
+			) {
 				this.rotateAroundWorldAxis(this.cannon1, "y", -this.rotationStep);
 			}
-			if (this.scene.CANNON_TWO && (this.cannon2.rotation.y > this.MIN_ROTATION)) {
+			if (
+				this.scene.CANNON_TWO &&
+				this.cannon2.rotation.y > this.MIN_ROTATION
+			) {
 				this.rotateAroundWorldAxis(this.cannon2, "y", -this.rotationStep);
 			}
-			if (this.scene.CANNON_THREE && (this.cannon3.rotation.y > this.MIN_ROTATION)) {
+			if (
+				this.scene.CANNON_THREE &&
+				this.cannon3.rotation.y > this.MIN_ROTATION
+			) {
 				this.rotateAroundWorldAxis(this.cannon3, "y", -this.rotationStep);
 			}
 			this.scene.FIRE_ANGLE_DIRECT = false;
@@ -196,14 +204,23 @@ export default class Cannon extends THREE.Group {
 		if (this.scene.FIRE_ANGLE_INDIRECT) {
 			const angle = Math.PI / 10;
 			// rmatrix.set(cos, 0, sen, 0, 0, 1, 0, 0, -sen, 0, cos, 0, 0, 0, 0, 1);
-			if (this.scene.CANNON_ONE && (this.cannon1.rotation.y < this.MAX_ROTATION)) {
+			if (
+				this.scene.CANNON_ONE &&
+				this.cannon1.rotation.y < this.MAX_ROTATION
+			) {
 				console.log(this.cannon1.rotation.y);
 				this.rotateAroundWorldAxis(this.cannon1, "y", this.rotationStep);
 			}
-			if (this.scene.CANNON_TWO && (this.cannon2.rotation.y < this.MAX_ROTATION)) {
+			if (
+				this.scene.CANNON_TWO &&
+				this.cannon2.rotation.y < this.MAX_ROTATION
+			) {
 				this.rotateAroundWorldAxis(this.cannon2, "y", this.rotationStep);
 			}
-			if (this.scene.CANNON_THREE && (this.cannon3.rotation.y < this.MAX_ROTATION)) {
+			if (
+				this.scene.CANNON_THREE &&
+				this.cannon3.rotation.y < this.MAX_ROTATION
+			) {
 				this.rotateAroundWorldAxis(this.cannon3, "y", this.rotationStep);
 			}
 			this.scene.FIRE_ANGLE_INDIRECT = false;

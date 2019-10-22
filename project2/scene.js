@@ -44,7 +44,7 @@ export default class Scene extends THREE.Scene {
 
 		// END CAMERAS
 		// ELEMENTS
-		this.N_BALLS = 0;
+		this.N_BALLS = 10;
 		this.cannons = null;
 		this.activeBall = null;
 		this.temp = new THREE.Vector3;

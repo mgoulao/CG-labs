@@ -189,12 +189,6 @@ export default class Collisions {
 			ballTwo.position.z - ballOne.position.z,
 			ballTwo.position.x - ballOne.position.x
 		);
-		const translation1Matrix = new THREE.Matrix4();
-		translation1Matrix.makeTranslation(
-			-ballOne.position.x,
-			-ballOne.position.y,
-			-ballOne.position.z
-		);
 
 		const rotation1Matrix = new THREE.Matrix4().makeRotationY(collisionAngle);
 		const rotation2Matrix = new THREE.Matrix4().makeRotationY(-collisionAngle);
