@@ -37,6 +37,7 @@ const onKeyDown = (e, scene) => {
 			scene.CANNON_ONE = true;
 			scene.CANNON_TWO = false;
 			scene.CANNON_THREE = false;
+			scene.activeBall = null;
 			console.log("SELCTED cannon 1");
 			break;
 		case 87: // W
@@ -44,7 +45,7 @@ const onKeyDown = (e, scene) => {
 			scene.CANNON_ONE = false;
 			scene.CANNON_TWO = true;
 			scene.CANNON_THREE = false;
-
+			scene.activeBall = null;
 			console.log("SELCTED cannon 2");
 			break;
 		case 69: // E
@@ -52,6 +53,7 @@ const onKeyDown = (e, scene) => {
 			scene.CANNON_ONE = false;
 			scene.CANNON_TWO = false;
 			scene.CANNON_THREE = true;
+			scene.activeBall = null;
 			console.log("SELCTED cannon 3");
 			break;
 		case 32: // space
@@ -100,7 +102,8 @@ const onResize = (e, scene) => {
 
 const init = () => {
 	const scene = new Scene();
-
+	console.log(scene.cannons);
+	
 	setupListeners(scene);
 	animate(scene);
 };

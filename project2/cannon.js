@@ -147,16 +147,38 @@ export default class Cannon extends THREE.Group {
 			this.cannon1Material.color.setHex(this.SELECTED_COLOR);
 			this.cannon2Material.color.setHex(this.UNSELECTED_COLOR);
 			this.cannon3Material.color.setHex(this.UNSELECTED_COLOR);
+			if (this.scene.activeBall == null || this.scene.OLD_CANNON != 1) {
+				this.scene.cameraBall.position.set(-20, 50, -30);
+				this.scene.cameraBall.lookAt(this.cannon1.position);
+				this.scene.OLD_CANNON = 1;
+				console.log("Olha para o canhao 1");
+				
+			}			
 		}
 		if (this.scene.CANNON_TWO) {
 			this.cannon1Material.color.setHex(this.UNSELECTED_COLOR);
 			this.cannon2Material.color.setHex(this.SELECTED_COLOR);
 			this.cannon3Material.color.setHex(this.UNSELECTED_COLOR);
+			console.log(this.scene.activeBall);
+			if (this.scene.activeBall == null || this.scene.OLD_CANNON != 2) {
+				this.scene.cameraBall.position.set(-20, 50, 0);
+				this.scene.cameraBall.lookAt(this.cannon2.position);
+				this.scene.OLD_CANNON = 2;
+				console.log("Olha para o canhao 2");
+			}
 		}
 		if (this.scene.CANNON_THREE) {
 			this.cannon1Material.color.setHex(this.UNSELECTED_COLOR);
 			this.cannon2Material.color.setHex(this.UNSELECTED_COLOR);
 			this.cannon3Material.color.setHex(this.SELECTED_COLOR);
+			console.log(this.scene.activeBall);
+			
+			if (this.scene.activeBall == null || this.scene.OLD_CANNON != 3) {
+				this.scene.cameraBall.position.set(-20, 50, 30);
+				this.scene.cameraBall.lookAt(this.cannon3.position);
+				this.scene.OLD_CANNON = 3;
+				console.log("Olha para o canhao 3");
+			}
 		}
 		if (this.scene.FIRE_ANGLE_DIRECT) {
 			// rmatrix.set(cos, 0, sen, 0, 0, 1, 0, 0, -sen, 0, cos, 0, 0, 0, 0, 1);

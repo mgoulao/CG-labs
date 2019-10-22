@@ -98,6 +98,11 @@ export default class Ball extends THREE.Object3D {
 			this.startVelocityZ = 0;
 			this.startPosition[2] = newZ;
 		}
+		if (this.scene.activeBall != null) {
+			if (this.scene.activeBall.getCurrentVelocityOnAxis("x", delta) === 0 && this.scene.activeBall.getCurrentVelocityOnAxis("z", delta) === 0) {
+				this.scene.activeBall = null;
+			}
+		}
 
 		this.position.set(newX, this.position.y, newZ);
 	}

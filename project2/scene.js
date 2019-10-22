@@ -27,6 +27,8 @@ export default class Scene extends THREE.Scene {
 		this.ALL_VIEW = [-110, 110, 110];
 		this.BALL_VIEW = [0, 200, 0];
 
+		this.CANNON_OLD = 1;
+
 		this.currentCamera = null;
 		this.cameraTop = null;
 		this.cameraAll = null;
@@ -42,7 +44,7 @@ export default class Scene extends THREE.Scene {
 
 		// END CAMERAS
 		// ELEMENTS
-		this.N_BALLS = 10;
+		this.N_BALLS = 0;
 		this.cannons = null;
 		this.activeBall = null;
 		this.temp = new THREE.Vector3;
@@ -178,19 +180,20 @@ export default class Scene extends THREE.Scene {
 		this.UPDATE_WIREFRAME = false;
 		if (this.activeBall != null) {
 			this.temp.setFromMatrixPosition(this.activeBall.matrixWorld);
-			this.temp.y = 20;
- 			console.log(this.temp);
-			
+			this.temp.y = 80;
 			this.cameraBall.position.lerp(this.temp, 0.2);
 			this.cameraBall.lookAt(this.activeBall.position);
-
 		}
 
 		for (let i = 0; i < this.children.length; i++) {
 			const obj = this.children[i];
 			if (obj.constructor.name !== "Ball") continue;
 
-			if (this.ballOutOfBounds(obj)) this.remove(obj);
+			if (this.ballOutOfBounds(obj)) {
+				if (this.activeBall == obj)
+					this.activeBall = null;
+				this.remove(obj);				
+			} 
 			else obj.update();
 		}
 
