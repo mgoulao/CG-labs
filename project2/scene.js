@@ -178,6 +178,9 @@ export default class Scene extends THREE.Scene {
 		this.UPDATE_WIREFRAME = false;
 		if (this.activeBall != null) {
 			this.temp.setFromMatrixPosition(this.activeBall.matrixWorld);
+			this.temp.y = 20;
+ 			console.log(this.temp);
+			
 			this.cameraBall.position.lerp(this.temp, 0.2);
 			this.cameraBall.lookAt(this.activeBall.position);
 
