@@ -18,7 +18,7 @@ export default class Scene extends THREE.Scene {
 		this.FIRE_ANGLE_DIRECT = false;
 		this.FIRE_ANGLE_INDIRECT = false;
 
-		this.UPDATE_WIREFRAME = false;
+		this.TOGGLE_AXES = false;
 
 		// END FLAGS
 		// CAMERAS
@@ -47,7 +47,7 @@ export default class Scene extends THREE.Scene {
 		this.N_BALLS = 10;
 		this.cannons = null;
 		this.activeBall = null;
-		this.temp = new THREE.Vector3;
+		this.temp = new THREE.Vector3();
 
 		this.createElements();
 	}
@@ -98,8 +98,6 @@ export default class Scene extends THREE.Scene {
 	}
 
 	createElements() {
-		this.add(new THREE.AxesHelper(10));
-
 		this.wall = new Wall(this);
 		this.cannons = new Cannon(this);
 		this.add(this.wall);
@@ -177,7 +175,6 @@ export default class Scene extends THREE.Scene {
 	}
 
 	update() {
-		this.UPDATE_WIREFRAME = false;
 		if (this.activeBall != null) {
 			this.temp.setFromMatrixPosition(this.activeBall.matrixWorld);
 			this.temp.y = 80;
@@ -190,17 +187,16 @@ export default class Scene extends THREE.Scene {
 			if (obj.constructor.name !== "Ball") continue;
 
 			if (this.ballOutOfBounds(obj)) {
-				if (this.activeBall == obj)
-					this.activeBall = null;
-				this.remove(obj);				
-			} 
-			else obj.update();
+				if (this.activeBall == obj) this.activeBall = null;
+				this.remove(obj);
+			} else obj.update();
 		}
 
 		this.detectCollisions();
 
 		this.wall.update();
 		this.cannons.update();
+		this.TOGGLE_AXES = false;
 	}
 
 	updateOrtographicCameraAspect(camera) {

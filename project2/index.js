@@ -30,7 +30,7 @@ const onKeyDown = (e, scene) => {
 			scene.changeToCameraBall();
 			break;
 		case 52: // 4
-			scene.UPDATE_WIREFRAME = true;
+			scene.TOGGLE_AXES = true;
 			break;
 		case 81: // Q
 		case 113: // q

@@ -22,6 +22,13 @@ export default class Cannon extends THREE.Group {
 		this.cannon2 = new THREE.Group();
 		this.cannon3 = new THREE.Group();
 
+		this.axesHelper1 = new THREE.AxesHelper(15);
+		this.axesHelper2 = new THREE.AxesHelper(15);
+		this.axesHelper3 = new THREE.AxesHelper(15);
+		this.axesHelper1.visible = false;
+		this.axesHelper2.visible = false;
+		this.axesHelper3.visible = false;
+
 		this.cannon1Material = new THREE.MeshBasicMaterial({
 			color: this.UNSELECTED_COLOR,
 			wireframe: false,
@@ -57,7 +64,8 @@ export default class Cannon extends THREE.Group {
 		);
 		const cannonCylinder = new THREE.Mesh(cannonCylinderGeometry, material);
 		cannonCylinder.rotateZ(Math.PI / 2);
-		cannonCylinder.add(new THREE.AxesHelper(15));
+
+		cannonCylinder.add(this.axesHelper1);
 		this.cannon1.add(cannonCylinder);
 
 		const xTire = this.cannonMainSize[1] / 2;
@@ -82,7 +90,7 @@ export default class Cannon extends THREE.Group {
 		);
 		const cannonCylinder = new THREE.Mesh(cannonCylinderGeometry, material);
 		cannonCylinder.rotateZ(Math.PI / 2);
-		cannonCylinder.add(new THREE.AxesHelper(15));
+		cannonCylinder.add(this.axesHelper2);
 		this.cannon2.add(cannonCylinder);
 
 		const xTire = this.cannonMainSize[1] / 2;
@@ -107,7 +115,7 @@ export default class Cannon extends THREE.Group {
 		);
 		const cannonCylinder = new THREE.Mesh(cannonCylinderGeometry, material);
 		cannonCylinder.rotateZ(Math.PI / 2);
-		cannonCylinder.add(new THREE.AxesHelper(15));
+		cannonCylinder.add(this.axesHelper3);
 		this.cannon3.add(cannonCylinder);
 
 		const xTire = this.cannonMainSize[1] / 2;
@@ -251,6 +259,12 @@ export default class Cannon extends THREE.Group {
 					this.cannon3.position.z
 				);
 			}
+		}
+
+		if (this.scene.TOGGLE_AXES) {
+			this.axesHelper1.visible = !this.axesHelper1.visible;
+			this.axesHelper2.visible = !this.axesHelper2.visible;
+			this.axesHelper3.visible = !this.axesHelper3.visible;
 		}
 		this.scene.FIRE_CANNON = false;
 	}

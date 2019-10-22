@@ -11,13 +11,14 @@ export default class Ball extends THREE.Object3D {
 		this.startVelocityZ = this.launchVelocity * eZ;
 		this.startTime = 0;
 		this.rotationTime = 0;
-		this.add(new THREE.AxesHelper(5));
 		this.ball = new THREE.Object3D();
 
 		this.ballSize = [3, 20, 20];
 
 		this.startPosition = [posX, this.ballSize[0], posZ];
 
+		this.axesHelper = new THREE.AxesHelper(5);
+		this.axesHelper.visible = false;
 		this.material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
 
 		this.createObject();
@@ -29,7 +30,7 @@ export default class Ball extends THREE.Object3D {
 		this.add(sphere);
 		this.position.set(...this.startPosition);
 
-		this.add(new THREE.AxesHelper(5));
+		this.add(this.axesHelper);
 	}
 
 	getRadius() {
@@ -99,7 +100,10 @@ export default class Ball extends THREE.Object3D {
 			this.startPosition[2] = newZ;
 		}
 		if (this.scene.activeBall != null) {
-			if (this.scene.activeBall.getCurrentVelocityOnAxis("x", delta) === 0 && this.scene.activeBall.getCurrentVelocityOnAxis("z", delta) === 0) {
+			if (
+				this.scene.activeBall.getCurrentVelocityOnAxis("x", delta) === 0 &&
+				this.scene.activeBall.getCurrentVelocityOnAxis("z", delta) === 0
+			) {
 				this.scene.activeBall = null;
 			}
 		}
@@ -125,5 +129,8 @@ export default class Ball extends THREE.Object3D {
 		const delta = (Date.now() - this.startTime) / 1000;
 		this.updatePosition(delta);
 		this.updateRotation(delta);
+
+		if (this.scene.TOGGLE_AXES)
+			this.axesHelper.visible = !this.axesHelper.visible;
 	}
 }
