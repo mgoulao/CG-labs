@@ -1,20 +1,24 @@
 import * as THREE from "../node_modules/three/build/three.module.js";
+import Icosahedron from "./icosahedron.js";
+import Paint from "./paint.js";
 
 export default class Scene extends THREE.Scene {
 	constructor() {
 		super();
+
+		this.PAINT_POSITION = [-100, 60, 0];
 
 		// FLAGS
 
 		// END FLAGS
 		// CAMERAS
 
-		this.TOP_VIEW = [0, 61, 0];
-		this.ALL_VIEW = [-110, 110, 110];
+		this.PAINT_VIEW = [-1, 1, 1];
+		this.ALL_VIEW = [-210, 210, 210];
 		this.BALL_VIEW = [0, 300, 0];
 
 		this.currentCamera = null;
-		this.cameraTop = null;
+		this.cameraPaint = null;
 		this.cameraAll = null;
 		this.cameraBall = null;
 
@@ -24,16 +28,22 @@ export default class Scene extends THREE.Scene {
 		this.renderer.setSize(window.innerWidth, window.innerHeight);
 		document.body.appendChild(this.renderer.domElement);
 
-		this.createCameras();
 
 		// END CAMERAS
 		// ELEMENTS
 
+		this.icosahedron = null;
+		this.paint = null;
+
 		this.createElements();
+
+		// ILUMINATION
+
+		this.createCameras();
 	}
 
 	createCameras() {
-		this.cameraTop = new THREE.OrthographicCamera(
+		this.cameraPaint = new THREE.OrthographicCamera(
 			window.innerWidth / -9,
 			window.innerWidth / 9,
 			window.innerHeight / 9,
@@ -41,8 +51,8 @@ export default class Scene extends THREE.Scene {
 			-1000,
 			1000
 		);
-		this.cameraTop.position.set(...this.TOP_VIEW);
-		this.cameraTop.lookAt(this.position);
+		this.cameraPaint.position.set(...this.PAINT_VIEW);
+		this.cameraPaint.lookAt(this.position);
 
 		this.cameraAll = new THREE.PerspectiveCamera(
 			45,
@@ -62,11 +72,11 @@ export default class Scene extends THREE.Scene {
 		this.cameraBall.position.set(...this.BALL_VIEW);
 		this.cameraBall.lookAt(this.position);
 
-		this.currentCamera = this.cameraTop;
+		this.currentCamera = this.cameraPaint;
 	}
 
-	changeToCameraTop() {
-		this.currentCamera = this.cameraTop;
+	changeTocameraPaint() {
+		this.currentCamera = this.cameraPaint;
 	}
 
 	changeToCameraAll() {
@@ -77,7 +87,16 @@ export default class Scene extends THREE.Scene {
 		this.currentCamera = this.cameraBall;
 	}
 
-	createElements() {}
+	createElements() {
+		this.add(new THREE.AxesHelper(15));
+		this.icosahedron = new Icosahedron(this);
+		this.paint = new Paint(this, this.PAINT_POSITION);
+
+		this.add(this.icosahedron);
+		this.add(this.paint);
+	}
+
+	createIlumination() {}
 
 	updateOrtographicCameraAspect(camera) {
 		const widthFrustum = window.innerWidth / 9;
@@ -94,11 +113,14 @@ export default class Scene extends THREE.Scene {
 		camera.updateProjectionMatrix();
 	}
 
-	update() {}
+	update() {
+		this.icosahedron.update();
+		this.paint.update();
+	}
 
 	resize() {
 		this.renderer.setSize(window.innerWidth, window.innerHeight);
-		this.updateOrtographicCameraAspect(this.cameraTop);
+		this.updateOrtographicCameraAspect(this.cameraPaint);
 		this.updatePerspectiveCameraAspect(this.cameraBall);
 		this.updatePerspectiveCameraAspect(this.cameraAll);
 	}
