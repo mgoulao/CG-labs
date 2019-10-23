@@ -17,7 +17,7 @@ const onKeyDown = (e, scene) => {
 		case 39: // ->
 			break;
 		case 49: // 1
-			scene.changeToCameraTop(); // TODO
+			scene.changeToCameraPaint(); // TODO
 			break;
 		case 50: // 2
 			scene.changeToCameraAll();

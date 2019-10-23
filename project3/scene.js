@@ -13,9 +13,11 @@ export default class Scene extends THREE.Scene {
 		// END FLAGS
 		// CAMERAS
 
-		this.PAINT_VIEW = [-1, 1, 1];
+		this.PAINT_VIEW = [0, 0, 1];
 		this.ALL_VIEW = [-210, 210, 210];
 		this.BALL_VIEW = [0, 300, 0];
+
+		this.screenAspectRatio = window.innerHeight / window.innerWidth;
 
 		this.currentCamera = null;
 		this.cameraPaint = null;
@@ -28,7 +30,6 @@ export default class Scene extends THREE.Scene {
 		this.renderer.setSize(window.innerWidth, window.innerHeight);
 		document.body.appendChild(this.renderer.domElement);
 
-
 		// END CAMERAS
 		// ELEMENTS
 
@@ -39,15 +40,26 @@ export default class Scene extends THREE.Scene {
 
 		// ILUMINATION
 
+		this.paintCameraSize = [
+			this.paint.width,
+			this.paint.width * this.screenAspectRatio,
+		];
+
 		this.createCameras();
 	}
 
 	createCameras() {
+		console.log(
+			this.PAINT_POSITION[0] - this.paintCameraSize[0] / 2,
+			this.PAINT_POSITION[0] + this.paintCameraSize[0] / 2,
+			this.PAINT_POSITION[1] - this.paintCameraSize[0] / 2,
+			this.PAINT_POSITION[1] + this.paintCameraSize[0] / 2
+		);
 		this.cameraPaint = new THREE.OrthographicCamera(
-			window.innerWidth / -9,
-			window.innerWidth / 9,
-			window.innerHeight / 9,
-			window.innerHeight / -9,
+			this.PAINT_POSITION[0] - this.paintCameraSize[0] / 2,
+			this.PAINT_POSITION[0] + this.paintCameraSize[0] / 2,
+			this.PAINT_POSITION[1] - this.paintCameraSize[1] / 2,
+			this.PAINT_POSITION[1] + this.paintCameraSize[1] / 2,
 			-1000,
 			1000
 		);
@@ -75,7 +87,7 @@ export default class Scene extends THREE.Scene {
 		this.currentCamera = this.cameraPaint;
 	}
 
-	changeTocameraPaint() {
+	changeToCameraPaint() {
 		this.currentCamera = this.cameraPaint;
 	}
 
