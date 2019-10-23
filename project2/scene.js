@@ -19,13 +19,14 @@ export default class Scene extends THREE.Scene {
 		this.FIRE_ANGLE_INDIRECT = false;
 
 		this.TOGGLE_AXES = false;
+		this.AXES = false;
 
 		// END FLAGS
 		// CAMERAS
 
 		this.TOP_VIEW = [0, 61, 0];
 		this.ALL_VIEW = [-110, 110, 110];
-		this.BALL_VIEW = [0, 200, 0];
+		this.BALL_VIEW = [0, 300, 0];
 
 		this.CANNON_OLD = 1;
 
@@ -177,7 +178,7 @@ export default class Scene extends THREE.Scene {
 	update() {
 		if (this.activeBall != null) {
 			this.temp.setFromMatrixPosition(this.activeBall.matrixWorld);
-			this.temp.y = 80;
+			this.temp.y = 40;
 			this.cameraBall.position.lerp(this.temp, 0.2);
 			this.cameraBall.lookAt(this.activeBall.position);
 		}
@@ -196,6 +197,7 @@ export default class Scene extends THREE.Scene {
 
 		this.wall.update();
 		this.cannons.update();
+		if (this.TOGGLE_AXES) this.AXES = !this.AXES;
 		this.TOGGLE_AXES = false;
 	}
 

@@ -18,7 +18,7 @@ export default class Ball extends THREE.Object3D {
 		this.startPosition = [posX, this.ballSize[0], posZ];
 
 		this.axesHelper = new THREE.AxesHelper(5);
-		this.axesHelper.visible = false;
+		this.axesHelper.visible = this.scene.AXES;
 		this.material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
 
 		this.createObject();
