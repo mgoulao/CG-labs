@@ -49,12 +49,6 @@ export default class Scene extends THREE.Scene {
 	}
 
 	createCameras() {
-		console.log(
-			this.PAINT_POSITION[0] - this.paintCameraSize[0] / 2,
-			this.PAINT_POSITION[0] + this.paintCameraSize[0] / 2,
-			this.PAINT_POSITION[1] - this.paintCameraSize[0] / 2,
-			this.PAINT_POSITION[1] + this.paintCameraSize[0] / 2
-		);
 		this.cameraPaint = new THREE.OrthographicCamera(
 			this.PAINT_POSITION[0] - this.paintCameraSize[0] / 2,
 			this.PAINT_POSITION[0] + this.paintCameraSize[0] / 2,
@@ -111,12 +105,12 @@ export default class Scene extends THREE.Scene {
 	createIlumination() {}
 
 	updateOrtographicCameraAspect(camera) {
-		const widthFrustum = window.innerWidth / 9;
-		const heightFrustum = window.innerHeight / 9;
-		camera.left = -widthFrustum;
-		camera.right = widthFrustum;
-		camera.top = heightFrustum;
-		camera.bottom = -heightFrustum;
+		const widthFrustum = this.paintCameraSize[0];
+		const heightFrustum = this.paintCameraSize[1];
+		camera.left = this.PAINT_POSITION[0] - this.paintCameraSize[0] / 2;
+		camera.right = this.PAINT_POSITION[0] + this.paintCameraSize[0] / 2;
+		camera.top = 	this.PAINT_POSITION[1] - this.paintCameraSize[1] / 2;
+		camera.bottom = this.PAINT_POSITION[1] + this.paintCameraSize[1] / 2;
 		camera.updateProjectionMatrix();
 	}
 
