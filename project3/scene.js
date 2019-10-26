@@ -1,6 +1,7 @@
 import * as THREE from "../node_modules/three/build/three.module.js";
 import Icosahedron from "./icosahedron.js";
 import Paint from "./paint.js";
+import LightManager from "./lightManager.js";
 
 export default class Scene extends THREE.Scene {
 	constructor() {
@@ -10,19 +11,12 @@ export default class Scene extends THREE.Scene {
 
 		// FLAGS
 
-		// END FLAGS
-		// CAMERAS
+		this.TOGGLE_SHADING = false;
+		this.LIGHT_CALC = false;
 
-		this.PAINT_VIEW = [0, 0, 1];
-		this.ALL_VIEW = [-210, 210, 210];
-		this.BALL_VIEW = [0, 300, 0];
+		// RENDERER
 
 		this.screenAspectRatio = window.innerHeight / window.innerWidth;
-
-		this.currentCamera = null;
-		this.cameraPaint = null;
-		this.cameraAll = null;
-		this.cameraBall = null;
 
 		this.renderer = new THREE.WebGLRenderer({
 			antialias: true,
@@ -30,7 +24,6 @@ export default class Scene extends THREE.Scene {
 		this.renderer.setSize(window.innerWidth, window.innerHeight);
 		document.body.appendChild(this.renderer.domElement);
 
-		// END CAMERAS
 		// ELEMENTS
 
 		this.icosahedron = null;
@@ -39,6 +32,19 @@ export default class Scene extends THREE.Scene {
 		this.createElements();
 
 		// ILUMINATION
+
+		this.lightManager = new LightManager(this);
+
+		// CAMERAS
+
+		this.PAINT_VIEW = [0, 0, 1];
+		this.ALL_VIEW = [-210, 210, 210];
+		this.BALL_VIEW = [0, 300, 0];
+
+		this.currentCamera = null;
+		this.cameraPaint = null;
+		this.cameraAll = null;
+		this.cameraBall = null;
 
 		this.paintCameraSize = [
 			this.paint.width,
@@ -52,8 +58,8 @@ export default class Scene extends THREE.Scene {
 		this.cameraPaint = new THREE.OrthographicCamera(
 			this.PAINT_POSITION[0] - this.paintCameraSize[0] / 2,
 			this.PAINT_POSITION[0] + this.paintCameraSize[0] / 2,
-			this.PAINT_POSITION[1] - this.paintCameraSize[1] / 2,
 			this.PAINT_POSITION[1] + this.paintCameraSize[1] / 2,
+			this.PAINT_POSITION[1] - this.paintCameraSize[1] / 2,
 			-1000,
 			1000
 		);
@@ -109,8 +115,8 @@ export default class Scene extends THREE.Scene {
 		const heightFrustum = this.paintCameraSize[1];
 		camera.left = this.PAINT_POSITION[0] - this.paintCameraSize[0] / 2;
 		camera.right = this.PAINT_POSITION[0] + this.paintCameraSize[0] / 2;
-		camera.top = 	this.PAINT_POSITION[1] - this.paintCameraSize[1] / 2;
-		camera.bottom = this.PAINT_POSITION[1] + this.paintCameraSize[1] / 2;
+		camera.top = this.PAINT_POSITION[1] + this.paintCameraSize[1] / 2;
+		camera.bottom = this.PAINT_POSITION[1] - this.paintCameraSize[1] / 2;
 		camera.updateProjectionMatrix();
 	}
 
@@ -122,9 +128,17 @@ export default class Scene extends THREE.Scene {
 	update() {
 		this.icosahedron.update();
 		this.paint.update();
+		this.lightManager.update();
+
+		this.TOGGLE_SHADING = false;
 	}
 
 	resize() {
+		this.screenAspectRatio = window.innerHeight / window.innerWidth;
+		this.paintCameraSize = [
+			this.paint.width,
+			this.paint.width * this.screenAspectRatio,
+		];
 		this.renderer.setSize(window.innerWidth, window.innerHeight);
 		this.updateOrtographicCameraAspect(this.cameraPaint);
 		this.updatePerspectiveCameraAspect(this.cameraBall);

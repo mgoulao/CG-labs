@@ -5,8 +5,24 @@ export default class Paint extends THREE.Group {
 		super();
 		this.scene = scene;
 
+		this.GOURAUD = "gouraud";
+		this.PHONG = "phong";
+		this.BASIC = "basic";
+
+		this.currentShading = this.BASIC;
+
+		// Paint
+
 		this.FIXED_POSITION = pos;
 		this.SPACES_BETWEEN = 1.4;
+
+		this.width = 80;
+		this.height = 52;
+		this.depth = 2;
+
+		this.background = null;
+		this.balls = [];
+		this.squares = [];
 
 		// Squares
 
@@ -52,14 +68,6 @@ export default class Paint extends THREE.Group {
 			color: 0xffffff,
 		});
 
-		this.width = 80;
-		this.height = 50;
-		this.depth = 2;
-
-		this.background = null;
-		this.balls = [];
-		this.squares = [];
-
 		this.createElements();
 	}
 
@@ -76,7 +84,6 @@ export default class Paint extends THREE.Group {
 			this.squaresHeight,
 			this.depth
 		);
-		console.log(x, y);
 		const square = new THREE.Mesh(geometry, this.squareBasicMaterial);
 		square.position.set(x, y, this.squaresZ);
 		return square;
@@ -100,7 +107,6 @@ export default class Paint extends THREE.Group {
 			}
 			posX += this.squaresWidth + this.SPACES_BETWEEN;
 			posY = startPosY;
-			console.log(posX);
 		}
 	}
 
@@ -150,5 +156,63 @@ export default class Paint extends THREE.Group {
 		this.createBalls();
 	}
 
-	update() {}
+	toggleBallsMaterials() {
+		this.balls.forEach((ball) => {
+			if (this.currentShading === this.GOURAUD) {
+				ball.material = this.ballPhongMaterial;
+			} else if (this.currentShading === this.BASIC) {
+				ball.material = this.ballBasicMaterial;
+			} else {
+				ball.material = this.ballLambertMaterial;
+			}
+		});
+	}
+
+	toggleSquaresMaterials() {
+		this.squares.forEach((square) => {
+			if (this.currentShading === this.GOURAUD) {
+				square.material = this.squarePhongMaterial;
+			} else if (this.currentShading === this.BASIC) {
+				square.material = this.squareBasicMaterial;
+			} else {
+				square.material = this.squareLambertMaterial;
+			}
+		});
+	}
+
+	toggleBackgroundMaterial() {
+		if (this.currentShading === this.GOURAUD) {
+			this.background.material = this.backgroundPhongMaterial;
+		} else if (this.currentShading === this.BASIC) {
+			this.background.material = this.backgroundBasicMaterial;
+		} else {
+			this.background.material = this.backgroundLambertMaterial;
+		}
+	}
+
+	update() {
+		if (!this.scene.LIGHT_CALC) {
+			if (this.currentShading !== this.BASIC) {
+				this.currentShading = this.BASIC;
+				this.toggleBallsMaterials();
+				this.toggleSquaresMaterials();
+				this.toggleBackgroundMaterial();
+			}
+		} else {
+			if (this.currentShading === this.BASIC) {
+				this.currentShading = this.PHONG;
+				this.scene.TOGGLE_SHADING = true;
+			}
+			if (this.scene.TOGGLE_SHADING) {
+				this.toggleBallsMaterials();
+				this.toggleSquaresMaterials();
+				this.toggleBackgroundMaterial();
+				if (this.currentShading === this.GOURAUD) {
+					this.currentShading = this.PHONG;
+				} else if (this.currentShading === this.PHONG) {
+					this.currentShading = this.GOURAUD;
+				}
+			}
+		}
+	}
 }

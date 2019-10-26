@@ -33,9 +33,11 @@ const onKeyDown = (e, scene) => {
 			break;
 		case 87: // W
 		case 119: // w
+			scene.LIGHT_CALC = !scene.LIGHT_CALC;
 			break;
 		case 69: // E
 		case 101: // e
+			scene.TOGGLE_SHADING = true;
 			break;
 		case 32: // space
 			break;
