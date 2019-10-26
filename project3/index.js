@@ -17,13 +17,14 @@ const onKeyDown = (e, scene) => {
 		case 39: // ->
 			break;
 		case 49: // 1
-			scene.changeToCameraPaint(); // TODO
+			scene.PAINT_CAMERA = true;
+			scene.PERSPECTIVE_CAMERA = false;
 			break;
 		case 50: // 2
-			scene.changeToCameraAll();
+			scene.PAINT_CAMERA = false;
+			scene.PERSPECTIVE_CAMERA = true;
 			break;
 		case 51: // 3
-			scene.changeToCameraBall();
 			break;
 		case 52: // 4
 			scene.TOGGLE_AXES = true;

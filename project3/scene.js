@@ -14,6 +14,9 @@ export default class Scene extends THREE.Scene {
 		this.TOGGLE_SHADING = false;
 		this.LIGHT_CALC = false;
 
+		this.PAINT_CAMERA = false;
+		this.PERSPECTIVE_CAMERA = false;
+
 		// RENDERER
 
 		this.screenAspectRatio = window.innerHeight / window.innerWidth;
@@ -87,18 +90,6 @@ export default class Scene extends THREE.Scene {
 		this.currentCamera = this.cameraPaint;
 	}
 
-	changeToCameraPaint() {
-		this.currentCamera = this.cameraPaint;
-	}
-
-	changeToCameraAll() {
-		this.currentCamera = this.cameraAll;
-	}
-
-	changeToCameraBall() {
-		this.currentCamera = this.cameraBall;
-	}
-
 	createElements() {
 		this.add(new THREE.AxesHelper(15));
 		this.icosahedron = new Icosahedron(this);
@@ -108,11 +99,7 @@ export default class Scene extends THREE.Scene {
 		this.add(this.paint);
 	}
 
-	createIlumination() {}
-
 	updateOrtographicCameraAspect(camera) {
-		const widthFrustum = this.paintCameraSize[0];
-		const heightFrustum = this.paintCameraSize[1];
 		camera.left = this.PAINT_POSITION[0] - this.paintCameraSize[0] / 2;
 		camera.right = this.PAINT_POSITION[0] + this.paintCameraSize[0] / 2;
 		camera.top = this.PAINT_POSITION[1] + this.paintCameraSize[1] / 2;
@@ -129,6 +116,9 @@ export default class Scene extends THREE.Scene {
 		this.icosahedron.update();
 		this.paint.update();
 		this.lightManager.update();
+
+		if (this.PAINT_CAMERA) this.currentCamera = this.cameraPaint;
+		if (this.PERSPECTIVE_CAMERA) this.currentCamera = this.cameraAll;
 
 		this.TOGGLE_SHADING = false;
 	}
