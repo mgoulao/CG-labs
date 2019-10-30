@@ -7,7 +7,7 @@ export default class Scene extends THREE.Scene {
 	constructor() {
 		super();
 
-		this.PAINT_POSITION = [-100, 60, 0];
+		this.PAINT_POSITION = [-100, 60, 2];
 
 		// FLAGS
 
@@ -31,6 +31,33 @@ export default class Scene extends THREE.Scene {
 
 		this.icosahedron = null;
 		this.paint = null;
+
+		this.floor = null;
+		this.wall = null;
+
+		this.floorSize = [400, 3, 200];
+		this.wallSize = [400, 100, 3];
+
+		this.floorPos = [0, 0, this.floorSize[2] / 2];
+		this.wallPos = [0, this.wallSize[1]/2, 0];
+
+		this.floorBasicMaterial = new THREE.MeshBasicMaterial({
+			color: 0x6f6f6f,
+		});
+		this.floorLambertMaterial = new THREE.MeshLambertMaterial({
+			color: 0x6f6f6f,
+		});
+		this.floorPhongMaterial = new THREE.MeshPhongMaterial({
+			color: 0x6f6f6f,
+		});
+
+		this.wallBasicMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+		this.wallLambertMaterial = new THREE.MeshLambertMaterial({
+			color: 0x00ff00,
+		});
+		this.wallPhongMaterial = new THREE.MeshPhongMaterial({
+			color: 0x00ff00,
+		});
 
 		this.createElements();
 
@@ -90,7 +117,20 @@ export default class Scene extends THREE.Scene {
 		this.currentCamera = this.cameraPaint;
 	}
 
+	createRoom() {
+		const floorGeometry = new THREE.BoxGeometry(...this.floorSize);
+		this.floor = new THREE.Mesh(floorGeometry, this.floorBasicMaterial);
+		this.floor.position.set(...this.floorPos);
+		this.add(this.floor);
+
+		const wallGeometry = new THREE.BoxGeometry(...this.wallSize);
+		this.wall = new THREE.Mesh(wallGeometry, this.wallBasicMaterial);
+		this.wall.position.set(...this.wallPos);
+		this.add(this.wall);
+	}
+
 	createElements() {
+		this.createRoom();
 		this.add(new THREE.AxesHelper(15));
 		this.icosahedron = new Icosahedron(this);
 		this.paint = new Paint(this, this.PAINT_POSITION);

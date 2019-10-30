@@ -28,13 +28,13 @@ export default class Paint extends THREE.Group {
 
 		this.squaresWidth = 4;
 		this.squaresHeight = 4;
-		this.squaresZ = 1;
+		this.squaresZ = this.FIXED_POSITION[2] + 1;
 
 		// Balls
 
 		this.ballsRadius = 1;
 		this.ballsHeight = 1;
-		this.ballsZ = 1;
+		this.ballsZ = this.FIXED_POSITION[2] + 1;
 
 		// Materials
 
@@ -97,9 +97,9 @@ export default class Paint extends THREE.Group {
 		let posX = startPosX;
 		let posY = startPosY;
 		const limitX = this.FIXED_POSITION[0] + this.width / 2;
-		const limitZ = this.FIXED_POSITION[1] + this.height / 2;
+		const limitY = this.FIXED_POSITION[1] + this.height / 2;
 		while (posX < limitX) {
-			while (posY < limitZ) {
+			while (posY < limitY) {
 				const square = this.createSingleSquare(posX, posY);
 				this.squares.push(square);
 				this.add(square);
