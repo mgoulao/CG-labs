@@ -51,12 +51,12 @@ export default class Scene extends THREE.Scene {
 			color: 0x6f6f6f,
 		});
 
-		this.wallBasicMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+		this.wallBasicMaterial = new THREE.MeshBasicMaterial({ color: 0xdaffd4 });
 		this.wallLambertMaterial = new THREE.MeshLambertMaterial({
-			color: 0x00ff00,
+			color: 0xdaffd4,
 		});
 		this.wallPhongMaterial = new THREE.MeshPhongMaterial({
-			color: 0x00ff00,
+			color: 0xdaffd4,
 		});
 
 		this.createElements();

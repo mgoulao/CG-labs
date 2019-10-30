@@ -17,7 +17,7 @@ export default class Paint extends THREE.Group {
 		this.SPACES_BETWEEN = 1.4;
 
 		this.width = 80;
-		this.height = 52;
+		this.height = 53;
 		this.depth = 2;
 
 		this.background = null;
@@ -96,10 +96,12 @@ export default class Paint extends THREE.Group {
 			this.FIXED_POSITION[1] - this.height / 2 + this.squaresHeight / 2;
 		let posX = startPosX;
 		let posY = startPosY;
-		const limitX = this.FIXED_POSITION[0] + this.width / 2;
-		const limitY = this.FIXED_POSITION[1] + this.height / 2;
-		while (posX < limitX) {
-			while (posY < limitY) {
+		const limitX =
+			this.FIXED_POSITION[0] + this.width / 2 - this.squaresWidth / 2;
+		const limitY =
+			this.FIXED_POSITION[1] + this.height / 2 - this.squaresHeight / 2;
+		while (posX <= limitX) {
+			while (posY <= limitY) {
 				const square = this.createSingleSquare(posX, posY);
 				this.squares.push(square);
 				this.add(square);
@@ -136,8 +138,10 @@ export default class Paint extends THREE.Group {
 			this.SPACES_BETWEEN / 2;
 		let posX = startPosX;
 		let posY = startPosY;
-		const limitX = this.FIXED_POSITION[0] + this.width / 2;
-		const limitZ = this.FIXED_POSITION[1] + this.height / 2;
+		const limitX =
+			this.FIXED_POSITION[0] + this.width / 2 - this.SPACES_BETWEEN / 2;
+		const limitZ =
+			this.FIXED_POSITION[1] + this.height / 2 - this.SPACES_BETWEEN / 2;
 		while (posX < limitX) {
 			while (posY < limitZ) {
 				const ball = this.createSingleBall(posX, posY);
