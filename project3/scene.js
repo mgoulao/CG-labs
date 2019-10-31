@@ -69,6 +69,7 @@ export default class Scene extends THREE.Scene {
 
 		this.PAINT_VIEW = [0, 0, 1];
 		this.ALL_VIEW = [-210, 210, 210];
+		//this.ALL_VIEW = [170, 60, 170]; //ICOSAHEDRON DEBUG
 		this.BALL_VIEW = [0, 300, 0];
 
 		this.currentCamera = null;

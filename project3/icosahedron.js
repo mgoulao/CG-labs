@@ -13,6 +13,9 @@ export default class Icosahedron extends THREE.Group {
 
 		this.stand = new THREE.Group();
 
+		//GEOMETRY
+		this.icosahedron = new THREE.Geometry();
+
 		// Stand
 
 		this.baseSize = [20, 6, 20];
@@ -90,6 +93,77 @@ export default class Icosahedron extends THREE.Group {
 		this.createStand();
 
 		this.position.set(100, 0, 100);
+		//Golden Number
+		this.goldenNMB = (1+Math.sqrt(5))/2;
+		
+		// create an array of vertices by way of
+		// and array of vector3 instances
+		this.icosahedron.vertices.push(
+			new THREE.Vector3( -1, this.goldenNMB, 0 ),
+			new THREE.Vector3( 1, this.goldenNMB, 0 ),
+			new THREE.Vector3( -1, -this.goldenNMB, 0 ),
+			new THREE.Vector3( 1, -this.goldenNMB, 0 ),
+
+			new THREE.Vector3( 0, -1, this.goldenNMB ),
+			new THREE.Vector3( 0, 1, this.goldenNMB ),
+			new THREE.Vector3( 0, -1, -this.goldenNMB ),
+			new THREE.Vector3( 0, 1, -this.goldenNMB ),
+
+			new THREE.Vector3( this.goldenNMB, 0, -1 ),
+			new THREE.Vector3( this.goldenNMB, 0, 1 ),
+			new THREE.Vector3( -this.goldenNMB, 0, -1 ),
+			new THREE.Vector3( -this.goldenNMB, 0, 1 ));
+		
+		// create faces by way of an array of
+		// face3 instances
+		this.icosahedron.faces.push(
+			new THREE.Face3(0, 11, 5),
+			new THREE.Face3(0, 5, 1),
+			new THREE.Face3(0, 1, 7),
+			new THREE.Face3(0, 7, 10),
+			new THREE.Face3(0, 10, 11),
+
+			new THREE.Face3(1, 5, 9),
+			new THREE.Face3(5, 11, 4),
+			new THREE.Face3(11, 10, 2),
+			new THREE.Face3(10, 7, 6),
+			new THREE.Face3(7, 1, 8),
+
+			new THREE.Face3(3, 9, 4),
+			new THREE.Face3(3, 4, 2),
+			new THREE.Face3(3, 2, 6),
+			new THREE.Face3(3, 6, 8),
+			new THREE.Face3(3, 8, 9),
+
+			new THREE.Face3(4, 9, 5),
+			new THREE.Face3(2, 4, 11),
+			new THREE.Face3(6, 2, 10),
+			new THREE.Face3(8, 6, 7),
+			new THREE.Face3(9, 8, 1));
+
+		// compute Normals
+    this.icosahedron.computeVertexNormals();
+ 
+    // normalize the geometry
+		this.icosahedron.normalize();
+		
+		this.icosahedron.scale(10, 10, 10);
+ 
+		// MESH with GEOMETRY, and Normal MATERIAL
+		var icosahedronMesh = new THREE.Mesh(
+ 
+			// geometry as first argument
+			this.icosahedron,
+
+			// then Material
+			new THREE.MeshBasicMaterial({
+					color: 0x00ffff
+			}))
+		icosahedronMesh.position.set(0, 63, 0);
+    this.add(icosahedronMesh);
+						
+						//Gourad ??? é suposto criar?
+						//Phong ??? exclusivo para o Icosaedro
 	}
 
 	update() {
