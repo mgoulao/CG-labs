@@ -11,79 +11,78 @@ export default class Icosahedron extends THREE.Group {
 		this.BASIC = "basic";
 
 		this.currentShading = this.BASIC;
-		//this.
+		//Golden Number
 		this.goldenNMB = (1+Math.sqrt(5))/2;
 
-		var material = new THREE.MeshStandardMaterial( { color : 0x00cc00 } );
+		//GEOMETRY
+		var icosahedron = new THREE.Geometry();
+		
+		// create an array of vertices by way of
+		// and array of vector3 instances
+		icosahedron.vertices.push(
+			new THREE.Vector3( -1, this.goldenNMB, 0 ),
+			new THREE.Vector3( 1, this.goldenNMB, 0 ),
+			new THREE.Vector3( -1, -this.goldenNMB, 0 ),
+			new THREE.Vector3( 1, -this.goldenNMB, 0 ),
 
-		function pushVertices(verticeA, verticeB, verticeC, geometry){
-			geometry.vertices.push(verticeA);
-			geometry.vertices.push(verticeB);
-			geometry.vertices.push(verticeC);
-			console.log("GEOMETRYYYY",);
-			
-			return geometry;
-		}
+			new THREE.Vector3( 0, -1, this.goldenNMB ),
+			new THREE.Vector3( 0, 1, this.goldenNMB ),
+			new THREE.Vector3( 0, -1, -this.goldenNMB ),
+			new THREE.Vector3( 0, 1, -this.goldenNMB ),
 
-		//create a triangular geometry
-		var geometry = new THREE.Geometry();
-		var vertice0 = new THREE.Vector3( -1, this.goldenNMB, 0 );
-		var vertice1 = new THREE.Vector3( 1, this.goldenNMB, 0 );
-		var vertice2 = new THREE.Vector3( -1, -this.goldenNMB, 0 );
-		var vertice3 = new THREE.Vector3( 1, -this.goldenNMB, 0 );
-		var vertice4 = new THREE.Vector3( 0, -1, this.goldenNMB );
-		var vertice5 = new THREE.Vector3( 0, 1, this.goldenNMB );
-		var vertice6 = new THREE.Vector3( 0, -1, -this.goldenNMB );
-		var vertice7 = new THREE.Vector3( 0, 1, -this.goldenNMB );
-		var vertice8 = new THREE.Vector3( this.goldenNMB, 0, -1 );
-		var vertice9 = new THREE.Vector3( this.goldenNMB, 0, 1 );
-		var vertice10 = new THREE.Vector3( -this.goldenNMB, 0, -1 );
-		var vertice11 = new THREE.Vector3( -this.goldenNMB, 0, 1 );
-		geometry.vertices.push(vertice0, vertice11, vertice5);
-		geometry.vertices.push(vertice0, vertice5, vertice1);
-		geometry.vertices.push(vertice0, vertice7, vertice10);
-		//geometry.vertices.push(verticeC);
-		//pushVertices(vertice0, vertice11, vertice5, geometry);
-		//pushVertices(vertice0, vertice5, vertice1, geometry);
-		//pushVertices(vertice0, vertice1, vertice7, geometry);
-		//pushVertices(vertice0, vertice7, vertice10, geometry);
-		//pushVertices(vertice0, vertice10, vertice11, geometry);
+			new THREE.Vector3( this.goldenNMB, 0, -1 ),
+			new THREE.Vector3( this.goldenNMB, 0, 1 ),
+			new THREE.Vector3( -this.goldenNMB, 0, -1 ),
+			new THREE.Vector3( -this.goldenNMB, 0, 1 ));
+		
+		// create faces by way of an array of
+		// face3 instances
+		icosahedron.faces.push(
+			new THREE.Face3(0, 11, 5),
+			new THREE.Face3(0, 5, 1),
+			new THREE.Face3(0, 1, 7),
+			new THREE.Face3(0, 7, 10),
+			new THREE.Face3(0, 10, 11),
 
-		//pushVertices(vertice1, vertice5, vertice9, geometry);
-		//pushVertices(vertice5, vertice11, vertice4, geometry);
-		//pushVertices(vertice11, vertice10, vertice2, geometry);
-		//pushVertices(vertice10, vertice7, vertice6, geometry);
-		//pushVertices(vertice7, vertice1, vertice8, geometry);
+			new THREE.Face3(1, 5, 9),
+			new THREE.Face3(5, 11, 4),
+			new THREE.Face3(11, 10, 2),
+			new THREE.Face3(10, 7, 6),
+			new THREE.Face3(7, 1, 8),
 
-		//pushVertices(vertice3, vertice9, vertice4, geometry);
-		//pushVertices(vertice3, vertice4, vertice2, geometry);
-		//pushVertices(vertice3, vertice2, vertice6, geometry);
-		//pushVertices(vertice3, vertice6, vertice8, geometry);
-		//pushVertices(vertice3, vertice8, vertice9, geometry);
+			new THREE.Face3(3, 9, 4),
+			new THREE.Face3(3, 4, 2),
+			new THREE.Face3(3, 2, 6),
+			new THREE.Face3(3, 6, 8),
+			new THREE.Face3(3, 8, 9),
 
-		//pushVertices(vertice4, vertice9, vertice5, geometry);
-		//pushVertices(vertice2, vertice4, vertice11, geometry);
-		//pushVertices(vertice6, vertice2, vertice10, geometry);
-		//pushVertices(vertice8, vertice6, vertice7, geometry);
-		//pushVertices(vertice9, vertice8, vertice1, geometry);
+			new THREE.Face3(4, 9, 5),
+			new THREE.Face3(2, 4, 11),
+			new THREE.Face3(6, 2, 10),
+			new THREE.Face3(8, 6, 7),
+			new THREE.Face3(9, 8, 1));
 
-		geometry.scale(2, 2, 2);
-		console.log(geometry);
-
-		//create a new face using vertices 0, 1, 2
-		var normal = new THREE.Vector3( 0, 1, 0 ); //optional
-		var color = new THREE.Color( 0xffaa00 ); //optional
-		var materialIndex = 0; //optional
-		var face = new THREE.Face3( 0, 1, 2, normal, color, materialIndex );
-
-		//add the face to the geometry's faces array
-		geometry.faces.push( face );
-
-		//the face normals and vertex normals can be calculated automatically if not supplied above
-		geometry.computeFaceNormals();
-		geometry.computeVertexNormals();
-
-		scene.add( new THREE.Mesh( geometry, material ) );
+		// compute Normals
+    icosahedron.computeVertexNormals();
+ 
+    // normalize the geometry
+		icosahedron.normalize();
+		
+		icosahedron.scale(30, 30, 30);
+ 
+    // MESH with GEOMETRY, and Normal MATERIAL
+    scene.add(new THREE.Mesh(
+ 
+            // geometry as first argument
+            icosahedron,
+ 
+            // then Material
+            new THREE.MeshBasicMaterial({
+								color: 0xffffff
+						})));
+						
+						//Gourad ??? é suposto criar?
+						//Phong ???
 	}
 
 	update() {
