@@ -6,8 +6,7 @@ export default class LightManager {
 
 		this.light = new THREE.DirectionalLight(0xff0000, 1); // soft white light
 		this.light.position.set(0,1,0);
-		this.light.target=scene.isocahedron;
-		this.add(this.light.target);
+		this.add(this.light);
 	}
 
 	update() {}
