@@ -12,6 +12,7 @@ export default class Scene extends THREE.Scene {
 		// FLAGS
 
 		this.TOGGLE_SHADING = false;
+		this.TOGGLE_LIGHT = false;
 		this.LIGHT_CALC = false;
 
 		this.PAINT_CAMERA = false;

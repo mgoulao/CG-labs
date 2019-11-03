@@ -31,6 +31,7 @@ const onKeyDown = (e, scene) => {
 			break;
 		case 81: // Q
 		case 113: // q
+			scene.TOGGLE_LIGHT = !scene.TOGGLE_LIGHT;
 			break;
 		case 87: // W
 		case 119: // w

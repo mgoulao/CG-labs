@@ -4,9 +4,19 @@ export default class LightManager {
 	constructor(scene) {
 		this.scene = scene;
 
-		const light = new THREE.DirectionalLight(0xff0000, 1); // soft white light
-		light.position.set(100,60,2);
+		this.light = new THREE.DirectionalLight(0xffffff, 0.5); // soft white light
+		//const light = new THREE.AmbientLight( 0xff00ff ); // soft white light
+		this.light.position.set(-210, 210, 210);
+		this.light.visible = false;
+		this.scene.add(this.light);
 	}
 
-	update() {}
+	update() {
+		if (this.scene.TOGGLE_LIGHT) {
+			this.light.visible = true;
+		}
+		if (!this.scene.TOGGLE_LIGHT) {
+			this.light.visible = false;
+		}
+	}
 }
