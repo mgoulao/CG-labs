@@ -63,7 +63,7 @@ export default class Scene extends THREE.Scene {
 
 		// ILUMINATION
 
-		//this.lightManager = new LightManager(this);
+		this.lightManager = new LightManager(this);
 
 		// CAMERAS
 
@@ -135,11 +135,9 @@ export default class Scene extends THREE.Scene {
 		this.add(new THREE.AxesHelper(15));
 		this.icosahedron = new Icosahedron(this);
 		this.paint = new Paint(this, this.PAINT_POSITION);
-		this.light = new LightManager(this);
 
 		this.add(this.icosahedron);
 		this.add(this.paint);
-		this.add(this.light);
 	}
 
 	updateOrtographicCameraAspect(camera) {
