@@ -47,6 +47,11 @@ export default class Scene extends THREE.Scene {
 		this.floorPos = [0, 0, this.floorSize[2] / 2];
 		this.wallPos = [0, this.wallSize[1] / 2, 0];
 
+		this.spotlightPos1 = [150, 12, 170];
+		this.spotlightPos2 = [50, 12, 170];
+		this.spotlightPos3 = [-20, 12, 10];
+		this.spotlightPos4 = [-170, 12, 10];
+
 		this.floorBasicMaterial = new THREE.MeshBasicMaterial({
 			color: 0x6f6f6f,
 		});
@@ -69,7 +74,7 @@ export default class Scene extends THREE.Scene {
 
 		// ILUMINATION
 
-		this.lightManager = new LightManager(this);
+		this.lightManager = new LightManager(this, this.spotlightPos1, this.spotlightPos2, this.spotlightPos3, this.spotlightPos4);
 
 		// CAMERAS
 
