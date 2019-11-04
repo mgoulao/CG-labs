@@ -1,15 +1,10 @@
 import * as THREE from "../node_modules/three/build/three.module.js";
+import ShadedMesh from "./shadedMesh.js";
 
 export default class Paint extends THREE.Group {
 	constructor(scene, pos) {
 		super();
 		this.scene = scene;
-
-		this.GOURAUD = "gouraud";
-		this.PHONG = "phong";
-		this.BASIC = "basic";
-
-		this.currentShading = this.BASIC;
 
 		// Paint
 
@@ -38,42 +33,16 @@ export default class Paint extends THREE.Group {
 
 		// Materials
 
-		this.backgroundBasicMaterial = new THREE.MeshBasicMaterial({
-			color: 0x929292,
-		});
-		this.backgroundLambertMaterial = new THREE.MeshLambertMaterial({
-			color: 0x929292,
-		});
-		this.backgroundPhongMaterial = new THREE.MeshPhongMaterial({
-			color: 0x929292,
-		});
-
-		this.squareBasicMaterial = new THREE.MeshBasicMaterial({
-			color: 0x000000,
-		});
-		this.squareLambertMaterial = new THREE.MeshLambertMaterial({
-			color: 0x000000,
-		});
-		this.squarePhongMaterial = new THREE.MeshPhongMaterial({
-			color: 0x000000,
-		});
-
-		this.ballBasicMaterial = new THREE.MeshBasicMaterial({
-			color: 0xffffff,
-		});
-		this.ballLambertMaterial = new THREE.MeshLambertMaterial({
-			color: 0xffffff,
-		});
-		this.ballPhongMaterial = new THREE.MeshPhongMaterial({
-			color: 0xffffff,
-		});
+		this.backgroundColor = 0x929292;
+		this.squareColor = 0x000000;
+		this.ballColor = 0xffffff;
 
 		this.createElements();
 	}
 
 	createBackground() {
 		const geometry = new THREE.BoxGeometry(this.width, this.height, this.depth);
-		this.background = new THREE.Mesh(geometry, this.backgroundBasicMaterial);
+		this.background = new ShadedMesh(geometry, this.backgroundColor);
 		this.background.position.set(...this.FIXED_POSITION);
 		this.add(this.background);
 	}
@@ -84,7 +53,7 @@ export default class Paint extends THREE.Group {
 			this.squaresHeight,
 			this.depth
 		);
-		const square = new THREE.Mesh(geometry, this.squareBasicMaterial);
+		const square = new ShadedMesh(geometry, this.squareColor);
 		square.position.set(x, y, this.squaresZ);
 		return square;
 	}
@@ -119,7 +88,7 @@ export default class Paint extends THREE.Group {
 			this.ballsHeight,
 			20
 		);
-		const ball = new THREE.Mesh(geometry, this.ballBasicMaterial);
+		const ball = new ShadedMesh(geometry, this.ballColor);
 		ball.position.set(x, y, this.ballsZ);
 		ball.rotateX(Math.PI / 2);
 		return ball;
@@ -162,61 +131,25 @@ export default class Paint extends THREE.Group {
 
 	toggleBallsMaterials() {
 		this.balls.forEach((ball) => {
-			if (this.currentShading === this.GOURAUD) {
-				ball.material = this.ballPhongMaterial;
-			} else if (this.currentShading === this.BASIC) {
-				ball.material = this.ballBasicMaterial;
-			} else {
-				ball.material = this.ballLambertMaterial;
-			}
+			ball.updateShading(this.scene.currentShading);
 		});
 	}
 
 	toggleSquaresMaterials() {
 		this.squares.forEach((square) => {
-			if (this.currentShading === this.GOURAUD) {
-				square.material = this.squarePhongMaterial;
-			} else if (this.currentShading === this.BASIC) {
-				square.material = this.squareBasicMaterial;
-			} else {
-				square.material = this.squareLambertMaterial;
-			}
+			square.updateShading(this.scene.currentShading);
 		});
 	}
 
 	toggleBackgroundMaterial() {
-		if (this.currentShading === this.GOURAUD) {
-			this.background.material = this.backgroundPhongMaterial;
-		} else if (this.currentShading === this.BASIC) {
-			this.background.material = this.backgroundBasicMaterial;
-		} else {
-			this.background.material = this.backgroundLambertMaterial;
-		}
+		this.background.updateShading(this.scene.currentShading);
 	}
 
-	update() {
-		if (!this.scene.LIGHT_CALC) {
-			if (this.currentShading !== this.BASIC) {
-				this.currentShading = this.BASIC;
-				this.toggleBallsMaterials();
-				this.toggleSquaresMaterials();
-				this.toggleBackgroundMaterial();
-			}
-		} else {
-			if (this.currentShading === this.BASIC) {
-				this.currentShading = this.PHONG;
-				this.scene.TOGGLE_SHADING = true;
-			}
-			if (this.scene.TOGGLE_SHADING) {
-				this.toggleBallsMaterials();
-				this.toggleSquaresMaterials();
-				this.toggleBackgroundMaterial();
-				if (this.currentShading === this.GOURAUD) {
-					this.currentShading = this.PHONG;
-				} else if (this.currentShading === this.PHONG) {
-					this.currentShading = this.GOURAUD;
-				}
-			}
-		}
+	updateShading() {
+		this.toggleBallsMaterials();
+		this.toggleSquaresMaterials();
+		this.toggleBackgroundMaterial();
 	}
+
+	update() {}
 }

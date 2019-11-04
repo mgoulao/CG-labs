@@ -2,12 +2,16 @@ import * as THREE from "../node_modules/three/build/three.module.js";
 import Icosahedron from "./icosahedron.js";
 import Paint from "./paint.js";
 import LightManager from "./lightManager.js";
+import Room from "./room.js";
+import ShadedMesh from "./shadedMesh.js";
 
 export default class Scene extends THREE.Scene {
 	constructor() {
 		super();
 
 		this.PAINT_POSITION = [-100, 60, 2];
+
+		this.currentShading = ShadedMesh.BASIC;
 
 		// FLAGS
 
@@ -30,6 +34,7 @@ export default class Scene extends THREE.Scene {
 
 		// ELEMENTS
 
+		this.room = null;
 		this.icosahedron = null;
 		this.paint = null;
 
@@ -40,7 +45,7 @@ export default class Scene extends THREE.Scene {
 		this.wallSize = [400, 100, 3];
 
 		this.floorPos = [0, 0, this.floorSize[2] / 2];
-		this.wallPos = [0, this.wallSize[1]/2, 0];
+		this.wallPos = [0, this.wallSize[1] / 2, 0];
 
 		this.floorBasicMaterial = new THREE.MeshBasicMaterial({
 			color: 0x6f6f6f,
@@ -116,28 +121,17 @@ export default class Scene extends THREE.Scene {
 		this.cameraBall.position.set(...this.BALL_VIEW);
 		this.cameraBall.lookAt(this.position);
 
-		this.currentCamera = this.cameraPaint;
-	}
-
-	createRoom() {
-		const floorGeometry = new THREE.BoxGeometry(...this.floorSize);
-		this.floor = new THREE.Mesh(floorGeometry, this.floorBasicMaterial);
-		this.floor.position.set(...this.floorPos);
-		this.add(this.floor);
-
-		const wallGeometry = new THREE.BoxGeometry(...this.wallSize);
-		this.wall = new THREE.Mesh(wallGeometry, this.wallBasicMaterial);
-		this.wall.position.set(...this.wallPos);
-		this.add(this.wall);
+		this.currentCamera = this.cameraAll;
 	}
 
 	createElements() {
-		this.createRoom();
+		this.room = new Room(this);
 		this.add(new THREE.AxesHelper(15));
 		this.icosahedron = new Icosahedron(this);
 		this.paint = new Paint(this, this.PAINT_POSITION);
 
 		this.add(this.icosahedron);
+		this.add(this.room);
 		this.add(this.paint);
 	}
 
@@ -154,7 +148,35 @@ export default class Scene extends THREE.Scene {
 		camera.updateProjectionMatrix();
 	}
 
+	updateShading() {
+		if (!this.LIGHT_CALC) {
+			if (this.currentShading !== ShadedMesh.BASIC) {
+				this.currentShading = ShadedMesh.BASIC;
+				this.room.updateShading();
+				this.paint.updateShading();
+				this.icosahedron.updateShading();
+			}
+		} else {
+			if (this.currentShading === ShadedMesh.BASIC) {
+				this.currentShading = ShadedMesh.PHONG;
+				this.TOGGLE_SHADING = true;
+			}
+			if (this.TOGGLE_SHADING) {
+				if (this.currentShading === ShadedMesh.GOURAUD) {
+					this.currentShading = ShadedMesh.PHONG;
+				} else if (this.currentShading === ShadedMesh.PHONG) {
+					this.currentShading = ShadedMesh.GOURAUD;
+				}
+				this.room.updateShading();
+				this.paint.updateShading();
+				this.icosahedron.updateShading();
+			}
+		}
+	}
+
 	update() {
+		this.updateShading();
+		this.room.update();
 		this.icosahedron.update();
 		this.paint.update();
 		this.lightManager.update();

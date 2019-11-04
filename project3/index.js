@@ -17,17 +17,20 @@ const onKeyDown = (e, scene) => {
 		case 39: // ->
 			break;
 		case 49: // 1
-			scene.PAINT_CAMERA = true;
-			scene.PERSPECTIVE_CAMERA = false;
 			break;
 		case 50: // 2
-			scene.PAINT_CAMERA = false;
-			scene.PERSPECTIVE_CAMERA = true;
 			break;
 		case 51: // 3
 			break;
 		case 52: // 4
-			scene.TOGGLE_AXES = true;
+			break;
+		case 53: // 5
+			scene.PAINT_CAMERA = false;
+			scene.PERSPECTIVE_CAMERA = true;
+			break;
+		case 54: // 6
+			scene.PAINT_CAMERA = true;
+			scene.PERSPECTIVE_CAMERA = false;
 			break;
 		case 81: // Q
 		case 113: // q

@@ -6,7 +6,7 @@ export default class LightManager {
 
 		this.light = new THREE.DirectionalLight(0xffffff, 0.5); // soft white light
 		//const light = new THREE.AmbientLight( 0xff00ff ); // soft white light
-		this.light.position.set(-210, 210, 210);
+		this.light.position.set(0, 210, 210);
 		this.light.visible = false;
 		this.scene.add(this.light);
 	}

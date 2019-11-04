@@ -1,20 +1,17 @@
 import * as THREE from "../node_modules/three/build/three.module.js";
+import ShadedMesh from "./shadedMesh.js";
 
 export default class Icosahedron extends THREE.Group {
 	constructor(scene) {
 		super();
 		this.scene = scene;
 
-		this.GOURAUD = "gouraud";
-		this.PHONG = "phong";
-		this.BASIC = "basic";
-
-		this.currentShading = this.BASIC;
-
 		this.stand = new THREE.Group();
 
-		//GEOMETRY
+		// GEOMETRY
 		this.icosahedron = new THREE.Geometry();
+
+		this.icosahedronMesh = null;
 
 		// Stand
 
@@ -42,49 +39,39 @@ export default class Icosahedron extends THREE.Group {
 
 		// Materials
 
-		this.standBasicMaterial = new THREE.MeshBasicMaterial({
-			color: 0xffffff,
-		});
-		this.standLambertMaterial = new THREE.MeshLambertMaterial({
-			color: 0xffffff,
-		});
-		this.standPhongMaterial = new THREE.MeshPhongMaterial({
-			color: 0xffffff,
-		});
+		this.standColor = 0xffffff;
+		this.icosahedronColor = 0x00ffff;
 
 		this.createElements();
 	}
 
 	createStand() {
 		const baseGeometry = new THREE.BoxGeometry(...this.baseSize);
-		const base = new THREE.Mesh(baseGeometry, this.standBasicMaterial);
-		base.position.set(...this.basePos);
-		this.stand.add(base);
+		this.base = new ShadedMesh(baseGeometry, this.standColor);
+		this.base.position.set(...this.basePos);
+		this.stand.add(this.base);
 
 		const topGeometry = new THREE.BoxGeometry(...this.topSize);
-		const top = new THREE.Mesh(topGeometry, this.standBasicMaterial);
-		top.position.set(...this.topPos);
-		this.stand.add(top);
+		this.top = new ShadedMesh(topGeometry, this.standColor);
+		this.top.position.set(...this.topPos);
+		this.stand.add(this.top);
 
 		const standCylinderGeometry = new THREE.CylinderGeometry(
 			...this.standCylinderSize
 		);
-		const standCylinder = new THREE.Mesh(
-			standCylinderGeometry,
-			this.standBasicMaterial
-		);
-		standCylinder.position.set(...this.standCylinderPos);
-		this.stand.add(standCylinder);
+		this.standCylinder = new ShadedMesh(standCylinderGeometry, this.standColor);
+		this.standCylinder.position.set(...this.standCylinderPos);
+		this.stand.add(this.standCylinder);
 
 		const standCylinder2Geometry = new THREE.CylinderGeometry(
 			...this.standCylinder2Size
 		);
-		const standCylinder2 = new THREE.Mesh(
+		this.standCylinder2 = new ShadedMesh(
 			standCylinder2Geometry,
-			this.standBasicMaterial
+			this.standColor
 		);
-		standCylinder2.position.set(...this.standCylinder2Pos);
-		this.stand.add(standCylinder2);
+		this.standCylinder2.position.set(...this.standCylinder2Pos);
+		this.stand.add(this.standCylinder2);
 
 		this.add(this.stand);
 	}
@@ -93,27 +80,29 @@ export default class Icosahedron extends THREE.Group {
 		this.createStand();
 
 		this.position.set(100, 0, 100);
-		//Golden Number
-		this.goldenNMB = (1+Math.sqrt(5))/2;
-		
+
+		// Golden Number
+		this.goldenNMB = 1.618033988749895;
+
 		// create an array of vertices by way of
 		// and array of vector3 instances
 		this.icosahedron.vertices.push(
-			new THREE.Vector3( -1, this.goldenNMB, 0 ),
-			new THREE.Vector3( 1, this.goldenNMB, 0 ),
-			new THREE.Vector3( -1, -this.goldenNMB, 0 ),
-			new THREE.Vector3( 1, -this.goldenNMB, 0 ),
+			new THREE.Vector3(-1, this.goldenNMB, 0), // 0
+			new THREE.Vector3(1, this.goldenNMB, 0), // 1
+			new THREE.Vector3(-1, -this.goldenNMB, 0), // 2
+			new THREE.Vector3(1, -this.goldenNMB, 0), // 3
 
-			new THREE.Vector3( 0, -1, this.goldenNMB ),
-			new THREE.Vector3( 0, 1, this.goldenNMB ),
-			new THREE.Vector3( 0, -1, -this.goldenNMB ),
-			new THREE.Vector3( 0, 1, -this.goldenNMB ),
+			new THREE.Vector3(0, -1, this.goldenNMB), // 4
+			new THREE.Vector3(0, 1, this.goldenNMB), // 5
+			new THREE.Vector3(0, -1, -this.goldenNMB), // 6
+			new THREE.Vector3(0, 1, -this.goldenNMB), // 7
 
-			new THREE.Vector3( this.goldenNMB, 0, -1 ),
-			new THREE.Vector3( this.goldenNMB, 0, 1 ),
-			new THREE.Vector3( -this.goldenNMB, 0, -1 ),
-			new THREE.Vector3( -this.goldenNMB, 0, 1 ));
-		
+			new THREE.Vector3(this.goldenNMB, 0, -1), // 8
+			new THREE.Vector3(this.goldenNMB, 0, 1), // 9
+			new THREE.Vector3(-this.goldenNMB, 0, -1), // 10
+			new THREE.Vector3(-this.goldenNMB, 0, 1) // 11
+		);
+
 		// create faces by way of an array of
 		// face3 instances
 		this.icosahedron.faces.push(
@@ -139,56 +128,38 @@ export default class Icosahedron extends THREE.Group {
 			new THREE.Face3(2, 4, 11),
 			new THREE.Face3(6, 2, 10),
 			new THREE.Face3(8, 6, 7),
-			new THREE.Face3(9, 8, 1));
+			new THREE.Face3(9, 8, 1)
+		);
 
 		// compute Normals
-    this.icosahedron.computeVertexNormals();
- 
-    // normalize the geometry
+		this.icosahedron.computeVertexNormals();
+
+		// normalize the geometry
 		this.icosahedron.normalize();
-		
+
 		this.icosahedron.scale(10, 10, 10);
- 
+
 		// MESH with GEOMETRY, and Normal MATERIAL
-		var icosahedronMesh = new THREE.Mesh(
- 
-			// geometry as first argument
+		this.icosahedronMesh = new ShadedMesh(
 			this.icosahedron,
-
-			// then Material
-			new THREE.MeshBasicMaterial({
-					color: 0x00ffff
-			}))
-		icosahedronMesh.position.set(0, 63, 0);
-    this.add(icosahedronMesh);
-						
-						//Gourad ??? é suposto criar?
-						//Phong ??? exclusivo para o Icosaedro
+			this.icosahedronColor
+		);
+		this.icosahedronMesh.position.set(0, 63, 0);
+		this.add(this.icosahedronMesh);
 	}
 
-	update() {
-		if (!this.scene.LIGHT_CALC) {
-			if (this.currentShading !== this.BASIC) {
-				this.currentShading = this.BASIC;
-				// this.toggleBallsMaterials();
-				// this.toggleSquaresMaterials();
-				// this.toggleBackgroundMaterial();
-			}
-		} else {
-			if (this.currentShading === this.BASIC) {
-				this.currentShading = this.PHONG;
-				this.scene.TOGGLE_SHADING = true;
-			}
-			if (this.scene.TOGGLE_SHADING) {
-				// this.toggleBallsMaterials();
-				// this.toggleSquaresMaterials();
-				// this.toggleBackgroundMaterial();
-				if (this.currentShading === this.GOURAUD) {
-					this.currentShading = this.PHONG;
-				} else if (this.currentShading === this.PHONG) {
-					this.currentShading = this.GOURAUD;
-				}
-			}
-		}
+	updateStandShading() {
+		this.base.updateShading(this.scene.currentShading);
+		this.top.updateShading(this.scene.currentShading);
+		console.log(this.top.material);
+		this.standCylinder.updateShading(this.scene.currentShading);
+		this.standCylinder2.updateShading(this.scene.currentShading);
 	}
+
+	updateShading() {
+		this.updateStandShading();
+		this.icosahedronMesh.updateShading(this.scene.currentShading);
+	}
+
+	update() {}
 }
