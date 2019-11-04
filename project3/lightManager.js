@@ -5,11 +5,6 @@ export default class LightManager {
 	constructor(scene, pos1, pos2, pos3, pos4) {
 		this.scene = scene;
 
-		this.lightStructure1 = new THREE.Group();
-		this.lightStructure2 = new THREE.Group();
-		this.lightStructure3 = new THREE.Group();
-		this.lightStructure4 = new THREE.Group();
-
 		this.light = new THREE.DirectionalLight(0xffffff, 0.5); // soft white light
 		this.light.position.set(0, 210, 210);
 		this.light.visible = false;
@@ -34,17 +29,25 @@ export default class LightManager {
 		this.posSpotlight3 = pos3;
 		this.posSpotlight4 = pos4;
 
-		this.createSpotlight();
+		this.spotLight1 = new THREE.SpotLight( this.sphereColor1 , 0.5 );
+		this.spotLight2 = new THREE.SpotLight( this.sphereColor2 , 0.5 );
+		this.spotLight3 = new THREE.SpotLight( this.sphereColor3 , 0.5 );
+		this.spotLight4 = new THREE.SpotLight( this.sphereColor4 , 0.5 );
+		this.spotLight1.position.set( this.posSpotlight1 );
+		this.spotLight2.position.set( this.posSpotlight2 );
+		this.spotLight3.position.set( this.posSpotlight3 );
+		this.spotLight4.position.set( this.posSpotlight4 );
+		this.scene.add(this.spotLight1);
+		this.scene.add(this.spotLight2);
+		this.scene.add(this.spotLight3);
+		this.scene.add(this.spotLight4);
 
+		this.createSpotlight();
 	}
 
 	createSpotlight(){
 		this.createCone();
 		this.createSphere();
-		this.scene.add(this.lightStructure1);
-		this.scene.add(this.lightStructure2);
-		this.scene.add(this.lightStructure3);
-		this.scene.add(this.lightStructure4);
 	}
 
 	createCone(){
@@ -52,29 +55,23 @@ export default class LightManager {
 		//LIGHT1
 		this.coneLight1 = new ShadedMesh(coneGeometry, this.coneColor);
 		this.coneLight1.position.set(...this.posSpotlight1);
-		/*this.coneLight1.rotateZ(Math.PI/6);
-		this.coneLight1.rotateX(3*Math.PI/4);*/
 		this.coneLight1.rotateZ(Math.PI);
-		this.lightStructure1.add(this.coneLight1);
+		this.scene.add(this.coneLight1);
 		//LIGHT2
 		this.coneLight2 = new ShadedMesh(coneGeometry, this.coneColor);
 		this.coneLight2.position.set(...this.posSpotlight2);
-		/*this.coneLight2.rotateZ(11*Math.PI/6);
-		this.coneLight2.rotateX(3*Math.PI/4);*/
 		this.coneLight2.rotateZ(Math.PI);
-		this.lightStructure2.add(this.coneLight2);
+		this.scene.add(this.coneLight2);
 		//LIGHT3
 		this.coneLight3 = new ShadedMesh(coneGeometry, this.coneColor);
 		this.coneLight3.position.set(...this.posSpotlight3);
-		//this.coneLight3.rotateZ(5*Math.PI/4);
 		this.coneLight3.rotateZ(Math.PI);
-		this.lightStructure3.add(this.coneLight3);
+		this.scene.add(this.coneLight3);
 		//LIGHT4
 		this.coneLight4 = new ShadedMesh(coneGeometry, this.coneColor);
 		this.coneLight4.position.set(...this.posSpotlight4);
-		//this.coneLight4.rotateZ(3*Math.PI/4);
 		this.coneLight4.rotateZ(Math.PI);
-		this.lightStructure4.add(this.coneLight4);
+		this.scene.add(this.coneLight4);
 
 	}
 
@@ -84,22 +81,22 @@ export default class LightManager {
 		this.sphereLight1 = new ShadedMesh(sphereGeometry, this.sphereColor1);
 		this.sphereLight1.position.set(...this.posSpotlight1);
 		this.sphereLight1.translateY(12);
-		this.lightStructure1.add(this.sphereLight1);
+		this.scene.add(this.sphereLight1);
 		//LIGHT2
 		this.sphereLight2 = new ShadedMesh(sphereGeometry, this.sphereColor2);
 		this.sphereLight2.position.set(...this.posSpotlight2);
 		this.sphereLight2.translateY(12);
-		this.lightStructure2.add(this.sphereLight2);
+		this.scene.add(this.sphereLight2);
 		//LIGHT3
 		this.sphereLight3 = new ShadedMesh(sphereGeometry, this.sphereColor3);
 		this.sphereLight3.position.set(...this.posSpotlight3);
 		this.sphereLight3.translateY(12);
-		this.lightStructure3.add(this.sphereLight3);
+		this.scene.add(this.sphereLight3);
 		//LIGHT4
 		this.sphereLight4 = new ShadedMesh(sphereGeometry, this.sphereColor4);
 		this.sphereLight4.position.set(...this.posSpotlight4);
 		this.sphereLight4.translateY(12);
-		this.lightStructure4.add(this.sphereLight4);
+		this.scene.add(this.sphereLight4);
 	}
 
 	update() {
