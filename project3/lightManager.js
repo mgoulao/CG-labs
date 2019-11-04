@@ -36,7 +36,6 @@ export default class LightManager {
 
 		this.createSpotlight();
 
-
 	}
 
 	createSpotlight(){
