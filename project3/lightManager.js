@@ -33,10 +33,14 @@ export default class LightManager {
 		this.spotLight2 = new THREE.SpotLight( this.sphereColor2 , 0.5 );
 		this.spotLight3 = new THREE.SpotLight( this.sphereColor3 , 0.5 );
 		this.spotLight4 = new THREE.SpotLight( this.sphereColor4 , 0.5 );
-		this.spotLight1.position.set( this.posSpotlight1 );
-		this.spotLight2.position.set( this.posSpotlight2 );
-		this.spotLight3.position.set( this.posSpotlight3 );
-		this.spotLight4.position.set( this.posSpotlight4 );
+		this.spotLight1.position.set( ...this.posSpotlight1 );
+		this.spotLight2.position.set( ...this.posSpotlight2 );
+		this.spotLight3.position.set( ...this.posSpotlight3 );
+		this.spotLight4.position.set( ...this.posSpotlight4 );
+		this.spotLight1.visible = false;
+		this.spotLight2.visible = false;
+		this.spotLight3.visible = false;
+		this.spotLight4.visible = false;
 		this.scene.add(this.spotLight1);
 		this.scene.add(this.spotLight2);
 		this.scene.add(this.spotLight3);
@@ -73,6 +77,11 @@ export default class LightManager {
 		this.coneLight4.rotateZ(Math.PI);
 		this.scene.add(this.coneLight4);
 
+		this.spotLight1.target = this.coneLight3;
+		this.spotLight2.target = this.coneLight3;
+		this.spotLight3.target = this.coneLight4;
+		this.spotLight4.target = this.coneLight3;
+
 	}
 
 	createSphere(){
@@ -105,6 +114,30 @@ export default class LightManager {
 		}
 		if (!this.scene.TOGGLE_LIGHT) {
 			this.light.visible = false;
+		}
+		if (this.scene.TOGGLE_LIGHT1) {
+			this.spotLight1.visible = true;
+		}
+		if (!this.scene.TOGGLE_LIGHT1) {
+			this.spotLight1.visible = false;
+		}
+		if (this.scene.TOGGLE_LIGHT2) {
+			this.spotLight2.visible = true;
+		}
+		if (!this.scene.TOGGLE_LIGHT2) {
+			this.spotLight2.visible = false;
+		}
+		if (this.scene.TOGGLE_LIGHT3) {
+			this.spotLight3.visible = true;
+		}
+		if (!this.scene.TOGGLE_LIGHT3) {
+			this.spotLight3.visible = false;
+		}
+		if (this.scene.TOGGLE_LIGHT4) {
+			this.spotLight4.visible = true;
+		}
+		if (!this.scene.TOGGLE_LIGHT4) {
+			this.spotLight4.visible = false;
 		}
 	}
 }

@@ -17,12 +17,16 @@ const onKeyDown = (e, scene) => {
 		case 39: // ->
 			break;
 		case 49: // 1
+			scene.TOGGLE_LIGHT1 = !scene.TOGGLE_LIGHT1;
 			break;
 		case 50: // 2
+			scene.TOGGLE_LIGHT2 = !scene.TOGGLE_LIGHT2;
 			break;
 		case 51: // 3
+			scene.TOGGLE_LIGHT3 = !scene.TOGGLE_LIGHT3;
 			break;
 		case 52: // 4
+			scene.TOGGLE_LIGHT4 = !scene.TOGGLE_LIGHT4;
 			break;
 		case 53: // 5
 			scene.PAINT_CAMERA = false;

@@ -17,6 +17,10 @@ export default class Scene extends THREE.Scene {
 
 		this.TOGGLE_SHADING = false;
 		this.TOGGLE_LIGHT = false;
+		this.TOGGLE_LIGHT1 = false;
+		this.TOGGLE_LIGHT2 = false;
+		this.TOGGLE_LIGHT3 = false;
+		this.TOGGLE_LIGHT4 = false;
 		this.LIGHT_CALC = false;
 
 		this.PAINT_CAMERA = false;
@@ -49,7 +53,7 @@ export default class Scene extends THREE.Scene {
 
 		this.spotlightPos1 = [150, 12, 170];
 		this.spotlightPos2 = [50, 12, 170];
-		this.spotlightPos3 = [-20, 12, 10];
+		this.spotlightPos3 = [-20, 12, 80];
 		this.spotlightPos4 = [-170, 12, 10];
 
 		this.floorBasicMaterial = new THREE.MeshBasicMaterial({
