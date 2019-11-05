@@ -53,10 +53,10 @@ export default class Paint extends THREE.Group {
 			this.frameDepth,
 		];
 
-		this.frameTopPos = [0, -this.height / 2 - this.frameHeight/2, 4];
-		this.frameBotPos = [0, this.height / 2 + this.frameHeight/2, 4];
-		this.frameLeftPos = [-this.width / 2 - this.frameHeight/2, 0, 4];
-		this.frameRightPos = [this.width / 2 + this.frameHeight/2, 0, 4];
+		this.frameTopPos = [0, -this.height / 2 - this.frameHeight / 2, 4];
+		this.frameBotPos = [0, this.height / 2 + this.frameHeight / 2, 4];
+		this.frameLeftPos = [-this.width / 2 - this.frameHeight / 2, 0, 4];
+		this.frameRightPos = [this.width / 2 + this.frameHeight / 2, 0, 4];
 
 		// Materials
 
@@ -69,7 +69,14 @@ export default class Paint extends THREE.Group {
 	}
 
 	createBackground() {
-		const geometry = new THREE.BoxGeometry(this.width, this.height, this.depth);
+		const geometry = new THREE.BoxGeometry(
+			this.width,
+			this.height,
+			this.depth,
+			this.width / 2,
+			this.height / 2,
+			this.depth / 2
+		);
 		this.background = new ShadedMesh(geometry, this.backgroundColor);
 		this.add(this.background);
 	}
@@ -78,7 +85,10 @@ export default class Paint extends THREE.Group {
 		const geometry = new THREE.BoxGeometry(
 			this.squaresWidth,
 			this.squaresHeight,
-			this.depth
+			this.depth,
+			this.squaresWidth / 2,
+			this.squaresHeight / 2,
+			this.depth / 2
 		);
 		const square = new ShadedMesh(geometry, this.squareColor);
 		square.position.set(x, y, this.squaresZ);

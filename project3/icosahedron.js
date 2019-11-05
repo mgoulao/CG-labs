@@ -46,12 +46,15 @@ export default class Icosahedron extends THREE.Group {
 	}
 
 	createStand() {
-		const baseGeometry = new THREE.BoxGeometry(...this.baseSize);
+		const baseGeometry = new THREE.BoxGeometry(
+			...this.baseSize,
+			...this.baseSize
+		);
 		this.base = new ShadedMesh(baseGeometry, this.standColor);
 		this.base.position.set(...this.basePos);
 		this.stand.add(this.base);
 
-		const topGeometry = new THREE.BoxGeometry(...this.topSize);
+		const topGeometry = new THREE.BoxGeometry(...this.topSize, ...this.topSize);
 		this.top = new ShadedMesh(topGeometry, this.standColor);
 		this.top.position.set(...this.topPos);
 		this.stand.add(this.top);

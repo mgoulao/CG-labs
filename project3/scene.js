@@ -52,11 +52,6 @@ export default class Scene extends THREE.Scene {
 		this.floorPos = [0, 0, this.floorSize[2] / 2];
 		this.wallPos = [0, this.wallSize[1] / 2, 0];
 
-		this.spotlightPos1 = [150, 12, 170];
-		this.spotlightPos2 = [50, 12, 170];
-		this.spotlightPos3 = [-20, 12, 80];
-		this.spotlightPos4 = [-170, 12, 10];
-
 		this.floorBasicMaterial = new THREE.MeshBasicMaterial({
 			color: 0x6f6f6f,
 		});
@@ -79,19 +74,17 @@ export default class Scene extends THREE.Scene {
 
 		// ILUMINATION
 
-		this.lightManager = new LightManager(this, this.spotlightPos1, this.spotlightPos2, this.spotlightPos3, this.spotlightPos4);
+		this.lightManager = new LightManager(this);
 
 		// CAMERAS
 
 		this.PAINT_VIEW = [0, 0, 1];
 		this.ALL_VIEW = [-210, 210, 210];
-		//this.ALL_VIEW = [170, 60, 170]; //ICOSAHEDRON DEBUG
-		this.BALL_VIEW = [0, 300, 0];
+		// this.ALL_VIEW = [170, 60, 170]; //ICOSAHEDRON DEBUG
 
 		this.currentCamera = null;
 		this.cameraPaint = null;
 		this.cameraAll = null;
-		this.cameraBall = null;
 
 		this.paintCameraSize = [
 			this.paint.width,
@@ -121,15 +114,6 @@ export default class Scene extends THREE.Scene {
 		);
 		this.cameraAll.position.set(...this.ALL_VIEW);
 		this.cameraAll.lookAt(this.position);
-
-		this.cameraBall = new THREE.PerspectiveCamera(
-			45,
-			window.innerWidth / window.innerHeight,
-			0.1,
-			1000
-		);
-		this.cameraBall.position.set(...this.BALL_VIEW);
-		this.cameraBall.lookAt(this.position);
 
 		this.currentCamera = this.cameraAll;
 	}
@@ -166,6 +150,7 @@ export default class Scene extends THREE.Scene {
 				this.room.updateShading();
 				this.paint.updateShading();
 				this.icosahedron.updateShading();
+				this.lightManager.updateLightsShading();
 			}
 		} else {
 			if (this.currentShading === ShadedMesh.BASIC) {
@@ -181,6 +166,7 @@ export default class Scene extends THREE.Scene {
 				this.room.updateShading();
 				this.paint.updateShading();
 				this.icosahedron.updateShading();
+				this.lightManager.updateLightsShading();
 			}
 		}
 	}

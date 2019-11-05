@@ -32,12 +32,12 @@ export default class Room extends THREE.Group {
 	}
 
 	createElements() {
-		const floorGeometry = new THREE.BoxGeometry(...this.floorSize);
+		const floorGeometry = new THREE.BoxGeometry(...this.floorSize, 100, 2, 50);
 		this.floor = new ShadedMesh(floorGeometry, this.floorColor);
 		this.floor.position.set(...this.floorPos);
 		this.add(this.floor);
 
-		const wallGeometry = new THREE.BoxGeometry(...this.wallSize);
+		const wallGeometry = new THREE.BoxGeometry(...this.wallSize, 100, 50, 2);
 		this.wall = new ShadedMesh(wallGeometry, this.wallColor);
 		this.wall.position.set(...this.wallPos);
 		this.add(this.wall);
