@@ -86,10 +86,17 @@ export default class Scene extends THREE.Scene {
 		this.cameraPaint = null;
 		this.cameraAll = null;
 
-		this.paintCameraSize = [
-			this.paint.width,
-			this.paint.width * this.screenAspectRatio,
-		];
+		if (this.paint.width * this.screenAspectRatio > this.paint.height) {
+			this.paintCameraSize = [
+				this.paint.width,
+				this.paint.width * this.screenAspectRatio,
+			];
+		} else {
+			this.paintCameraSize = [
+				this.paint.height / this.screenAspectRatio,
+				this.paint.height,
+			];
+		}
 
 		this.createCameras();
 	}
@@ -130,6 +137,7 @@ export default class Scene extends THREE.Scene {
 	}
 
 	updateOrtographicCameraAspect(camera) {
+		console.log(window.innerHeight);
 		camera.left = this.PAINT_POSITION[0] - this.paintCameraSize[0] / 2;
 		camera.right = this.PAINT_POSITION[0] + this.paintCameraSize[0] / 2;
 		camera.top = this.PAINT_POSITION[1] + this.paintCameraSize[1] / 2;
@@ -186,10 +194,18 @@ export default class Scene extends THREE.Scene {
 
 	resize() {
 		this.screenAspectRatio = window.innerHeight / window.innerWidth;
-		this.paintCameraSize = [
-			this.paint.width,
-			this.paint.width * this.screenAspectRatio,
-		];
+		console.log(window.innerHeight / window.innerWidth);
+		if (this.paint.width * this.screenAspectRatio > this.paint.height) {
+			this.paintCameraSize = [
+				this.paint.width,
+				this.paint.width * this.screenAspectRatio,
+			];
+		} else {
+			this.paintCameraSize = [
+				this.paint.height / this.screenAspectRatio,
+				this.paint.height,
+			];
+		}
 		this.renderer.setSize(window.innerWidth, window.innerHeight);
 		this.updateOrtographicCameraAspect(this.cameraPaint);
 		this.updatePerspectiveCameraAspect(this.cameraAll);

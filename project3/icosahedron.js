@@ -154,7 +154,6 @@ export default class Icosahedron extends THREE.Group {
 	updateStandShading() {
 		this.base.updateShading(this.scene.currentShading);
 		this.top.updateShading(this.scene.currentShading);
-		console.log(this.top.material);
 		this.standCylinder.updateShading(this.scene.currentShading);
 		this.standCylinder2.updateShading(this.scene.currentShading);
 	}

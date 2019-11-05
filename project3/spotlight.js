@@ -62,6 +62,5 @@ export default class Spotlight extends THREE.Group {
 
 	updateShading(currentShading) {
 		this.coneLight.updateShading(currentShading);
-		this.sphereLight.updateShading(currentShading);
 	}
 }
