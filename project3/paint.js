@@ -188,7 +188,7 @@ export default class Paint extends THREE.Group {
 	}
 
 	toggleFrameMaterial() {
-		this.frameTot.updateShading(this.scene.currentShading);
+		this.frameTop.updateShading(this.scene.currentShading);
 		this.frameBot.updateShading(this.scene.currentShading);
 		this.frameLeft.updateShading(this.scene.currentShading);
 		this.frameRight.updateShading(this.scene.currentShading);
@@ -198,6 +198,7 @@ export default class Paint extends THREE.Group {
 		this.toggleBallsMaterials();
 		this.toggleSquaresMaterials();
 		this.toggleBackgroundMaterial();
+		this.toggleFrameMaterial();
 	}
 
 	update() {}

@@ -29,6 +29,7 @@ export default class Scene extends THREE.Scene {
 		// RENDERER
 
 		this.screenAspectRatio = window.innerHeight / window.innerWidth;
+		this.originalWidth = window.innerWidth;
 
 		this.renderer = new THREE.WebGLRenderer({
 			antialias: true,
@@ -154,6 +155,7 @@ export default class Scene extends THREE.Scene {
 
 	updatePerspectiveCameraAspect(camera) {
 		camera.aspect = window.innerWidth / window.innerHeight;
+		camera.zoom = window.innerWidth / this.originalWidth;
 		camera.updateProjectionMatrix();
 	}
 
@@ -204,7 +206,6 @@ export default class Scene extends THREE.Scene {
 		];
 		this.renderer.setSize(window.innerWidth, window.innerHeight);
 		this.updateOrtographicCameraAspect(this.cameraPaint);
-		this.updatePerspectiveCameraAspect(this.cameraBall);
 		this.updatePerspectiveCameraAspect(this.cameraAll);
 	}
 
