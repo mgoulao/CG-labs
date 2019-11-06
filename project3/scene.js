@@ -137,7 +137,6 @@ export default class Scene extends THREE.Scene {
 	}
 
 	updateOrtographicCameraAspect(camera) {
-		console.log(window.innerHeight);
 		camera.left = this.PAINT_POSITION[0] - this.paintCameraSize[0] / 2;
 		camera.right = this.PAINT_POSITION[0] + this.paintCameraSize[0] / 2;
 		camera.top = this.PAINT_POSITION[1] + this.paintCameraSize[1] / 2;
@@ -146,8 +145,9 @@ export default class Scene extends THREE.Scene {
 	}
 
 	updatePerspectiveCameraAspect(camera) {
+		const zoom = window.innerWidth / this.originalWidth;
 		camera.aspect = window.innerWidth / window.innerHeight;
-		camera.zoom = window.innerWidth / this.originalWidth;
+		camera.zoom = zoom > 1 ? 1 : zoom;
 		camera.updateProjectionMatrix();
 	}
 
