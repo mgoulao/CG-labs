@@ -90,13 +90,13 @@ export default class Icosahedron extends THREE.Group {
 		// create an array of vertices by way of
 		// and array of vector3 instances
 		this.icosahedron.vertices.push(
-			new THREE.Vector3(-1, this.goldenNMB, 0), // 0
-			new THREE.Vector3(1, this.goldenNMB, 0), // 1
-			new THREE.Vector3(-1, -this.goldenNMB, 0), // 2
-			new THREE.Vector3(1, -this.goldenNMB, 0), // 3
+			new THREE.Vector3(-1, this.goldenNMB, 0.5), // 0
+			new THREE.Vector3(1, this.goldenNMB, 0.5), // 1
+			new THREE.Vector3(-1, -this.goldenNMB, 0.5), // 2
+			new THREE.Vector3(1, -this.goldenNMB, 0.5), // 3
 
-			new THREE.Vector3(0, -1, this.goldenNMB), // 4
 			new THREE.Vector3(0, 1, this.goldenNMB), // 5
+			new THREE.Vector3(0.5, -1, this.goldenNMB), // 4
 			new THREE.Vector3(0, -1, -this.goldenNMB), // 6
 			new THREE.Vector3(0, 1, -this.goldenNMB), // 7
 
