@@ -95,8 +95,8 @@ export default class Icosahedron extends THREE.Group {
 			new THREE.Vector3(-1, -this.goldenNMB, 0.5), // 2
 			new THREE.Vector3(1, -this.goldenNMB, 0.5), // 3
 
-			new THREE.Vector3(0, 1, this.goldenNMB), // 5
 			new THREE.Vector3(0.5, -1, this.goldenNMB), // 4
+			new THREE.Vector3(0, 1, this.goldenNMB), // 5
 			new THREE.Vector3(0, -1, -this.goldenNMB), // 6
 			new THREE.Vector3(0, 1, -this.goldenNMB), // 7
 
