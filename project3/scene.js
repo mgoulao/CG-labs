@@ -52,24 +52,6 @@ export default class Scene extends THREE.Scene {
 		this.floorPos = [0, 0, this.floorSize[2] / 2];
 		this.wallPos = [0, this.wallSize[1] / 2, 0];
 
-		this.floorBasicMaterial = new THREE.MeshBasicMaterial({
-			color: 0x6f6f6f,
-		});
-		this.floorLambertMaterial = new THREE.MeshLambertMaterial({
-			color: 0x6f6f6f,
-		});
-		this.floorPhongMaterial = new THREE.MeshPhongMaterial({
-			color: 0x6f6f6f,
-		});
-
-		this.wallBasicMaterial = new THREE.MeshBasicMaterial({ color: 0xdaffd4 });
-		this.wallLambertMaterial = new THREE.MeshLambertMaterial({
-			color: 0xdaffd4,
-		});
-		this.wallPhongMaterial = new THREE.MeshPhongMaterial({
-			color: 0xdaffd4,
-		});
-
 		this.createElements();
 
 		// ILUMINATION
