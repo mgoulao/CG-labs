@@ -20,7 +20,6 @@ export default class Chessboard extends THREE.Group {
 	}
 
 	createTopTexture() {
-		console.log(this.material);
 		const texture = new THREE.TextureLoader().load("textures/chessboard.png");
 		texture.wrapT = THREE.ClampToEdgeWrapping;
 		texture.wrapT = THREE.ClampToEdgeWrapping;

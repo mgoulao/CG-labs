@@ -92,17 +92,6 @@ export default class Scene extends THREE.Scene {
 
 	resize() {
 		this.screenAspectRatio = window.innerHeight / window.innerWidth;
-		if (this.paint.width * this.screenAspectRatio > this.paint.height) {
-			this.paintCameraSize = [
-				this.paint.width,
-				this.paint.width * this.screenAspectRatio,
-			];
-		} else {
-			this.paintCameraSize = [
-				this.paint.height / this.screenAspectRatio,
-				this.paint.height,
-			];
-		}
 		this.renderer.setSize(window.innerWidth, window.innerHeight);
 		this.updatePerspectiveCameraAspect(this.cameraAll);
 	}
