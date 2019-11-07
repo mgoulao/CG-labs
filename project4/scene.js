@@ -39,7 +39,7 @@ export default class Scene extends THREE.Scene {
 
 		// CAMERAS
 
-		this.ALL_VIEW = [-210, 210, 210];
+		this.ALL_VIEW = [-110, 110, 110];
 
 		this.currentCamera = null;
 		this.cameraAll = null;

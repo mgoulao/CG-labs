@@ -6,9 +6,37 @@ export default class Chessboard extends THREE.Group {
 		this.scene = scene;
 		this.board = null;
 
-		this.material = new THREE.MeshPhongMaterial({ color: 0xffff00 });
-
+		this.material = [
+			new THREE.MeshStandardMaterial({ color: 0xf4f5f0 }),
+			new THREE.MeshStandardMaterial({ color: 0xf4f5f0 }),
+			new THREE.MeshStandardMaterial({ color: 0xf4f5f0 }),
+			new THREE.MeshStandardMaterial({ color: 0xf4f5f0 }),
+			new THREE.MeshStandardMaterial({ color: 0xf4f5f0 }),
+			new THREE.MeshStandardMaterial({ color: 0xf4f5f0 }),
+		];
+		this.createBumpMapTexture();
+		this.createTopTexture();
 		this.createElements();
+	}
+
+	createTopTexture() {
+		console.log(this.material);
+		const texture = new THREE.TextureLoader().load("textures/chessboard.png");
+		texture.wrapT = THREE.ClampToEdgeWrapping;
+		texture.wrapT = THREE.ClampToEdgeWrapping;
+		this.material[2].map = texture;
+	}
+
+	createBumpMapTexture() {
+		const texture = new THREE.TextureLoader().load(
+			"textures/wood-bump-map.jpg"
+		);
+		texture.wrapS = THREE.RepeatWrapping;
+		texture.wrapT = THREE.RepeatWrapping;
+		texture.repeat.set(20, 20);
+		for (let i = 0; i < this.material.length; i++) {
+			this.material[i].bumpMap = texture;
+		}
 	}
 
 	createElements() {
