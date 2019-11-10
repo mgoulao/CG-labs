@@ -88,6 +88,7 @@ export default class Scene extends THREE.Scene {
 
 	update() {
 		if (this.PERSPECTIVE_CAMERA) this.currentCamera = this.cameraAll;
+		this.ball.update();
 	}
 
 	resize() {
