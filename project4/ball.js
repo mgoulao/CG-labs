@@ -6,17 +6,17 @@ export default class Ball extends THREE.Group {
 		super();
 		this.scene = scene;
 		this.acceleration = 0;
-		this.rotationVelocity = 5;
-		this.orbitVelocity = 3;
+		this.rotationVelocity = 3;
+		this.orbitVelocity = 2;
 
 		this.rotationPivot = null;
-		this.rotationAxes = new THREE.Vector3(0, 0, 0);
 
 		this.ball = null;
 		this.axesHelper = new THREE.AxesHelper(20);
 		this.texture = new THREE.TextureLoader().load("textures/lenna.png");
 		this.texture.wrapS = THREE.SphericalReflectionMapping;
 		this.texture.wrapT = THREE.SphericalReflectionMapping;
+		this.texture.repeat.set(2, 2);//dispensavel, mas fica mais preceptivel
 		this.material = new THREE.MeshPhongMaterial({
 			color:     0xffffff, 
 			specular:  0xffffff,
