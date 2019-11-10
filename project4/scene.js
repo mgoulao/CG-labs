@@ -13,6 +13,7 @@ export default class Scene extends THREE.Scene {
 		this.PERSPECTIVE_CAMERA = false;
 
 		this.STOP_ANIMATIONS = false;
+		this.IN_MOTION = false;
 
 		// RENDERER
 

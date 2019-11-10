@@ -5,9 +5,10 @@ export default class Ball extends THREE.Group {
 	constructor(scene) {
 		super();
 		this.scene = scene;
-		this.acceleration = 0;
-		this.rotationVelocity = 3;
-		this.orbitVelocity = 2;
+		this.acceleration = 0.01;
+		this.initialVelocity = 0.05;
+		this.maxROTATIONVelocity = 4;
+		this.currentROTATIONVelocity = 0;
 
 		this.rotationPivot = null;
 
@@ -35,8 +36,31 @@ export default class Ball extends THREE.Group {
 		this.add(this.rotationPivot);
 	}
 	update() {
-		this.ball.rotation.y += this.rotationVelocity/100;
-		this.rotationPivot.rotation.y += this.orbitVelocity/100;
+		console.log(this.scene.IN_MOTION);
+		
+		if (this.scene.IN_MOTION) {
+			if(this.currentROTATIONVelocity == 0) {
+				this.currentROTATIONVelocity = this.initialVelocity;
+			}
+			if(this.currentROTATIONVelocity < this.maxROTATIONVelocity) {
+				this.currentROTATIONVelocity += this.currentROTATIONVelocity*this.acceleration;
+				if (this.currentROTATIONVelocity >= this.maxROTATIONVelocity){
+					this.currentROTATIONVelocity = this.maxROTATIONVelocity;
+				}
+				console.log(this.currentROTATIONVelocity);
+			}
+		}
+		else {
+			if(this.currentROTATIONVelocity > 0) {
+				this.currentROTATIONVelocity -= (this.currentROTATIONVelocity*(this.acceleration));
+				if(this.currentROTATIONVelocity < this.initialVelocity) {
+					this.currentROTATIONVelocity = 0;
+				}
+				console.log(this.currentROTATIONVelocity);
+			}
+		}
+		this.ball.rotation.y += this.currentROTATIONVelocity/100;
+		this.rotationPivot.rotation.y += this.currentROTATIONVelocity/100;
 		//this.ball.rotateOnAxis(this.rotationAxes, Math.PI/8);
 	}
 }

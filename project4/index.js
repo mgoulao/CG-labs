@@ -28,8 +28,9 @@ const onKeyDown = (e, scene) => {
 			break;
 		case 54: // 6
 			break;
-		case 81: // Q
-		case 113: // q
+		case 66: // B
+		case 98: // b
+			scene.IN_MOTION = !scene.IN_MOTION;
 			break;
 		case 87: // W
 		case 119: // w
