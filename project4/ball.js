@@ -12,7 +12,7 @@ export default class Ball extends THREE.Group {
 		this.rotationPivot = null;
 
 		this.ball = null;
-		this.axesHelper = new THREE.AxesHelper(20);
+		//this.axesHelper = new THREE.AxesHelper(20);
 		this.texture = new THREE.TextureLoader().load("textures/lenna.png");
 		this.texture.wrapS = THREE.SphericalReflectionMapping;
 		this.texture.wrapT = THREE.SphericalReflectionMapping;
