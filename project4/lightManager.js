@@ -4,12 +4,12 @@ export default class LightManager {
 		this.scene = scene;
 
 		this.light = new THREE.DirectionalLight(0xffffff, 1); // soft white light
-		this.light.position.set(0, 210, 210);
+		this.light.position.set(0, 50, 10);
 		this.light.visible = true;
 		this.scene.add(this.light);
 
 		this.backLight = new THREE.DirectionalLight(0xffffff, 1); // soft white light
-		this.backLight.position.set(-100, 210, -210);
+		this.backLight.position.set(-10, -50, -200);
 		this.backLight.visible = true;
 		this.scene.add(this.backLight);
 	}
