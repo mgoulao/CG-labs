@@ -3,6 +3,7 @@ import Ball from "./ball.js";
 import LightManager from "./lightManager.js";
 import Dice from "./dice.js";
 import Chessboard from "./chessboard.js";
+import Stop from "./stop.js";
 
 export default class Scene extends THREE.Scene {
 	constructor() {
@@ -14,7 +15,7 @@ export default class Scene extends THREE.Scene {
 
 		this.STOP_ANIMATIONS = false;
 		this.IN_MOTION = false;
-
+		
 		// RENDERER
 
 		this.screenAspectRatio = window.innerHeight / window.innerWidth;
@@ -31,6 +32,7 @@ export default class Scene extends THREE.Scene {
 		this.dice = null;
 		this.ball = null;
 		this.chessboard = null;
+		this.stop = null;
 
 		this.createElements();
 
@@ -67,9 +69,12 @@ export default class Scene extends THREE.Scene {
 		this.ball = new Ball(this);
 		this.chessboard = new Chessboard(this);
 		this.dice = new Dice(this);
+		this.stop = new Stop(this);
+
 		this.add(this.ball);
 		this.add(this.chessboard);
 		this.add(this.dice);
+		this.add(this.stop);
 	}
 
 	updateOrtographicCameraAspect(camera) {
@@ -90,6 +95,7 @@ export default class Scene extends THREE.Scene {
 	update() {
 		if (this.PERSPECTIVE_CAMERA) this.currentCamera = this.cameraAll;
 		this.ball.update();
+		this.stop.update();
 	}
 
 	resize() {

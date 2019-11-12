@@ -2,8 +2,6 @@
 	"editor.tabSize": 2,
 	"editor.detectIndentation": false,
 	"editor.insertSpaces": false,
-	"prettier.trailingComma": "es5",
-	"prettier.useTabs": true,
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
-	"prettier.arrowParens": "always"
+	"prettier.configPath": ".prettierrc.json"
 }
