@@ -12,7 +12,18 @@ export default class LightManager {
 		this.backLight.position.set(-10, -50, -200);
 		this.backLight.visible = true;
 		this.scene.add(this.backLight);
+
+		this.sphereGeometry = new THREE.SphereBufferGeometry( 1, 16, 8 );
+		this.pointLightColor = 0xff00ff;
+
+		this.pointLight = new THREE.PointLight(this.pointLightColor, 1, 100, 3);
+		this.pointLight.add( new THREE.Mesh( this.sphereGeometry, new THREE.MeshBasicMaterial( { color:  this.pointLightColor} ) ) );
+		this.pointLight.position.set(30, 30, -10);
+		this.pointLight.visible = true;
+		this.scene.add(this.pointLight);
 	}
 
-	update() {}
+	update() {
+		this.pointLight.visible = this.scene.POINTLIGHT;
+	}
 }

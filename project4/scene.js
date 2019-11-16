@@ -15,6 +15,7 @@ export default class Scene extends THREE.Scene {
 
 		this.STOP_ANIMATIONS = false;
 		this.IN_MOTION = false;
+		this.POINTLIGHT = true;
 		
 		// RENDERER
 
@@ -96,6 +97,7 @@ export default class Scene extends THREE.Scene {
 		if (this.PERSPECTIVE_CAMERA) this.currentCamera = this.cameraAll;
 		this.ball.update();
 		this.stop.update();
+		this.lightManager.update();
 	}
 
 	resize() {

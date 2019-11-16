@@ -32,8 +32,9 @@ const onKeyDown = (e, scene) => {
 		case 98: // b
 			scene.IN_MOTION = !scene.IN_MOTION;
 			break;
-		case 87: // W
-		case 119: // w
+		case 80: // P
+		case 112: // p
+			scene.POINTLIGHT = !scene.POINTLIGHT;	
 			break;
 		case 69: // E
 		case 101: // e
