@@ -29,14 +29,13 @@ export default class Ball extends THREE.Group {
 	createElements() {
 		const geometry = new THREE.SphereGeometry(10, 32, 32);
 		this.ball = new THREE.Mesh(geometry, this.material);
-		this.ball.position.set(40, 10, 0);
+		this.ball.position.set(-40, 10, 0);
 		this.ball.add(this.axesHelper);
 		this.rotationPivot = new THREE.Object3D();
 		this.rotationPivot.add(this.ball);
 		this.add(this.rotationPivot);
 	}
 	update() {
-		console.log(this.scene.IN_MOTION);
 		
 		if (this.scene.IN_MOTION) {
 			if(this.currentROTATIONVelocity == 0) {
