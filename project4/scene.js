@@ -16,7 +16,11 @@ export default class Scene extends THREE.Scene {
 		this.STOP_ANIMATIONS = false;
 		this.IN_MOTION = false;
 		this.POINTLIGHT = true;
-		
+		this.AMBIENT_LIGHT = true;
+		this.TOGGLE_LIGHT_CALC = false;
+		this.RESET = false;
+		this.LIGHT_CALC = true;
+
 		// RENDERER
 
 		this.screenAspectRatio = window.innerHeight / window.innerWidth;
@@ -65,8 +69,6 @@ export default class Scene extends THREE.Scene {
 	}
 
 	createElements() {
-		this.add(new THREE.AxesHelper(10));
-
 		this.ball = new Ball(this);
 		this.chessboard = new Chessboard(this);
 		this.dice = new Dice(this);
@@ -93,11 +95,35 @@ export default class Scene extends THREE.Scene {
 		camera.updateProjectionMatrix();
 	}
 
+	resetScene() {
+		if (!this.LIGHT_CALC) this.toggleLightCalc();
+		this.STOP_ANIMATIONS = false;
+		this.IN_MOTION = false;
+		this.POINTLIGHT = true;
+		this.AMBIENT_LIGHT = true;
+		this.stop.reset();
+		this.ball.reset();
+		this.lightManager.reset();
+	}
+
+	toggleLightCalc() {
+		this.LIGHT_CALC = !this.LIGHT_CALC;
+		this.stop.toggleLightCalc();
+		this.ball.toggleLightCalc();
+		this.chessboard.toggleLightCalc();
+		this.dice.toggleLightCalc();
+	}
+
 	update() {
 		if (this.PERSPECTIVE_CAMERA) this.currentCamera = this.cameraAll;
-		this.ball.update();
+		if (this.RESET && this.STOP_ANIMATIONS) this.resetScene();
+		if (this.TOGGLE_LIGHT_CALC) this.toggleLightCalc();
 		this.stop.update();
+		this.ball.update();
 		this.lightManager.update();
+
+		this.TOGGLE_LIGHT_CALC = false;
+		this.RESET = false;
 	}
 
 	resize() {

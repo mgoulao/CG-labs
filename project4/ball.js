@@ -1,5 +1,5 @@
 import * as THREE from "../node_modules/three/build/three.module.js";
-import Dice from "./dice.js"
+import Dice from "./dice.js";
 
 export default class Ball extends THREE.Group {
 	constructor(scene) {
@@ -17,49 +17,78 @@ export default class Ball extends THREE.Group {
 		this.texture = new THREE.TextureLoader().load("textures/lenna.png");
 		this.texture.wrapS = THREE.SphericalReflectionMapping;
 		this.texture.wrapT = THREE.SphericalReflectionMapping;
-		this.texture.repeat.set(2, 2);//dispensavel, mas fica mais preceptivel
-		this.material = new THREE.MeshPhongMaterial({
-			color:     0xffffff, 
-			specular:  0xffffff,
+		this.texture.repeat.set(2, 2); //dispensavel, mas fica mais preceptivel
+		this.standardMaterial = new THREE.MeshPhongMaterial({
+			color: 0xffffff,
+			specular: 0xffffff,
 			shininess: 100,
-			map:       this.texture });
+			map: this.texture,
+		});
+
+		this.basicMaterial = new THREE.MeshBasicMaterial({
+			color: 0xffffff,
+			specular: 0xffffff,
+			shininess: 100,
+			map: this.texture,
+		});
+		this.currentMaterial= this.standardMaterial;
 		this.createElements();
 	}
 
 	createElements() {
 		const geometry = new THREE.SphereGeometry(10, 32, 32);
-		this.ball = new THREE.Mesh(geometry, this.material);
+		this.ball = new THREE.Mesh(geometry, this.currentMaterial);
 		this.ball.position.set(-40, 10, 0);
 		this.ball.add(this.axesHelper);
 		this.rotationPivot = new THREE.Object3D();
 		this.rotationPivot.add(this.ball);
 		this.add(this.rotationPivot);
 	}
-	update() {
-		
+
+	reset() {
+		this.currentROTATIONVelocity = 0;
+		this.ball.rotation.y = 0;
+		this.rotationPivot.rotation.y = 0;
+	}
+
+	toggleLightCalc() {
+		if (this.currentMaterial === this.basicMaterial) {
+			this.currentMaterial = this.standardMaterial;
+		} else {
+			this.currentMaterial = this.basicMaterial;
+		}
+		this.ball.material = this.currentMaterial;
+	}
+
+	animations() {
 		if (this.scene.IN_MOTION) {
-			if(this.currentROTATIONVelocity == 0) {
+			if (this.currentROTATIONVelocity == 0) {
 				this.currentROTATIONVelocity = this.initialVelocity;
 			}
-			if(this.currentROTATIONVelocity < this.maxROTATIONVelocity) {
-				this.currentROTATIONVelocity += this.currentROTATIONVelocity*this.acceleration;
-				if (this.currentROTATIONVelocity >= this.maxROTATIONVelocity){
+			if (this.currentROTATIONVelocity < this.maxROTATIONVelocity) {
+				this.currentROTATIONVelocity +=
+					this.currentROTATIONVelocity * this.acceleration;
+				if (this.currentROTATIONVelocity >= this.maxROTATIONVelocity) {
 					this.currentROTATIONVelocity = this.maxROTATIONVelocity;
 				}
 				console.log(this.currentROTATIONVelocity);
 			}
-		}
-		else {
-			if(this.currentROTATIONVelocity > 0) {
-				this.currentROTATIONVelocity -= (this.currentROTATIONVelocity*(this.acceleration));
-				if(this.currentROTATIONVelocity < this.initialVelocity) {
+		} else {
+			if (this.currentROTATIONVelocity > 0) {
+				this.currentROTATIONVelocity -=
+					this.currentROTATIONVelocity * this.acceleration;
+				if (this.currentROTATIONVelocity < this.initialVelocity) {
 					this.currentROTATIONVelocity = 0;
 				}
 				console.log(this.currentROTATIONVelocity);
 			}
 		}
-		this.ball.rotation.y += this.currentROTATIONVelocity/100;
-		this.rotationPivot.rotation.y += this.currentROTATIONVelocity/100;
+		this.ball.rotation.y += this.currentROTATIONVelocity / 100;
+		this.rotationPivot.rotation.y += this.currentROTATIONVelocity / 100;
 		//this.ball.rotateOnAxis(this.rotationAxes, Math.PI/8);
+	}
+
+	update() {
+		if (!this.scene.STOP_ANIMATIONS) this.animations();
 	}
 }

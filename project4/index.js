@@ -12,41 +12,24 @@ const animate = (scene) => {
 const onKeyDown = (e, scene) => {
 	console.log(e.code);
 	switch (e.keyCode) {
-		case 37: // <-
+		case 76: // l
+			scene.TOGGLE_LIGHT_CALC = !scene.TOGGLE_LIGHT_CALC;
 			break;
-		case 39: // ->
-			break;
-		case 49: // 1
-			break;
-		case 50: // 2
-			break;
-		case 51: // 3
-			break;
-		case 52: // 4
-			break;
-		case 53: // 5
-			break;
-		case 54: // 6
-			break;
-		case 66: // B
-		case 98: // b
+		case 66: // b
 			scene.IN_MOTION = !scene.IN_MOTION;
+			break;
+		case 68: // d
+			scene.AMBIENT_LIGHT = !scene.AMBIENT_LIGHT;
 			break;
 		case 80: // P
 		case 112: // p
-			scene.POINTLIGHT = !scene.POINTLIGHT;	
+			scene.POINTLIGHT = !scene.POINTLIGHT;
 			break;
-		case 69: // E
-		case 101: // e
+		case 82: // r
+			scene.RESET = true;
 			break;
-		case 83:
+		case 83: // s
 			scene.STOP_ANIMATIONS = !scene.STOP_ANIMATIONS;
-			break;
-		case 32: // space
-			break;
-		case 39: // down
-			break;
-		case 37: // left
 			break;
 	}
 };

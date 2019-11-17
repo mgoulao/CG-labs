@@ -6,7 +6,7 @@ export default class Chessboard extends THREE.Group {
 		this.scene = scene;
 		this.board = null;
 
-		this.material = [
+		this.standardMaterial = [
 			new THREE.MeshStandardMaterial({ color: 0xf4f5f0 }),
 			new THREE.MeshStandardMaterial({ color: 0xf4f5f0 }),
 			new THREE.MeshStandardMaterial({ color: 0xf4f5f0 }),
@@ -14,6 +14,16 @@ export default class Chessboard extends THREE.Group {
 			new THREE.MeshStandardMaterial({ color: 0xf4f5f0 }),
 			new THREE.MeshStandardMaterial({ color: 0xf4f5f0 }),
 		];
+		this.basicMaterial = [
+			new THREE.MeshBasicMaterial({ color: 0xf4f5f0 }),
+			new THREE.MeshBasicMaterial({ color: 0xf4f5f0 }),
+			new THREE.MeshBasicMaterial({ color: 0xf4f5f0 }),
+			new THREE.MeshBasicMaterial({ color: 0xf4f5f0 }),
+			new THREE.MeshBasicMaterial({ color: 0xf4f5f0 }),
+			new THREE.MeshBasicMaterial({ color: 0xf4f5f0 }),
+		];
+		this.currentMaterial = this.standardMaterial;
+
 		this.setMaterialsProperties();
 		this.createBumpMapTexture();
 		this.createTopTexture();
@@ -21,8 +31,8 @@ export default class Chessboard extends THREE.Group {
 	}
 
 	setMaterialsProperties() {
-		for (let i = 0; i < this.material.length; i++) {
-			this.material[i].metalness = 0.2;
+		for (let i = 0; i < this.standardMaterial.length; i++) {
+			this.standardMaterial[i].metalness = 0.2;
 		}
 	}
 
@@ -36,9 +46,13 @@ export default class Chessboard extends THREE.Group {
 		sideTexture.wrapS = THREE.ClampToEdgeWrapping;
 		sideTexture.wrapT = THREE.ClampToEdgeWrapping;
 
-		this.material[2].map = topTexture;
-		for (let i = 0; i < this.material.length; i++) {
-			if (i !== 2) this.material[i].map = sideTexture;
+		this.standardMaterial[2].map = topTexture;
+		this.basicMaterial[2].map = topTexture;
+		for (let i = 0; i < this.standardMaterial.length; i++) {
+			if (i !== 2) {
+				this.standardMaterial[i].map = sideTexture;
+				this.basicMaterial[i].map = sideTexture;
+			}
 		}
 	}
 
@@ -49,14 +63,24 @@ export default class Chessboard extends THREE.Group {
 		texture.wrapS = THREE.RepeatWrapping;
 		texture.wrapT = THREE.RepeatWrapping;
 		texture.repeat.set(20, 20);
-		for (let i = 0; i < this.material.length; i++) {
-			this.material[i].bumpMap = texture;
+		for (let i = 0; i < this.standardMaterial.length; i++) {
+			this.basicMaterial[i].bumpMap = texture;
+			this.standardMaterial[i].bumpMap = texture;
 		}
 	}
 
 	createElements() {
 		const geometry = new THREE.BoxGeometry(100, 5, 100);
-		this.board = new THREE.Mesh(geometry, this.material);
+		this.board = new THREE.Mesh(geometry, this.currentMaterial);
 		this.add(this.board);
+	}
+
+	toggleLightCalc() {
+		if (this.currentMaterial === this.basicMaterial) {
+			this.currentMaterial = this.standardMaterial;
+		} else {
+			this.currentMaterial = this.basicMaterial;
+		}
+		this.board.material = this.currentMaterial;
 	}
 }
