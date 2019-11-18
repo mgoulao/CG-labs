@@ -19,21 +19,21 @@ export default class Dice extends THREE.Group {
 		const textureBackgroundWood = textureLoader.load( 'textures/wood-bump-map.jpg' );
 
 		this.basicMaterial = [
-		    new THREE.MeshBasicMaterial( { bumpMap: texture0 , color: 0xc0c0c0, map: textureBackgroundWood, wireframe: false } ),
-		    new THREE.MeshBasicMaterial( { bumpMap: texture1 , color: 0xc0c0c0, map: textureBackgroundWood, wireframe: false } ),
-		    new THREE.MeshBasicMaterial( { bumpMap: texture2 , color: 0xc0c0c0, map: textureBackgroundWood, wireframe: false } ),
-		    new THREE.MeshBasicMaterial( { bumpMap: texture3 , color: 0xc0c0c0, map: textureBackgroundWood, wireframe: false } ),
-		    new THREE.MeshBasicMaterial( { bumpMap: texture4 , color: 0xc0c0c0, map: textureBackgroundWood, wireframe: false } ),
-		    new THREE.MeshBasicMaterial( { bumpMap: texture5 , color: 0xc0c0c0, map: textureBackgroundWood, wireframe: false } )
+		    new THREE.MeshBasicMaterial( { bumpMap: texture0 , color: 0xc0c0c0, map: texture0, wireframe: false } ),
+		    new THREE.MeshBasicMaterial( { bumpMap: texture1 , color: 0xc0c0c0, map: texture1, wireframe: false } ),
+		    new THREE.MeshBasicMaterial( { bumpMap: texture2 , color: 0xc0c0c0, map: texture2, wireframe: false } ),
+		    new THREE.MeshBasicMaterial( { bumpMap: texture3 , color: 0xc0c0c0, map: texture3, wireframe: false } ),
+		    new THREE.MeshBasicMaterial( { bumpMap: texture4 , color: 0xc0c0c0, map: texture4, wireframe: false } ),
+		    new THREE.MeshBasicMaterial( { bumpMap: texture5 , color: 0xc0c0c0, map: texture5, wireframe: false } )
 		];
 
 		this.standardMaterial = [
-		    new THREE.MeshStandardMaterial( { bumpMap: texture0 , color: 0xc0c0c0, map: textureBackgroundWood, wireframe: false } ),
-		    new THREE.MeshStandardMaterial( { bumpMap: texture1 , color: 0xc0c0c0, map: textureBackgroundWood, wireframe: false } ),
-		    new THREE.MeshStandardMaterial( { bumpMap: texture2 , color: 0xc0c0c0, map: textureBackgroundWood, wireframe: false } ),
-		    new THREE.MeshStandardMaterial( { bumpMap: texture3 , color: 0xc0c0c0, map: textureBackgroundWood, wireframe: false } ),
-		    new THREE.MeshStandardMaterial( { bumpMap: texture4 , color: 0xc0c0c0, map: textureBackgroundWood, wireframe: false } ),
-		    new THREE.MeshStandardMaterial( { bumpMap: texture5 , color: 0xc0c0c0, map: textureBackgroundWood, wireframe: false } )
+		    new THREE.MeshStandardMaterial( { bumpMap: texture0 , color: 0xc0c0c0, map: texture0, wireframe: false } ),
+		    new THREE.MeshStandardMaterial( { bumpMap: texture1 , color: 0xc0c0c0, map: texture1, wireframe: false } ),
+		    new THREE.MeshStandardMaterial( { bumpMap: texture2 , color: 0xc0c0c0, map: texture2, wireframe: false } ),
+		    new THREE.MeshStandardMaterial( { bumpMap: texture3 , color: 0xc0c0c0, map: texture3, wireframe: false } ),
+		    new THREE.MeshStandardMaterial( { bumpMap: texture4 , color: 0xc0c0c0, map: texture4, wireframe: false } ),
+		    new THREE.MeshStandardMaterial( { bumpMap: texture5 , color: 0xc0c0c0, map: texture5, wireframe: false } )
 		];
 
 		this.faceMaterialB = new THREE.MeshFaceMaterial( this.basicMaterial );
