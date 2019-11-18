@@ -104,6 +104,7 @@ export default class Scene extends THREE.Scene {
 		this.stop.reset();
 		this.ball.reset();
 		this.lightManager.reset();
+		this.dice.reset();
 	}
 
 	toggleLightCalc() {
@@ -120,6 +121,7 @@ export default class Scene extends THREE.Scene {
 		if (this.TOGGLE_LIGHT_CALC) this.toggleLightCalc();
 		this.stop.update();
 		this.ball.update();
+		this.dice.update();
 		this.lightManager.update();
 
 		this.TOGGLE_LIGHT_CALC = false;
