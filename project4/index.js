@@ -4,6 +4,8 @@ const animate = (scene) => {
 	scene.update();
 	scene.render();
 
+	if (scene.UPDATE_WIREFRAME) scene.UPDATE_WIREFRAME = false;
+
 	requestAnimationFrame((tms) => {
 		animate(scene);
 	});
@@ -30,6 +32,11 @@ const onKeyDown = (e, scene) => {
 			break;
 		case 83: // s
 			scene.STOP_ANIMATIONS = !scene.STOP_ANIMATIONS;
+			break;
+		case 87: //w
+			scene.UPDATE_WIREFRAME = true;
+			console.log("mudou");
+			
 			break;
 	}
 };

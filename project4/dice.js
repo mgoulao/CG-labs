@@ -19,21 +19,21 @@ export default class Dice extends THREE.Group {
 		const textureBackgroundWood = textureLoader.load( 'textures/wood-bump-map.jpg' );
 
 		this.basicMaterial = [
-		    new THREE.MeshBasicMaterial( { bumpMap: texture0 , color: 0xc0c0c0, map: textureBackgroundWood } ),
-		    new THREE.MeshBasicMaterial( { bumpMap: texture1 , color: 0xc0c0c0, map: textureBackgroundWood } ),
-		    new THREE.MeshBasicMaterial( { bumpMap: texture2 , color: 0xc0c0c0, map: textureBackgroundWood } ),
-		    new THREE.MeshBasicMaterial( { bumpMap: texture3 , color: 0xc0c0c0, map: textureBackgroundWood } ),
-		    new THREE.MeshBasicMaterial( { bumpMap: texture4 , color: 0xc0c0c0, map: textureBackgroundWood } ),
-		    new THREE.MeshBasicMaterial( { bumpMap: texture5 , color: 0xc0c0c0, map: textureBackgroundWood } )
+		    new THREE.MeshBasicMaterial( { bumpMap: texture0 , color: 0xc0c0c0, map: textureBackgroundWood, wireframe: false } ),
+		    new THREE.MeshBasicMaterial( { bumpMap: texture1 , color: 0xc0c0c0, map: textureBackgroundWood, wireframe: false } ),
+		    new THREE.MeshBasicMaterial( { bumpMap: texture2 , color: 0xc0c0c0, map: textureBackgroundWood, wireframe: false } ),
+		    new THREE.MeshBasicMaterial( { bumpMap: texture3 , color: 0xc0c0c0, map: textureBackgroundWood, wireframe: false } ),
+		    new THREE.MeshBasicMaterial( { bumpMap: texture4 , color: 0xc0c0c0, map: textureBackgroundWood, wireframe: false } ),
+		    new THREE.MeshBasicMaterial( { bumpMap: texture5 , color: 0xc0c0c0, map: textureBackgroundWood, wireframe: false } )
 		];
 
 		this.standardMaterial = [
-		    new THREE.MeshStandardMaterial( { bumpMap: texture0 , color: 0xc0c0c0, map: textureBackgroundWood } ),
-		    new THREE.MeshStandardMaterial( { bumpMap: texture1 , color: 0xc0c0c0, map: textureBackgroundWood } ),
-		    new THREE.MeshStandardMaterial( { bumpMap: texture2 , color: 0xc0c0c0, map: textureBackgroundWood } ),
-		    new THREE.MeshStandardMaterial( { bumpMap: texture3 , color: 0xc0c0c0, map: textureBackgroundWood } ),
-		    new THREE.MeshStandardMaterial( { bumpMap: texture4 , color: 0xc0c0c0, map: textureBackgroundWood } ),
-		    new THREE.MeshStandardMaterial( { bumpMap: texture5 , color: 0xc0c0c0, map: textureBackgroundWood } )
+		    new THREE.MeshStandardMaterial( { bumpMap: texture0 , color: 0xc0c0c0, map: textureBackgroundWood, wireframe: false } ),
+		    new THREE.MeshStandardMaterial( { bumpMap: texture1 , color: 0xc0c0c0, map: textureBackgroundWood, wireframe: false } ),
+		    new THREE.MeshStandardMaterial( { bumpMap: texture2 , color: 0xc0c0c0, map: textureBackgroundWood, wireframe: false } ),
+		    new THREE.MeshStandardMaterial( { bumpMap: texture3 , color: 0xc0c0c0, map: textureBackgroundWood, wireframe: false } ),
+		    new THREE.MeshStandardMaterial( { bumpMap: texture4 , color: 0xc0c0c0, map: textureBackgroundWood, wireframe: false } ),
+		    new THREE.MeshStandardMaterial( { bumpMap: texture5 , color: 0xc0c0c0, map: textureBackgroundWood, wireframe: false } )
 		];
 
 		this.faceMaterialB = new THREE.MeshFaceMaterial( this.basicMaterial );
@@ -86,5 +86,13 @@ export default class Dice extends THREE.Group {
 
 	update() {
 		if (!this.scene.STOP_ANIMATIONS) this.animations();
+		if (this.scene.UPDATE_WIREFRAME){
+			for (const mesh_i in  this.basicMaterial) {
+				this.basicMaterial[mesh_i].wireframe = !this.basicMaterial[mesh_i].wireframe;
+			}
+			for (const mesh_i in  this.standardMaterial) {
+				this.standardMaterial[mesh_i].wireframe = !this.standardMaterial[mesh_i].wireframe;
+			}
+		}
 	}
 }

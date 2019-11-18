@@ -20,6 +20,7 @@ export default class Scene extends THREE.Scene {
 		this.TOGGLE_LIGHT_CALC = false;
 		this.RESET = false;
 		this.LIGHT_CALC = true;
+		this.UPDATE_WIREFRAME = false;
 
 		// RENDERER
 
@@ -122,6 +123,7 @@ export default class Scene extends THREE.Scene {
 		this.stop.update();
 		this.ball.update();
 		this.dice.update();
+		this.chessboard.update();
 		this.lightManager.update();
 
 		this.TOGGLE_LIGHT_CALC = false;

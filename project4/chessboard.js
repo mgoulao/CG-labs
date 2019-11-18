@@ -7,20 +7,20 @@ export default class Chessboard extends THREE.Group {
 		this.board = null;
 
 		this.standardMaterial = [
-			new THREE.MeshStandardMaterial({ color: 0xf4f5f0 }),
-			new THREE.MeshStandardMaterial({ color: 0xf4f5f0 }),
-			new THREE.MeshStandardMaterial({ color: 0xf4f5f0 }),
-			new THREE.MeshStandardMaterial({ color: 0xf4f5f0 }),
-			new THREE.MeshStandardMaterial({ color: 0xf4f5f0 }),
-			new THREE.MeshStandardMaterial({ color: 0xf4f5f0 }),
+			new THREE.MeshStandardMaterial({ color: 0xf4f5f0, wireframe: false  }),
+			new THREE.MeshStandardMaterial({ color: 0xf4f5f0, wireframe: false  }),
+			new THREE.MeshStandardMaterial({ color: 0xf4f5f0, wireframe: false  }),
+			new THREE.MeshStandardMaterial({ color: 0xf4f5f0, wireframe: false  }),
+			new THREE.MeshStandardMaterial({ color: 0xf4f5f0, wireframe: false  }),
+			new THREE.MeshStandardMaterial({ color: 0xf4f5f0, wireframe: false  }),
 		];
 		this.basicMaterial = [
-			new THREE.MeshBasicMaterial({ color: 0xf4f5f0 }),
-			new THREE.MeshBasicMaterial({ color: 0xf4f5f0 }),
-			new THREE.MeshBasicMaterial({ color: 0xf4f5f0 }),
-			new THREE.MeshBasicMaterial({ color: 0xf4f5f0 }),
-			new THREE.MeshBasicMaterial({ color: 0xf4f5f0 }),
-			new THREE.MeshBasicMaterial({ color: 0xf4f5f0 }),
+			new THREE.MeshBasicMaterial({ color: 0xf4f5f0, wireframe: false  }),
+			new THREE.MeshBasicMaterial({ color: 0xf4f5f0, wireframe: false  }),
+			new THREE.MeshBasicMaterial({ color: 0xf4f5f0, wireframe: false  }),
+			new THREE.MeshBasicMaterial({ color: 0xf4f5f0, wireframe: false  }),
+			new THREE.MeshBasicMaterial({ color: 0xf4f5f0, wireframe: false  }),
+			new THREE.MeshBasicMaterial({ color: 0xf4f5f0, wireframe: false  }),
 		];
 		this.currentMaterial = this.standardMaterial;
 
@@ -82,5 +82,16 @@ export default class Chessboard extends THREE.Group {
 			this.currentMaterial = this.basicMaterial;
 		}
 		this.board.material = this.currentMaterial;
+	}
+
+	update() {
+		if (this.scene.UPDATE_WIREFRAME){
+			for (const mesh_i in  this.basicMaterial) {
+				this.basicMaterial[mesh_i].wireframe = !this.basicMaterial[mesh_i].wireframe;
+			}
+			for (const mesh_i in  this.standardMaterial) {
+				this.standardMaterial[mesh_i].wireframe = !this.standardMaterial[mesh_i].wireframe;
+			}
+		}
 	}
 }
