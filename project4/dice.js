@@ -51,10 +51,10 @@ export default class Dice extends THREE.Group {
 		this.boxMeshS.position.set(0, 20, 0);
 		this.boxMeshB.visible = false;
 		this.boxMeshS.visible = true;
-		this.boxMeshB.rotateX(Math.PI/6);
-		this.boxMeshB.rotateZ(Math.PI/6);
-		this.boxMeshS.rotateX(Math.PI/6);
-		this.boxMeshS.rotateZ(Math.PI/6);
+		this.boxMeshB.rotateX(Math.PI/4);
+		this.boxMeshB.rotateZ(Math.PI/4);
+		this.boxMeshS.rotateX(Math.PI/4);
+		this.boxMeshS.rotateZ(Math.PI/4);
 		this.rotationPivot = new THREE.Object3D();
 		this.rotationPivot.add(this.boxMeshB);
 		this.rotationPivot.add(this.boxMeshS);
@@ -63,7 +63,7 @@ export default class Dice extends THREE.Group {
 
 	animations() {
 		if (this.scene.IN_MOTION) {
-			(this.rotationPivot.rotation.y += this.rotSpeed);
+			this.rotationPivot.rotation.y += this.rotSpeed;
 		}
 	}
 
