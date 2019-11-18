@@ -62,9 +62,7 @@ export default class Dice extends THREE.Group {
 	}
 
 	animations() {
-		if (this.scene.IN_MOTION) {
 			this.rotationPivot.rotation.y += this.rotSpeed;
-		}
 	}
 
 	reset() {
