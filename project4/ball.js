@@ -41,7 +41,6 @@ export default class Ball extends THREE.Group {
 		const geometry = new THREE.SphereGeometry(10, 32, 32);
 		this.ball = new THREE.Mesh(geometry, this.currentMaterial);
 		this.ball.position.set(-40, 10, 0);
-		this.ball.add(this.axesHelper);
 		this.rotationPivot = new THREE.Object3D();
 		this.rotationPivot.add(this.ball);
 		this.add(this.rotationPivot);
