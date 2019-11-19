@@ -23,7 +23,7 @@ export default class Ball extends THREE.Group {
 			specular: 0xffffff,
 			shininess: 100,
 			map: this.texture,
-			wireframe: false 
+			wireframe: false,
 		});
 
 		this.basicMaterial = new THREE.MeshBasicMaterial({
@@ -31,9 +31,9 @@ export default class Ball extends THREE.Group {
 			specular: 0xffffff,
 			shininess: 100,
 			map: this.texture,
-			wireframe: false 
+			wireframe: false,
 		});
-		this.currentMaterial= this.standardMaterial;
+		this.currentMaterial = this.standardMaterial;
 		this.createElements();
 	}
 
@@ -92,7 +92,7 @@ export default class Ball extends THREE.Group {
 
 	update() {
 		if (!this.scene.STOP_ANIMATIONS) this.animations();
-		if (this.scene.UPDATE_WIREFRAME){
+		if (this.scene.UPDATE_WIREFRAME) {
 			this.basicMaterial.wireframe = !this.basicMaterial.wireframe;
 			this.standardMaterial.wireframe = !this.standardMaterial.wireframe;
 		}

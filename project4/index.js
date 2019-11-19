@@ -36,7 +36,7 @@ const onKeyDown = (e, scene) => {
 		case 87: //w
 			scene.UPDATE_WIREFRAME = true;
 			console.log("mudou");
-			
+
 			break;
 	}
 };
