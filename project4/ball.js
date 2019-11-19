@@ -28,8 +28,6 @@ export default class Ball extends THREE.Group {
 
 		this.basicMaterial = new THREE.MeshBasicMaterial({
 			color: 0xffffff,
-			specular: 0xffffff,
-			shininess: 100,
 			map: this.texture,
 			wireframe: false,
 		});
