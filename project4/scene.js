@@ -22,6 +22,7 @@ export default class Scene extends THREE.Scene {
 		this.RESET = false;
 		this.LIGHT_CALC = true;
 		this.UPDATE_WIREFRAME = false;
+		this.WIREFRAME = false;
 
 		// Pause Scene
 
@@ -164,6 +165,7 @@ export default class Scene extends THREE.Scene {
 		this.IN_MOTION = false;
 		this.POINTLIGHT = true;
 		this.AMBIENT_LIGHT = true;
+		this.UPDATE_WIREFRAME = this.WIREFRAME;
 		this.currentCamera.position.set(...this.ALL_VIEW);
 		this.stop.reset();
 		this.ball.reset();
@@ -182,6 +184,7 @@ export default class Scene extends THREE.Scene {
 		if (this.PERSPECTIVE_CAMERA) this.currentCamera = this.cameraAll;
 		if (this.RESET && this.STOP_ANIMATIONS) this.resetScene();
 		if (this.TOGGLE_LIGHT_CALC) this.toggleLightCalc();
+		if (this.UPDATE_WIREFRAME) this.WIREFRAME = !this.WIREFRAME;
 		this.controls.enabled = !this.STOP_ANIMATIONS;
 		this.pauseScene.visible = this.STOP_ANIMATIONS;
 		this.ball.update();
