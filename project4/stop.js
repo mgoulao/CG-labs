@@ -9,9 +9,9 @@ export default class Stop extends THREE.Group {
 
 		this.basicMaterial = new THREE.MeshBasicMaterial({ color: 0xf4f5f0 });
 		this.standardMaterial = new THREE.MeshStandardMaterial({ color: 0xf4f5f0 });
-		this.currentMaterial = this.standardMaterial;
+		this.currentMaterial = this.basicMaterial;
 
-		this.stopSignSize = [50, 25, 2];
+		this.stopSignSize = [250, 125, 2];
 
 		this.createTexture();
 		this.createElements();
@@ -29,12 +29,20 @@ export default class Stop extends THREE.Group {
 	createElements() {
 		const geometry = new THREE.BoxGeometry(...this.stopSignSize);
 		this.board = new THREE.Mesh(geometry, this.currentMaterial);
-		this.position.set(0, 50, 0);
+		// this.position.set(0, 50, 0);
 		this.add(this.board);
 	}
 
 	updatePosition() {
 		this.lookAt(this.scene.cameraAll.position);
+		this.position.set(
+			this.scene.currentCamera.position.x -
+				Math.sign(this.scene.currentCamera.position.x) * 20,
+			this.scene.currentCamera.position.y -
+				Math.sign(this.scene.currentCamera.position.y) * 20,
+			this.scene.currentCamera.position.z -
+				Math.sign(this.scene.currentCamera.position.z) * 20
+		);
 		this.positionUpdated = true;
 	}
 
@@ -50,7 +58,7 @@ export default class Stop extends THREE.Group {
 	}
 
 	update() {
-		if (!this.positionUpdated) this.updatePosition();
+		// if (!this.positionUpdated) this.updatePosition();
 		this.visible = this.scene.STOP_ANIMATIONS;
 	}
 }

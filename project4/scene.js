@@ -1,4 +1,5 @@
 import * as THREE from "../node_modules/three/build/three.module.js";
+import OrbitControls from "./orbitControls.js";
 import Ball from "./ball.js";
 import LightManager from "./lightManager.js";
 import Dice from "./dice.js";
@@ -22,6 +23,10 @@ export default class Scene extends THREE.Scene {
 		this.LIGHT_CALC = true;
 		this.UPDATE_WIREFRAME = false;
 
+		// Pause Scene
+
+		this.pauseScene = null;
+
 		// RENDERER
 
 		this.screenAspectRatio = window.innerHeight / window.innerWidth;
@@ -30,6 +35,9 @@ export default class Scene extends THREE.Scene {
 		this.renderer = new THREE.WebGLRenderer({
 			antialias: true,
 		});
+		this.renderer.autoClear = false;
+		this.renderer.shadowMap.enabled = true;
+		this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 		this.renderer.setSize(window.innerWidth, window.innerHeight);
 		document.body.appendChild(this.renderer.domElement);
 
@@ -52,8 +60,25 @@ export default class Scene extends THREE.Scene {
 
 		this.currentCamera = null;
 		this.cameraAll = null;
+		this.cameraPause = null;
 
+		this.createPauseScene();
 		this.createCameras();
+
+		// Orbital Controls
+
+		this.controls = new OrbitControls(
+			this.currentCamera,
+			this.renderer.domElement
+		);
+	}
+
+	createPauseScene() {
+		this.pauseScene = new THREE.Scene();
+		this.stop = new Stop(this.pauseScene);
+
+		this.pauseScene.add(this.stop);
+		this.pauseScene.visible = false;
 	}
 
 	createCameras() {
@@ -65,6 +90,12 @@ export default class Scene extends THREE.Scene {
 		);
 		this.cameraAll.position.set(...this.ALL_VIEW);
 		this.cameraAll.lookAt(this.position);
+		this.cameraPause = this.createOrthographicCamera(
+			0,
+			0,
+			-20,
+			this.pauseScene.position
+		);
 
 		this.currentCamera = this.cameraAll;
 	}
@@ -73,12 +104,25 @@ export default class Scene extends THREE.Scene {
 		this.ball = new Ball(this);
 		this.chessboard = new Chessboard(this);
 		this.dice = new Dice(this);
-		this.stop = new Stop(this);
 
 		this.add(this.ball);
 		this.add(this.chessboard);
 		this.add(this.dice);
-		this.add(this.stop);
+	}
+
+	createOrthographicCamera(posX, posY, posZ, lookAtVector) {
+		const camera = new THREE.OrthographicCamera(
+			-window.innerWidth / 4,
+			window.innerWidth / 4,
+			window.innerHeight / 4,
+			-window.innerHeight / 4,
+			1,
+			1000
+		);
+		camera.position.set(posX, posY, posZ);
+		camera.lookAt(lookAtVector);
+
+		return camera;
 	}
 
 	updateOrtographicCameraAspect(camera) {
@@ -102,6 +146,7 @@ export default class Scene extends THREE.Scene {
 		this.IN_MOTION = false;
 		this.POINTLIGHT = true;
 		this.AMBIENT_LIGHT = true;
+		this.currentCamera.position.set(...this.ALL_VIEW);
 		this.stop.reset();
 		this.ball.reset();
 		this.lightManager.reset();
@@ -110,7 +155,6 @@ export default class Scene extends THREE.Scene {
 
 	toggleLightCalc() {
 		this.LIGHT_CALC = !this.LIGHT_CALC;
-		this.stop.toggleLightCalc();
 		this.ball.toggleLightCalc();
 		this.chessboard.toggleLightCalc();
 		this.dice.toggleLightCalc();
@@ -120,12 +164,14 @@ export default class Scene extends THREE.Scene {
 		if (this.PERSPECTIVE_CAMERA) this.currentCamera = this.cameraAll;
 		if (this.RESET && this.STOP_ANIMATIONS) this.resetScene();
 		if (this.TOGGLE_LIGHT_CALC) this.toggleLightCalc();
-		this.stop.update();
+		this.controls.enabled = !this.STOP_ANIMATIONS;
+		this.pauseScene.visible = this.STOP_ANIMATIONS;
 		this.ball.update();
 		this.dice.update();
 		this.chessboard.update();
 		this.lightManager.update();
 
+		this.controls.update();
 		this.TOGGLE_LIGHT_CALC = false;
 		this.RESET = false;
 	}
@@ -137,6 +183,9 @@ export default class Scene extends THREE.Scene {
 	}
 
 	render() {
+		this.renderer.clear();
 		this.renderer.render(this, this.currentCamera);
+		this.renderer.clearDepth();
+		this.renderer.render(this.pauseScene, this.cameraPause);
 	}
 }
