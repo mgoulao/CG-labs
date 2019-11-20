@@ -111,11 +111,18 @@ export default class Scene extends THREE.Scene {
 	}
 
 	createOrthographicCamera(posX, posY, posZ, lookAtVector) {
+		const screenAspectRatio = window.innerHeight / window.innerWidth;
+		let cameraSize = [];
+		if (screenAspectRatio > 1) {
+			cameraSize = [400, 400 * screenAspectRatio];
+		} else {
+			cameraSize = [400 / screenAspectRatio, 400];
+		}
 		const camera = new THREE.OrthographicCamera(
-			-window.innerWidth / 4,
-			window.innerWidth / 4,
-			window.innerHeight / 4,
-			-window.innerHeight / 4,
+			-cameraSize[0] / 2,
+			cameraSize[0] / 2,
+			cameraSize[1] / 2,
+			-cameraSize[1] / 2,
 			1,
 			1000
 		);
@@ -126,10 +133,21 @@ export default class Scene extends THREE.Scene {
 	}
 
 	updateOrtographicCameraAspect(camera) {
-		camera.left = this.PAINT_POSITION[0] - this.paintCameraSize[0] / 2;
-		camera.right = this.PAINT_POSITION[0] + this.paintCameraSize[0] / 2;
-		camera.top = this.PAINT_POSITION[1] + this.paintCameraSize[1] / 2;
-		camera.bottom = this.PAINT_POSITION[1] - this.paintCameraSize[1] / 2;
+		const screenAspectRatio = window.innerHeight / window.innerWidth;
+
+		let cameraSize = [];
+		if (screenAspectRatio > 1) {
+			cameraSize = [400, 400 * screenAspectRatio];
+		} else {
+			cameraSize = [400 / screenAspectRatio, 400];
+		}
+
+		this.renderer.setSize(window.innerWidth, window.innerHeight);
+
+		camera.left = -cameraSize[0] / 2;
+		camera.right = cameraSize[0] / 2;
+		camera.top = cameraSize[1] / 2;
+		camera.bottom = -cameraSize[1] / 2;
 		camera.updateProjectionMatrix();
 	}
 
@@ -180,6 +198,7 @@ export default class Scene extends THREE.Scene {
 		this.screenAspectRatio = window.innerHeight / window.innerWidth;
 		this.renderer.setSize(window.innerWidth, window.innerHeight);
 		this.updatePerspectiveCameraAspect(this.cameraAll);
+		this.updateOrtographicCameraAspect(this.cameraPause);
 	}
 
 	render() {
