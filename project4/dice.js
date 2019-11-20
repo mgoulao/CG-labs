@@ -16,9 +16,6 @@ export default class Dice extends THREE.Group {
 		const texture3 = textureLoader.load("textures/dice4.png");
 		const texture4 = textureLoader.load("textures/dice5.png");
 		const texture5 = textureLoader.load("textures/dice6.png");
-		const textureBackgroundWood = textureLoader.load(
-			"textures/wood-bump-map.jpg"
-		);
 
 		this.basicMaterial = [
 			new THREE.MeshBasicMaterial({
@@ -127,7 +124,8 @@ export default class Dice extends THREE.Group {
 		this.rotationPivot = new THREE.Object3D();
 		this.rotationPivot.add(this.boxMeshB);
 		this.rotationPivot.add(this.boxMeshS);
-		this.rotationPivot.position.set(0, 20, 0);
+		// y : 5 * Math.sqrt(2) + 5
+		this.rotationPivot.position.set(0, 11, 0);
 
 		this.add(this.rotationPivot);
 	}

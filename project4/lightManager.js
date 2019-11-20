@@ -3,21 +3,15 @@ export default class LightManager {
 	constructor(scene) {
 		this.scene = scene;
 
-		this.ambientLight = new THREE.DirectionalLight(0xffffff, 1); // soft white ambientLight
+		// soft white ambientLight
+		this.ambientLight = new THREE.DirectionalLight(0xffffff, 1);
 		this.ambientLight.position.set(0, 50, 10);
 		this.ambientLight.visible = true;
 		this.scene.add(this.ambientLight);
 
-		this.sphereGeometry = new THREE.SphereBufferGeometry(1, 16, 8);
 		this.pointLightColor = 0xff00ff;
 
 		this.pointLight = new THREE.PointLight(this.pointLightColor, 1, 200, 3);
-		this.pointLight.add(
-			new THREE.Mesh(
-				this.sphereGeometry,
-				new THREE.MeshBasicMaterial({ color: this.pointLightColor })
-			)
-		);
 		this.pointLight.position.set(30, 30, -10);
 		this.pointLight.visible = true;
 		this.scene.add(this.pointLight);
